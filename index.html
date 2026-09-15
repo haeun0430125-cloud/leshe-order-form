@@ -4,881 +4,711 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LESHÈ 르쉬 주문서</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif;
-  background: #f8f5f0;
-  color: #333;
-}
-
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 25px 18px 60px;
-}
-
-.header {
-  text-align: center;
-  padding: 30px 10px 35px;
-}
-
-.logo {
-  font-family: Georgia, serif;
-  font-size: 32px;
-  letter-spacing: 3px;
-  color: #333;
-}
-
-.subtitle {
-  margin-top: 12px;
-  font-size: 15px;
-  letter-spacing: 1px;
-  color: #777;
-}
-
-.notice-box {
-  background: #fff;
-  border-radius: 18px;
-  padding: 25px 22px;
-  box-shadow: 0 3px 15px rgba(0,0,0,0.04);
-}
-
-.notice-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.notice-section {
-  margin-bottom: 25px;
-}
-
-.notice-section h3 {
-  font-size: 16px;
-  margin: 0 0 10px;
-}
-
-.notice-section p {
-  font-size: 14px;
-  line-height: 1.8;
-  margin: 5px 0;
-}
-
-.notice-list {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.notice-list li {
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.account {
-  background: #f7f4ef;
-  border-radius: 12px;
-  padding: 15px;
-  margin-top: 10px;
-  line-height: 1.8;
-  font-size: 14px;
-}
-
-.account-number {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.copy-btn {
-  border: 1px solid #ccc;
-  background: #fff;
-  border-radius: 7px;
-  padding: 5px 10px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.copy-message {
-  display: none;
-  color: #777;
-  font-size: 12px;
-  margin-top: 6px;
-}
-
-.agree-box {
-  border-top: 1px solid #eee;
-  margin-top: 25px;
-  padding-top: 20px;
-}
-
-.agree-label {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.agree-label input {
-  width: 18px;
-  height: 18px;
-}
-
-.primary-btn {
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 18px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #333;
-  color: white;
-  cursor: pointer;
-}
-
-.primary-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-#orderPage {
-  display: none;
-}
-
-.section {
-  background: #fff;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 15px rgba(0,0,0,0.04);
-}
-
-.section h2 {
-  font-size: 18px;
-  margin: 0 0 18px;
-}
-
-.product {
-  border-bottom: 1px solid #eee;
-  padding: 18px 0;
-}
-
-.product:last-child {
-  border-bottom: none;
-}
-
-.product-name {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.product-price {
-  font-size: 14px;
-  color: #777;
-  margin: 5px 0 12px;
-}
-
-.option-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-select,
-input[type="text"],
-input[type="tel"] {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 9px;
-  background: white;
-  font-size: 14px;
-}
-
-.quantity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.quantity button {
-  width: 32px;
-  height: 32px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 7px;
-  font-size: 18px;
-}
-
-.quantity span {
-  min-width: 25px;
-  text-align: center;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  font-size: 14px;
-}
-
-.total {
-  border-top: 1px solid #ddd;
-  margin-top: 10px;
-  padding-top: 15px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.address-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.back-btn {
-  width: 100%;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 12px;
-  padding: 14px;
-  margin-top: 10px;
-  font-size: 14px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.6}
+.page{max-width:680px;margin:auto;padding:28px 18px 50px}
+.card{background:#fff;border-radius:18px;padding:28px 22px;box-shadow:0 5px 22px rgba(0,0,0,.05)}
+.logo{text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:31px;letter-spacing:1.5px;margin:4px 0 28px;color:#222}
+.logo span{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;font-size:16px;letter-spacing:0;margin-left:7px}
+h1{font-size:20px;margin:0 0 22px;text-align:center}
+h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid #e8e2d9}
+.notice p{margin:7px 0;font-size:14px}
+.notice ul{margin:7px 0 14px;padding-left:20px}
+.notice li{font-size:14px;margin:4px 0}
+.account{background:#f8f6f2;border-radius:12px;padding:13px;margin:8px 0;text-align:center}
+.account strong{font-size:15px}
+.copy-btn{border:0;background:#333;color:#fff;border-radius:7px;padding:6px 10px;margin-left:7px;font-size:12px;cursor:pointer}
+#copyMessage{display:none;color:#8b7355;font-size:12px;margin-top:5px}
+.check-row{display:flex;gap:8px;align-items:center;margin:24px 0 12px;font-size:14px}
+.check-row input{width:18px;height:18px}
+button.primary{width:100%;border:0;border-radius:10px;padding:14px;background:#2f2f2f;color:#fff;font-size:15px;cursor:pointer}
+button.primary:disabled{background:#cfcac2;cursor:not-allowed}
+.hidden{display:none!important}
+.product{border:1px solid #e7e1d9;border-radius:14px;padding:16px;margin:12px 0;background:#fff}
+.product-title{font-weight:600;font-size:15px;margin-bottom:3px}
+.price{color:#8b7355;font-size:14px;margin-bottom:12px}
+.option-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.option-box{flex:1;min-width:140px}
+.option-box.qty{max-width:110px}
+.option-label{display:block;font-size:12px;color:#777;margin-bottom:4px}
+select,input[type=number],input[type=text],input[type=tel],textarea{width:100%;border:1px solid #ddd6cc;border-radius:8px;padding:10px 11px;background:#fff;font-size:14px;outline:none}
+select:focus,input:focus,textarea:focus{border-color:#9a8975}
+.field{margin:12px 0}
+.field label{display:block;font-size:13px;margin-bottom:5px;font-weight:600}
+textarea{min-height:80px;resize:vertical}
+.summary{background:#f8f6f2;border-radius:13px;padding:15px;margin-top:20px}
+.summary-line{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
+.summary-total{border-top:1px solid #ded7ce;margin-top:10px;padding-top:11px;font-size:17px;font-weight:700}
+.small-note{color:#888;font-size:12px;margin-top:10px}
+.back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
+.sending{opacity:.65;pointer-events:none}
 </style>
 </head>
 
 <body>
+<div class="page">
 
-<div class="container">
+<section id="noticePage" class="card">
 
-  <!-- 첫 화면 -->
-  <div id="noticePage">
+<div class="logo">LESHÈ <span>르쉬</span></div>
 
-    <div class="header">
-      <div class="logo">LESHÈ 르쉬</div>
-    </div>
+<h1>주문 전 필독 안내</h1>
 
-    <div class="notice-box">
+<div class="notice">
 
-      <div class="notice-title">주문 전 필독 안내</div>
+<h2>🚫 반품 / 교환 및 CS 안내</h2>
 
-      <div class="notice-section">
-        <h3>🚫 반품 / 교환 및 CS 안내</h3>
+<p>도매 중개 거래 특성상 아래 규정이 적용되오니 신중한 구매 바랍니다.</p>
 
-        <p>
-          도매 중개 거래 특성상 아래 규정이 적용되오니
-          신중한 구매 바랍니다.
-        </p>
+<ul>
+<li>교환 / 반품 절대 불가 — 변심, 사이즈, 미세불량</li>
+<li>취소는 방송 중 댓글로만 가능합니다.</li>
+<li>방송 종료 후 변경·취소는 불가합니다.</li>
+<li>예민하신 분은 오프라인 구매를 권장합니다.</li>
+</ul>
 
-        <ul class="notice-list">
-          <li>교환 / 반품 절대 불가 — 변심, 사이즈, 미세불량</li>
-          <li>취소는 방송 중 댓글로만 가능합니다.</li>
-          <li>방송 종료 후 변경·취소는 불가합니다.</li>
-          <li>예민하신 분은 오프라인 구매를 권장합니다.</li>
-        </ul>
-      </div>
+<h2>🚚 배송 안내</h2>
 
-      <div class="notice-section">
-        <h3>🚚 배송 안내</h3>
+<ul>
+<li>기본 배송비: 4,000원</li>
+<li>제주 및 도서산간: 7,000원</li>
+<li>주문 후 1~2주 정도 여유 있게 기다려주시면 최대한 빠르게 출고해 드릴게요</li>
+</ul>
 
-        <ul class="notice-list">
-          <li>기본 배송비: <strong>4,000원</strong></li>
-          <li>제주 및 도서산간: <strong>7,000원</strong></li>
-        </ul>
+<h2>💳 결제 방법</h2>
 
-        <p>
-          주문 후 <strong>1~2주 정도 여유 있게 기다려주시면
-          최대한 빠르게 출고</strong>해 드릴게요.
-        </p>
-      </div>
+<p><strong>계좌이체</strong></p>
 
-      <div class="notice-section">
-        <h3>💳 결제 방법</h3>
+<div class="account">
+국민은행 · 임현정<br>
+<strong>08400204246675</strong>
+<button type="button" class="copy-btn" onclick="copyAccount()">계좌번호 복사</button>
+<div id="copyMessage">계좌번호가 복사되었습니다.</div>
+</div>
 
-        <p><strong>계좌이체</strong></p>
+<p>✔️ 계좌이체는 반드시 닉네임으로 입금해주세요.</p>
 
-        <div class="account">
-          국민은행 · 임현정
+<p><strong>카드결제</strong></p>
 
-          <div class="account-number">
-            <strong>08400204246675</strong>
+<p>
+카드 결제를 원하시면 메시지 남겨주세요!<br>
+부가세 10% 포함가로 결제됩니다.
+</p>
 
-            <button
-              type="button"
-              class="copy-btn"
-              onclick="copyAccount()">
-              복사
-            </button>
-          </div>
+</div>
 
-          <div id="copyMessage" class="copy-message">
-            계좌번호가 복사되었습니다.
-          </div>
-        </div>
+<label class="check-row">
+<input type="checkbox" id="agree" onchange="toggleOrderButton()">
+<span>위 내용을 모두 확인했습니다.</span>
+</label>
 
-        <p>
-          ✔️ 계좌이체는 반드시 <strong>닉네임으로 입금</strong>해주세요.
-        </p>
+<button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">
+주문서 작성하기
+</button>
 
-        <p style="margin-top:15px;">
-          <strong>카드결제</strong>
-        </p>
-
-        <p>
-          카드 결제를 원하시면 <strong>메시지 남겨주세요!</strong><br>
-          부가세 10% 포함가로 결제됩니다.
-        </p>
-      </div>
-
-      <div class="agree-box">
-
-        <label class="agree-label">
-          <input type="checkbox" id="agreeCheck">
-          <span>위 내용을 모두 확인했습니다.</span>
-        </label>
-
-        <button
-          class="primary-btn"
-          id="startOrderBtn"
-          disabled
-          onclick="startOrder()">
-          주문서 작성하기
-        </button>
-
-      </div>
-
-    </div>
-  </div>
+</section>
 
 
-  <!-- 주문서 화면 -->
-  <div id="orderPage">
+<section id="orderPage" class="card hidden">
 
-    <div class="header">
-      <div class="logo">LESHÈ</div>
-      <div class="subtitle">주문서</div>
-    </div>
+<div class="logo">LESHÈ <span>주문서</span></div>
 
-    <div class="section">
-      <h2>🛍 상품 선택</h2>
-      <div id="products"></div>
-    </div>
+<h2>상품 선택</h2>
 
-    <div class="section">
-      <h2>👤 주문자 정보</h2>
+<div id="products"></div>
 
-      <div class="address-box">
+<h2>주문자 정보</h2>
 
-        <input
-          type="text"
-          id="customerName"
-          placeholder="이름">
+<div class="field">
+<label for="customerName">이름</label>
+<input id="customerName" type="text" autocomplete="name" placeholder="이름을 입력해주세요">
+</div>
 
-        <input
-          type="tel"
-          id="customerPhone"
-          placeholder="휴대폰 번호">
+<div class="field">
+<label for="customerPhone">휴대폰 번호</label>
+<input id="customerPhone" type="tel" autocomplete="tel" placeholder="010-0000-0000">
+</div>
 
-        <input
-          type="text"
-          id="customerAddress"
-          placeholder="주소">
+<div class="field">
+<label for="customerAddress">주소</label>
+<input id="customerAddress" type="text" autocomplete="street-address" placeholder="배송받으실 주소를 입력해주세요">
+</div>
 
-        <input
-          type="text"
-          id="deliveryMemo"
-          placeholder="배송 메모 (선택사항)">
+<div class="field">
+<label for="deliveryMemo">배송 메모</label>
+<textarea id="deliveryMemo" placeholder="배송 시 요청사항이 있다면 입력해주세요"></textarea>
+</div>
 
-      </div>
-    </div>
+<div class="summary">
 
-    <div class="section">
+<div class="summary-line">
+<span>상품금액</span>
+<strong id="productTotal">0원</strong>
+</div>
 
-      <h2>🧾 구매 내역</h2>
+<div class="summary-line">
+<span>기본 배송비</span>
+<strong id="shippingFee">4,000원</strong>
+</div>
 
-      <div id="summary">
-        <p style="color:#999;font-size:14px;">
-          상품을 담으면 구매내역이 자동으로 표시됩니다.
-        </p>
-      </div>
+<div class="summary-line summary-total">
+<span>총 결제금액</span>
+<strong id="grandTotal">4,000원</strong>
+</div>
 
-    </div>
+<div class="small-note">
+※ 제주 및 도서산간 배송비는 7,000원이며 별도 확인이 필요합니다.
+</div>
 
-    <button
-      class="primary-btn"
-      onclick="submitOrder()">
-      ✈ 주문하기
-    </button>
+</div>
 
-    <button
-      class="back-btn"
-      onclick="goBack()">
-      ← 안내사항으로 돌아가기
-    </button>
+<button id="submitBtn" class="primary" style="margin-top:18px" onclick="submitOrder()">
+주문하기
+</button>
 
-  </div>
+<button type="button" class="primary back" onclick="showNoticePage()">
+← 안내로 돌아가기
+</button>
+
+</section>
 
 </div>
 
 
 <script>
 
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycby2uf1Y4viVuLhXFMgfFuB11jF4IW24SFAHsSENJDXAQWOnwDz_P4U0bVt0OyXy_BRU/exec";
+
+
 const products = [
-  {
-    id: 1,
-    name: "에코퍼 가방",
-    price: 29000,
-    colors: ["블랙", "아이보리", "브라운", "블루", "에토프"]
-  },
-  {
-    id: 2,
-    name: "세미 와이드 청바지",
-    price: 29000,
-    sizes: ["55", "66"]
-  },
-  {
-    id: 5,
-    name: "웰론 롱패딩",
-    price: 65000,
-    sizes: ["66", "77"]
-  },
-  {
-    id: 6,
-    name: "에코퍼 자켓 베이지",
-    price: 60000,
-    colors: ["블랙", "딥그린", "베이지"],
-    sizes: ["55", "66", "77", "88"]
-  },
-  {
-    id: 7,
-    name: "리얼양모 블루종 자켓",
-    price: 70000,
-    colors: ["네이비", "아이보리", "핑크", "브라운"]
-  },
-  {
-    id: 9,
-    name: "니트 카라 패딩",
-    price: 99000,
-    colors: ["블랙", "아이보리"],
-    sizes: ["55", "66"]
-  },
-  {
-    id: 12,
-    name: "후드 니트 패딩",
-    price: 129000,
-    colors: ["그레이", "브라운"],
-    sizes: ["66", "77"]
-  }
+
+{
+id:1,
+name:"에코퍼 가방",
+price:29000,
+colors:["블랙","아이보리","브라운","블루","에토프"]
+},
+
+{
+id:2,
+name:"세미 와이드 청바지",
+price:29000,
+sizes:["55","66"]
+},
+
+{
+id:5,
+name:"웰론 롱패딩",
+price:65000,
+sizes:["66","77"]
+},
+
+{
+id:6,
+name:"에코퍼 자켓 베이지",
+price:60000,
+colors:["블랙","딥그린","베이지"],
+sizes:["55","66","77","88"]
+},
+
+{
+id:7,
+name:"리얼양모 블루종 자켓",
+price:70000,
+colors:["네이비","아이보리","핑크","브라운"]
+},
+
+{
+id:9,
+name:"니트 카라 패딩",
+price:99000,
+colors:["블랙","아이보리"],
+sizes:["55","66"]
+},
+
+{
+id:12,
+name:"후드 니트 패딩",
+price:129000,
+colors:["그레이","브라운"],
+sizes:["66","77"]
+}
+
 ];
+
 
 const quantities = {};
 
-products.forEach(p => {
-  quantities[p.id] = 0;
+products.forEach(p => quantities[p.id] = 0);
+
+
+function won(n){
+return n.toLocaleString("ko-KR")+"원";
+}
+
+
+function renderProducts(){
+
+const c=document.getElementById("products");
+
+c.innerHTML="";
+
+products.forEach(p=>{
+
+let h=`
+<div class="product">
+
+<div class="product-title">
+${p.id}번 ${p.name}
+</div>
+
+<div class="price">
+${won(p.price)}
+</div>
+
+<div class="option-row">
+`;
+
+if(p.colors){
+
+h+=`
+<div class="option-box">
+
+<label class="option-label">
+색상
+</label>
+
+<select id="color-${p.id}">
+
+<option value="">
+선택해주세요
+</option>
+
+${p.colors.map(x=>`
+<option value="${x}">
+${x}
+</option>
+`).join("")}
+
+</select>
+
+</div>
+`;
+
+}
+
+if(p.sizes){
+
+h+=`
+<div class="option-box">
+
+<label class="option-label">
+사이즈
+</label>
+
+<select id="size-${p.id}">
+
+<option value="">
+선택해주세요
+</option>
+
+${p.sizes.map(x=>`
+<option value="${x}">
+${x}
+</option>
+`).join("")}
+
+</select>
+
+</div>
+`;
+
+}
+
+h+=`
+<div class="option-box qty">
+
+<label class="option-label">
+수량
+</label>
+
+<input
+id="qty-${p.id}"
+type="number"
+min="0"
+max="99"
+value="0"
+onchange="setQuantity(${p.id},this.value)"
+oninput="setQuantity(${p.id},this.value)"
+>
+
+</div>
+
+</div>
+
+</div>
+`;
+
+c.insertAdjacentHTML("beforeend",h);
+
+});
+
+updateSummary();
+
+}
+
+
+function setQuantity(id,v){
+
+let q=parseInt(v,10);
+
+if(isNaN(q)||q<0)q=0;
+
+if(q>99)q=99;
+
+quantities[id]=q;
+
+document.getElementById("qty-"+id).value=q;
+
+updateSummary();
+
+}
+
+
+function validateOptions(){
+
+for(const p of products){
+
+if(quantities[p.id]>0){
+
+if(p.colors){
+
+const color=document.getElementById("color-"+p.id).value;
+
+if(!color){
+
+alert(
+p.id+"번 "+p.name+"의 색상을 선택해주세요."
+);
+
+document.getElementById("color-"+p.id).focus();
+
+return false;
+
+}
+
+}
+
+if(p.sizes){
+
+const size=document.getElementById("size-"+p.id).value;
+
+if(!size){
+
+alert(
+p.id+"번 "+p.name+"의 사이즈를 선택해주세요."
+);
+
+document.getElementById("size-"+p.id).focus();
+
+return false;
+
+}
+
+}
+
+}
+
+}
+
+return true;
+
+}
+
+
+function updateSummary(){
+
+let total=0;
+
+products.forEach(p=>{
+total+=p.price*quantities[p.id];
+});
+
+document.getElementById("productTotal").textContent=won(total);
+
+document.getElementById("shippingFee").textContent=won(4000);
+
+document.getElementById("grandTotal").textContent=won(total+4000);
+
+}
+
+
+function copyAccount(){
+
+const n="08400204246675";
+
+const m=document.getElementById("copyMessage");
+
+if(navigator.clipboard && navigator.clipboard.writeText){
+
+navigator.clipboard.writeText(n)
+
+.then(()=>{
+
+m.style.display="block";
+
+setTimeout(()=>{
+m.style.display="none";
+},2000);
+
+})
+
+.catch(()=>{
+alert("계좌번호: "+n);
+});
+
+}else{
+
+alert("계좌번호: "+n);
+
+}
+
+}
+
+
+function toggleOrderButton(){
+
+document.getElementById("goOrderBtn").disabled =
+!document.getElementById("agree").checked;
+
+}
+
+
+function showOrderPage(){
+
+document.getElementById("noticePage")
+.classList.add("hidden");
+
+document.getElementById("orderPage")
+.classList.remove("hidden");
+
+window.scrollTo(0,0);
+
+}
+
+
+function showNoticePage(){
+
+document.getElementById("orderPage")
+.classList.add("hidden");
+
+document.getElementById("noticePage")
+.classList.remove("hidden");
+
+window.scrollTo(0,0);
+
+}
+
+
+async function submitOrder(){
+
+if(!validateOptions()) return;
+
+
+let has=false;
+
+let total=0;
+
+let ps=[];
+
+let os=[];
+
+let qs=[];
+
+
+products.forEach(p=>{
+
+const q=quantities[p.id];
+
+if(q>0){
+
+has=true;
+
+total+=p.price*q;
+
+let o=[];
+
+
+if(p.colors){
+
+o.push(
+"색상: "+
+document.getElementById("color-"+p.id).value
+);
+
+}
+
+
+if(p.sizes){
+
+o.push(
+"사이즈: "+
+document.getElementById("size-"+p.id).value
+);
+
+}
+
+
+ps.push(
+p.id+"번 "+p.name
+);
+
+os.push(
+o.length ? o.join(", ") : "-"
+);
+
+qs.push(q);
+
+}
+
 });
 
 
-// 계좌번호 복사
-function copyAccount() {
+if(!has){
 
-  const accountNumber = "08400204246675";
-  const message = document.getElementById("copyMessage");
+alert("상품을 하나 이상 선택해주세요.");
 
-  navigator.clipboard.writeText(accountNumber)
-    .then(() => {
+return;
 
-      message.style.display = "block";
-
-      setTimeout(() => {
-        message.style.display = "none";
-      }, 2000);
-
-    })
-    .catch(() => {
-
-      alert("계좌번호: " + accountNumber);
-
-    });
 }
 
 
-// 상품 표시
-function renderProducts() {
+const name =
+document.getElementById("customerName").value.trim();
 
-  const container = document.getElementById("products");
+const phone =
+document.getElementById("customerPhone").value.trim();
 
-  container.innerHTML = "";
+const address =
+document.getElementById("customerAddress").value.trim();
 
-  products.forEach(product => {
+const memo =
+document.getElementById("deliveryMemo").value.trim();
 
-    const div = document.createElement("div");
 
-    div.className = "product";
+if(!name){
 
-    let optionHTML = "";
+alert("이름을 입력해주세요.");
 
-    if (product.colors) {
+return;
 
-      optionHTML += `
-        <select id="color-${product.id}">
-          <option value="">색상 선택</option>
-          ${product.colors.map(color =>
-            `<option value="${color}">${color}</option>`
-          ).join("")}
-        </select>
-      `;
-    }
-
-    if (product.sizes) {
-
-      optionHTML += `
-        <select id="size-${product.id}">
-          <option value="">사이즈 선택</option>
-          ${product.sizes.map(size =>
-            `<option value="${size}">${size}</option>`
-          ).join("")}
-        </select>
-      `;
-    }
-
-    div.innerHTML = `
-
-      <div class="product-name">
-        ${product.id}번 ${product.name}
-      </div>
-
-      <div class="product-price">
-        ${product.price.toLocaleString()}원
-      </div>
-
-      ${
-        optionHTML
-        ? `<div class="option-row">${optionHTML}</div>`
-        : ""
-      }
-
-      <div class="quantity">
-
-        <button onclick="changeQty(${product.id}, -1)">
-          −
-        </button>
-
-        <span id="qty-${product.id}">0</span>
-
-        <button onclick="changeQty(${product.id}, 1)">
-          +
-        </button>
-
-      </div>
-    `;
-
-    container.appendChild(div);
-
-  });
 }
 
 
-// 수량 변경
-function changeQty(id, amount) {
+if(!phone){
 
-  quantities[id] += amount;
+alert("휴대폰 번호를 입력해주세요.");
 
-  if (quantities[id] < 0) {
-    quantities[id] = 0;
-  }
+return;
 
-  document.getElementById(`qty-${id}`).innerText =
-    quantities[id];
-
-  updateSummary();
 }
 
 
-// 안내사항 동의
-document.getElementById("agreeCheck").addEventListener(
-  "change",
-  function() {
+if(!address){
 
-    document.getElementById("startOrderBtn").disabled =
-      !this.checked;
+alert("주소를 입력해주세요.");
 
-  }
+return;
+
+}
+
+
+const btn=document.getElementById("submitBtn");
+
+btn.disabled=true;
+
+btn.classList.add("sending");
+
+btn.textContent="주문 전송 중...";
+
+
+const data={
+
+name:name,
+
+phone:phone,
+
+address:address,
+
+memo:memo,
+
+product:ps.join(" / "),
+
+option:os.join(" / "),
+
+quantity:qs.join(" / "),
+
+productTotal:total,
+
+total:total+4000
+
+};
+
+
+try{
+
+await fetch(
+
+SCRIPT_URL,
+
+{
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify(data)
+
+}
+
 );
 
 
-// 주문서 시작
-function startOrder() {
+alert(
+"주문이 접수되었습니다. 💛\n\n"+
+"주문해주셔서 감사합니다."
+);
 
-  document.getElementById("noticePage").style.display = "none";
+location.reload();
 
-  document.getElementById("orderPage").style.display = "block";
 
-  window.scrollTo(0, 0);
+}catch(e){
 
-  renderProducts();
+console.error(e);
 
-  updateSummary();
+alert(
+"주문 전송 중 문제가 발생했습니다.\n"+
+"잠시 후 다시 시도해주세요."
+);
+
+btn.disabled=false;
+
+btn.classList.remove("sending");
+
+btn.textContent="주문하기";
+
+}
+
 }
 
 
-// 다시 안내사항
-function goBack() {
-
-  document.getElementById("orderPage").style.display = "none";
-
-  document.getElementById("noticePage").style.display = "block";
-
-  window.scrollTo(0, 0);
-}
-
-
-// 옵션 확인
-function validateOptions() {
-
-  for (const product of products) {
-
-    if (quantities[product.id] <= 0) {
-      continue;
-    }
-
-    if (product.colors) {
-
-      const color =
-        document.getElementById(`color-${product.id}`).value;
-
-      if (!color) {
-
-        alert(`${product.id}번 ${product.name}의 색상을 선택해주세요.`);
-
-        return false;
-      }
-    }
-
-    if (product.sizes) {
-
-      const size =
-        document.getElementById(`size-${product.id}`).value;
-
-      if (!size) {
-
-        alert(`${product.id}번 ${product.name}의 사이즈를 선택해주세요.`);
-
-        return false;
-      }
-    }
-
-  }
-
-  return true;
-}
-
-
-// 구매내역 및 총액
-function updateSummary() {
-
-  const summary =
-    document.getElementById("summary");
-
-  let html = "";
-
-  let productTotal = 0;
-
-  let hasProduct = false;
-
-  products.forEach(product => {
-
-    const qty = quantities[product.id];
-
-    if (qty > 0) {
-
-      hasProduct = true;
-
-      const subtotal = product.price * qty;
-
-      productTotal += subtotal;
-
-      let optionText = "";
-
-      if (product.colors) {
-
-        const colorElement =
-          document.getElementById(`color-${product.id}`);
-
-        if (colorElement && colorElement.value) {
-
-          optionText += ` / ${colorElement.value}`;
-
-        }
-      }
-
-      if (product.sizes) {
-
-        const sizeElement =
-          document.getElementById(`size-${product.id}`);
-
-        if (sizeElement && sizeElement.value) {
-
-          optionText += ` / ${sizeElement.value}`;
-
-        }
-      }
-
-      html += `
-
-        <div class="summary-row">
-
-          <span>
-            ${product.id}번 ${product.name}
-            ${optionText}
-            × ${qty}
-          </span>
-
-          <span>
-            ${subtotal.toLocaleString()}원
-          </span>
-
-        </div>
-
-      `;
-    }
-
-  });
-
-
-  if (!hasProduct) {
-
-    summary.innerHTML = `
-      <p style="color:#999;font-size:14px;">
-        상품을 담으면 구매내역이 자동으로 표시됩니다.
-      </p>
-    `;
-
-    return;
-  }
-
-
-  const shipping = 4000;
-
-  const total = productTotal + shipping;
-
-
-  html += `
-
-    <div class="summary-row">
-
-      <span>상품 금액</span>
-
-      <span>
-        ${productTotal.toLocaleString()}원
-      </span>
-
-    </div>
-
-    <div class="summary-row">
-
-      <span>기본 배송비</span>
-
-      <span>
-        ${shipping.toLocaleString()}원
-      </span>
-
-    </div>
-
-    <div class="summary-row total">
-
-      <span>총 결제 금액</span>
-
-      <span>
-        ${total.toLocaleString()}원
-      </span>
-
-    </div>
-
-  `;
-
-
-  summary.innerHTML = html;
-}
-
-
-// 주문하기
-function submitOrder() {
-
-  if (!validateOptions()) {
-    return;
-  }
-
-  let hasProduct = false;
-
-  products.forEach(product => {
-
-    if (quantities[product.id] > 0) {
-      hasProduct = true;
-    }
-
-  });
-
-
-  if (!hasProduct) {
-
-    alert("상품을 하나 이상 선택해주세요.");
-
-    return;
-  }
-
-
-  const name =
-    document.getElementById("customerName").value.trim();
-
-  const phone =
-    document.getElementById("customerPhone").value.trim();
-
-  const address =
-    document.getElementById("customerAddress").value.trim();
-
-
-  if (!name) {
-
-    alert("이름을 입력해주세요.");
-
-    return;
-  }
-
-
-  if (!phone) {
-
-    alert("휴대폰 번호를 입력해주세요.");
-
-    return;
-  }
-
-
-  if (!address) {
-
-    alert("주소를 입력해주세요.");
-
-    return;
-  }
-
-
-  alert(
-    "주문 내용이 확인되었습니다.\n\n" +
-    "※ 현재 주문서는 화면 확인 단계입니다.\n" +
-    "다음 단계에서 Google Sheets와 연결하면 실제 주문이 자동 저장됩니다."
-  );
-
-}
+renderProducts();
 
 </script>
 
