@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LESHÈ 르쉬 주문서</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f7f4ef;
+      color: #403a34;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                   "Noto Sans KR", sans-serif;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: auto;
+      padding: 30px 16px 60px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0 32px;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #8b8178;
+      letter-spacing: 1px;
+    }
+
+    .section {
+      background: #fffdf9;
+      border-radius: 18px;
+      padding: 22px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 12px rgba(70,60,50,.05);
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .product {
+      border-bottom: 1px solid #eee8e0;
+      padding: 18px 0;
+    }
+
+    .product:last-child {
+      border-bottom: none;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .product-price {
+      font-size: 14px;
+      color: #8b8178;
+      margin-bottom: 14px;
+    }
+
+    .option-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .option-row select {
+      flex: 1;
+      border: 1px solid #ddd5cc;
+      border-radius: 9px;
+      background: white;
+      padding: 10px;
+      font-size: 13px;
+      color: #514a44;
+    }
+
+    .quantity-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quantity button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #ddd5cc;
+      background: white;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .quantity-number {
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #6d655e;
+      margin-bottom: 7px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #ddd5cc;
+      border-radius: 10px;
+      padding: 13px;
+      background: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .summary-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0ebe5;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+    .total {
+      border-top: 1px solid #e5ddd4;
+      margin-top: 10px;
+      padding-top: 16px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .order-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      background: #4a433d;
+      color: white;
+      font-size: 16px;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    .notice {
+      text-align: center;
+      font-size: 12px;
+      color: #999087;
+      line-height: 1.7;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="logo">LESHÈ</div>
+    <div class="subtitle">르쉬 · 안과 밖으로 건강한 아름다움</div>
+  </header>
+
+  <section class="section">
+    <div class="section-title">PRODUCT</div>
+
+    <!-- 1번 -->
+    <div class="product">
+      <div class="product-name">1번 에코퍼 가방</div>
+      <div class="product-price">29,000원</div>
+
+      <div class="option-row">
+        <select id="color1">
+          <option value="">컬러 선택</option>
+          <option>블랙</option>
+          <option>아이보리</option>
+          <option>브라운</option>
+          <option>블루</option>
+          <option>에토프</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(1,-1)">−</button>
+          <span class="quantity-number" id="qty1">0</span>
+          <button onclick="changeQty(1,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2번 -->
+    <div class="product">
+      <div class="product-name">2번 세미 와이드 청바지</div>
+      <div class="product-price">29,000원</div>
+
+      <div class="option-row">
+        <select id="size2">
+          <option value="">사이즈 선택</option>
+          <option>55</option>
+          <option>66</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(2,-1)">−</button>
+          <span class="quantity-number" id="qty2">0</span>
+          <button onclick="changeQty(2,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5번 -->
+    <div class="product">
+      <div class="product-name">5번 웰론 롱패딩</div>
+      <div class="product-price">65,000원</div>
+
+      <div class="option-row">
+        <select id="size5">
+          <option value="">사이즈 선택</option>
+          <option>66</option>
+          <option>77</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(5,-1)">−</button>
+          <span class="quantity-number" id="qty5">0</span>
+          <button onclick="changeQty(5,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6번 -->
+    <div class="product">
+      <div class="product-name">6번 에코퍼 자켓 베이지</div>
+      <div class="product-price">60,000원</div>
+
+      <div class="option-row">
+        <select id="color6">
+          <option value="">컬러 선택</option>
+          <option>블랙</option>
+          <option>딥그린</option>
+          <option>베이지</option>
+        </select>
+
+        <select id="size6">
+          <option value="">사이즈</option>
+          <option>55</option>
+          <option>66</option>
+          <option>77</option>
+          <option>88</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(6,-1)">−</button>
+          <span class="quantity-number" id="qty6">0</span>
+          <button onclick="changeQty(6,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7번 -->
+    <div class="product">
+      <div class="product-name">7번 리얼양모 블루종 자켓</div>
+      <div class="product-price">70,000원</div>
+
+      <div class="option-row">
+        <select id="color7">
+          <option value="">컬러 선택</option>
+          <option>네이비</option>
+          <option>아이보리</option>
+          <option>핑크</option>
+          <option>브라운</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(7,-1)">−</button>
+          <span class="quantity-number" id="qty7">0</span>
+          <button onclick="changeQty(7,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9번 -->
+    <div class="product">
+      <div class="product-name">9번 니트 카라 패딩</div>
+      <div class="product-price">99,000원</div>
+
+      <div class="option-row">
+        <select id="color9">
+          <option value="">컬러 선택</option>
+          <option>블랙</option>
+          <option>아이보리</option>
+        </select>
+
+        <select id="size9">
+          <option value="">사이즈</option>
+          <option>55</option>
+          <option>66</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(9,-1)">−</button>
+          <span class="quantity-number" id="qty9">0</span>
+          <button onclick="changeQty(9,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12번 -->
+    <div class="product">
+      <div class="product-name">12번 후드 니트 패딩</div>
+      <div class="product-price">129,000원</div>
+
+      <div class="option-row">
+        <select id="color12">
+          <option value="">컬러 선택</option>
+          <option>그레이</option>
+          <option>브라운</option>
+        </select>
+
+        <select id="size12">
+          <option value="">사이즈</option>
+          <option>66</option>
+          <option>77</option>
+        </select>
+      </div>
+
+      <div class="quantity-row">
+        <span>수량</span>
+        <div class="quantity">
+          <button onclick="changeQty(12,-1)">−</button>
+          <span class="quantity-number" id="qty12">0</span>
+          <button onclick="changeQty(12,1)">+</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="section">
+    <div class="section-title">ORDER INFORMATION</div>
+
+    <div class="input-group">
+      <label>이름</label>
+      <input id="name" type="text" placeholder="성함을 입력해주세요">
+    </div>
+
+    <div class="input-group">
+      <label>연락처</label>
+      <input id="phone" type="tel" placeholder="010-0000-0000">
+    </div>
+
+    <div class="input-group">
+      <label>배송 주소</label>
+      <input id="address" type="text" placeholder="배송받으실 주소를 입력해주세요">
+    </div>
+
+    <div class="input-group">
+      <label>배송 메모</label>
+      <textarea id="memo" placeholder="배송 관련 요청사항"></textarea>
+    </div>
+  </section>
+
+
+  <section class="section">
+
+    <div class="section-title">ORDER SUMMARY</div>
+
+    <div id="summaryProducts">
+      <div style="text-align:center;color:#999087;font-size:13px;">
+        선택한 상품이 없습니다.
+      </div>
+    </div>
+
+    <div class="summary-row">
+      <span>상품금액</span>
+      <span id="productTotal">0원</span>
+    </div>
+
+    <div class="summary-row">
+      <span>배송비</span>
+      <span>4,000원</span>
+    </div>
+
+    <div class="summary-row total">
+      <span>총 주문금액</span>
+      <span id="grandTotal">0원</span>
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <button class="order-button" onclick="submitOrder()">
+      주문하기
+    </button>
+
+    <div class="notice">
+      주문 내용을 확인하신 후 주문하기 버튼을 눌러주세요.<br>
+      주문 접수 후 확인 연락을 드립니다.
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const products = {
+  1: {name:"에코퍼 가방", price:29000, options:["color"]},
+  2: {name:"세미 와이드 청바지", price:29000, options:["size"]},
+  5: {name:"웰론 롱패딩", price:65000, options:["size"]},
+  6: {name:"에코퍼 자켓 베이지", price:60000, options:["color","size"]},
+  7: {name:"리얼양모 블루종 자켓", price:70000, options:["color"]},
+  9: {name:"니트 카라 패딩", price:99000, options:["color","size"]},
+  12:{name:"후드 니트 패딩", price:129000, options:["color","size"]}
+};
+
+const quantities = {
+  1:0,
+  2:0,
+  5:0,
+  6:0,
+  7:0,
+  9:0,
+  12:0
+};
+
+function changeQty(id, amount) {
+
+  quantities[id] += amount;
+
+  if (quantities[id] < 0) {
+    quantities[id] = 0;
+  }
+
+  document.getElementById("qty"+id).textContent = quantities[id];
+
+  updateSummary();
+}
+
+
+function getOptionText(id) {
+
+  let values = [];
+
+  const product = products[id];
+
+  if (product.options.includes("color")) {
+    const color = document.getElementById("color"+id).value;
+
+    if (color) {
+      values.push("컬러: " + color);
+    }
+  }
+
+  if (product.options.includes("size")) {
+    const size = document.getElementById("size"+id).value;
+
+    if (size) {
+      values.push("사이즈: " + size);
+    }
+  }
+
+  return values.join(" / ");
+}
+
+
+function updateSummary() {
+
+  let productTotal = 0;
+  let html = "";
+
+  for (const id in products) {
+
+    const qty = quantities[id];
+
+    if (qty > 0) {
+
+      const product = products[id];
+      const option = getOptionText(id);
+
+      productTotal += product.price * qty;
+
+      html += `
+        <div class="summary-item">
+          <strong>${product.name}</strong><br>
+          ${option ? option + " / " : ""}
+          수량: ${qty}개
+          · ${(product.price * qty).toLocaleString()}원
+        </div>
+      `;
+    }
+  }
+
+  if (!html) {
+    html = `
+      <div style="text-align:center;color:#999087;font-size:13px;">
+        선택한 상품이 없습니다.
+      </div>
+    `;
+  }
+
+  document.getElementById("summaryProducts").innerHTML = html;
+
+  document.getElementById("productTotal").textContent =
+    productTotal.toLocaleString() + "원";
+
+  document.getElementById("grandTotal").textContent =
+    (productTotal + 4000).toLocaleString() + "원";
+}
+
+
+function submitOrder() {
+
+  let selected = [];
+  let productTotal = 0;
+
+  for (const id in products) {
+
+    const qty = quantities[id];
+
+    if (qty > 0) {
+
+      const product = products[id];
+      const option = getOptionText(id);
+
+      if (product.options.length > 0 && !option) {
+        alert(product.name + "의 옵션을 선택해주세요.");
+        return;
+      }
+
+      selected.push(
+        product.name +
+        (option ? " (" + option + ")" : "") +
+        " × " + qty
+      );
+
+      productTotal += product.price * qty;
+    }
+  }
+
+  if (selected.length === 0) {
+    alert("상품을 하나 이상 선택해주세요.");
+    return;
+  }
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const memo = document.getElementById("memo").value.trim();
+
+  if (!name) {
+    alert("이름을 입력해주세요.");
+    return;
+  }
+
+  if (!phone) {
+    alert("연락처를 입력해주세요.");
+    return;
+  }
+
+  if (!address) {
+    alert("배송 주소를 입력해주세요.");
+    return;
+  }
+
+  const total = productTotal + 4000;
+
+  alert(
+    "주문 내용 확인\n\n" +
+    "주문자: " + name + "\n" +
+    "연락처: " + phone + "\n\n" +
+    selected.join("\n") +
+    "\n\n상품금액: " +
+    productTotal.toLocaleString() +
+    "원\n배송비: 4,000원\n총 주문금액: " +
+    total.toLocaleString() +
+    "원"
+  );
+
+  /*
+    다음 단계에서 Google 스프레드시트 연결을 추가합니다.
+  */
+}
+
+</script>
+
+</body>
+</html>
