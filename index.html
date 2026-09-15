@@ -42,7 +42,6 @@ body {
   color: #777;
 }
 
-/* 안내 페이지 */
 .notice-box {
   background: #fff;
   border-radius: 18px;
@@ -91,6 +90,29 @@ body {
   font-size: 14px;
 }
 
+.account-number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.copy-btn {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.copy-message {
+  display: none;
+  color: #777;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
 .agree-box {
   border-top: 1px solid #eee;
   margin-top: 25px;
@@ -128,7 +150,6 @@ body {
   cursor: not-allowed;
 }
 
-/* 주문서 */
 #orderPage {
   display: none;
 }
@@ -246,7 +267,6 @@ input[type="tel"] {
 
     <div class="header">
       <div class="logo">LESHÈ 르쉬</div>
-      <div class="subtitle">안과 밖으로 건강한 아름다움</div>
     </div>
 
     <div class="notice-box">
@@ -289,13 +309,31 @@ input[type="tel"] {
         <p><strong>계좌이체</strong></p>
 
         <div class="account">
-          국민은행 · 임현정<br>
-          <strong>08400204246675</strong>
+          국민은행 · 임현정
+
+          <div class="account-number">
+            <strong>08400204246675</strong>
+
+            <button
+              type="button"
+              class="copy-btn"
+              onclick="copyAccount()">
+              복사
+            </button>
+          </div>
+
+          <div id="copyMessage" class="copy-message">
+            계좌번호가 복사되었습니다.
+          </div>
         </div>
 
-        <p>✔️ 계좌이체는 반드시 <strong>닉네임으로 입금</strong>해주세요.</p>
+        <p>
+          ✔️ 계좌이체는 반드시 <strong>닉네임으로 입금</strong>해주세요.
+        </p>
 
-        <p style="margin-top:15px;"><strong>카드결제</strong></p>
+        <p style="margin-top:15px;">
+          <strong>카드결제</strong>
+        </p>
 
         <p>
           카드 결제를 원하시면 <strong>메시지 남겨주세요!</strong><br>
@@ -304,6 +342,7 @@ input[type="tel"] {
       </div>
 
       <div class="agree-box">
+
         <label class="agree-label">
           <input type="checkbox" id="agreeCheck">
           <span>위 내용을 모두 확인했습니다.</span>
@@ -316,6 +355,7 @@ input[type="tel"] {
           onclick="startOrder()">
           주문서 작성하기
         </button>
+
       </div>
 
     </div>
@@ -330,15 +370,11 @@ input[type="tel"] {
       <div class="subtitle">주문서</div>
     </div>
 
-    <!-- 상품 -->
     <div class="section">
       <h2>🛍 상품 선택</h2>
-
       <div id="products"></div>
     </div>
 
-
-    <!-- 주문자 정보 -->
     <div class="section">
       <h2>👤 주문자 정보</h2>
 
@@ -367,8 +403,6 @@ input[type="tel"] {
       </div>
     </div>
 
-
-    <!-- 구매 내역 -->
     <div class="section">
 
       <h2>🧾 구매 내역</h2>
@@ -380,7 +414,6 @@ input[type="tel"] {
       </div>
 
     </div>
-
 
     <button
       class="primary-btn"
@@ -454,6 +487,30 @@ const quantities = {};
 products.forEach(p => {
   quantities[p.id] = 0;
 });
+
+
+// 계좌번호 복사
+function copyAccount() {
+
+  const accountNumber = "08400204246675";
+  const message = document.getElementById("copyMessage");
+
+  navigator.clipboard.writeText(accountNumber)
+    .then(() => {
+
+      message.style.display = "block";
+
+      setTimeout(() => {
+        message.style.display = "none";
+      }, 2000);
+
+    })
+    .catch(() => {
+
+      alert("계좌번호: " + accountNumber);
+
+    });
+}
 
 
 // 상품 표시
@@ -762,7 +819,6 @@ function submitOrder() {
     return;
   }
 
-
   let hasProduct = false;
 
   products.forEach(product => {
@@ -814,38 +870,6 @@ function submitOrder() {
 
     return;
   }
-
-
-  let orderText = "";
-
-  products.forEach(product => {
-
-    if (quantities[product.id] > 0) {
-
-      let optionText = "";
-
-      if (product.colors) {
-
-        const color =
-          document.getElementById(`color-${product.id}`).value;
-
-        optionText += ` / ${color}`;
-      }
-
-      if (product.sizes) {
-
-        const size =
-          document.getElementById(`size-${product.id}`).value;
-
-        optionText += ` / ${size}`;
-      }
-
-      orderText +=
-        `${product.id}번 ${product.name}${optionText} × ${quantities[product.id]}\n`;
-
-    }
-
-  });
 
 
   alert(
