@@ -18,25 +18,26 @@ h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid 
 .notice li{font-size:14px;margin:4px 0}
 .account{background:#f8f6f2;border-radius:12px;padding:13px;margin:8px 0;text-align:center}
 .account strong{font-size:15px}
-.copy-btn{border:0;background:#333;color:#fff;border-radius:7px;padding:6px 10px;margin-left:7px;font-size:12px;cursor:pointer}
+.copy-btn{border:0;background:#333;color:#fff;border-radius:7px;padding:6px 10px;margin-left:7px;font-size:12px}
 #copyMessage{display:none;color:#8b7355;font-size:12px;margin-top:5px}
 .check-row{display:flex;gap:8px;align-items:center;margin:24px 0 12px;font-size:14px}
 .check-row input{width:18px;height:18px}
-button.primary{width:100%;border:0;border-radius:10px;padding:14px;background:#2f2f2f;color:#fff;font-size:15px;cursor:pointer}
-button.primary:disabled{background:#cfcac2;cursor:not-allowed}
+button.primary{width:100%;border:0;border-radius:10px;padding:14px;background:#2f2f2f;color:#fff;font-size:15px}
+button.primary:disabled{background:#cfcac2}
 .hidden{display:none!important}
 .product{border:1px solid #e7e1d9;border-radius:14px;padding:16px;margin:12px 0;background:#fff}
 .product-title{font-weight:600;font-size:15px;margin-bottom:3px}
 .price{color:#8b7355;font-size:14px;margin-bottom:12px}
 .option-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .option-box{flex:1;min-width:140px}
-.option-box.qty{max-width:110px}
 .option-label{display:block;font-size:12px;color:#777;margin-bottom:4px}
-select,input[type=number],input[type=text],input[type=tel],textarea{width:100%;border:1px solid #ddd6cc;border-radius:8px;padding:10px 11px;background:#fff;font-size:14px;outline:none}
-select:focus,input:focus,textarea:focus{border-color:#9a8975}
+select,input[type=text],input[type=tel],textarea{width:100%;border:1px solid #ddd6cc;border-radius:8px;padding:10px 11px;background:#fff;font-size:14px}
 .field{margin:12px 0}
 .field label{display:block;font-size:13px;margin-bottom:5px;font-weight:600}
 textarea{min-height:80px;resize:vertical}
+.quantity-box{display:flex;align-items:center;height:42px}
+.quantity-btn{width:42px;height:42px;border:1px solid #ddd6cc;background:#fff;color:#333;font-size:22px;border-radius:8px}
+.quantity-number{flex:1;text-align:center;font-size:15px;font-weight:600}
 .summary{background:#f8f6f2;border-radius:13px;padding:15px;margin-top:20px}
 .summary-line{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
 .summary-total{border-top:1px solid #ded7ce;margin-top:10px;padding-top:11px;font-size:17px;font-weight:700}
@@ -50,17 +51,13 @@ textarea{min-height:80px;resize:vertical}
 <div class="page">
 
 <section id="noticePage" class="card">
-
 <div class="logo">LESHÈ <span>르쉬</span></div>
 
 <h1>주문 전 필독 안내</h1>
 
 <div class="notice">
-
 <h2>🚫 반품 / 교환 및 CS 안내</h2>
-
 <p>도매 중개 거래 특성상 아래 규정이 적용되오니 신중한 구매 바랍니다.</p>
-
 <ul>
 <li>교환 / 반품 절대 불가 — 변심, 사이즈, 미세불량</li>
 <li>취소는 방송 중 댓글로만 가능합니다.</li>
@@ -69,7 +66,6 @@ textarea{min-height:80px;resize:vertical}
 </ul>
 
 <h2>🚚 배송 안내</h2>
-
 <ul>
 <li>기본 배송비: 4,000원</li>
 <li>제주 및 도서산간: 7,000원</li>
@@ -77,7 +73,6 @@ textarea{min-height:80px;resize:vertical}
 </ul>
 
 <h2>💳 결제 방법</h2>
-
 <p><strong>계좌이체</strong></p>
 
 <div class="account">
@@ -90,12 +85,7 @@ textarea{min-height:80px;resize:vertical}
 <p>✔️ 계좌이체는 반드시 닉네임으로 입금해주세요.</p>
 
 <p><strong>카드결제</strong></p>
-
-<p>
-카드 결제를 원하시면 메시지 남겨주세요!<br>
-부가세 10% 포함가로 결제됩니다.
-</p>
-
+<p>카드 결제를 원하시면 메시지 남겨주세요!<br>부가세 10% 포함가로 결제됩니다.</p>
 </div>
 
 <label class="check-row">
@@ -103,10 +93,7 @@ textarea{min-height:80px;resize:vertical}
 <span>위 내용을 모두 확인했습니다.</span>
 </label>
 
-<button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">
-주문서 작성하기
-</button>
-
+<button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">주문서 작성하기</button>
 </section>
 
 
@@ -115,33 +102,31 @@ textarea{min-height:80px;resize:vertical}
 <div class="logo">LESHÈ <span>주문서</span></div>
 
 <h2>상품 선택</h2>
-
 <div id="products"></div>
 
 <h2>주문자 정보</h2>
 
 <div class="field">
-<label for="customerName">이름</label>
-<input id="customerName" type="text" autocomplete="name" placeholder="이름을 입력해주세요">
+<label>이름</label>
+<input id="customerName" type="text" placeholder="이름을 입력해주세요">
 </div>
 
 <div class="field">
-<label for="customerPhone">휴대폰 번호</label>
-<input id="customerPhone" type="tel" autocomplete="tel" placeholder="010-0000-0000">
+<label>휴대폰 번호</label>
+<input id="customerPhone" type="tel" placeholder="010-0000-0000">
 </div>
 
 <div class="field">
-<label for="customerAddress">주소</label>
-<input id="customerAddress" type="text" autocomplete="street-address" placeholder="배송받으실 주소를 입력해주세요">
+<label>주소</label>
+<input id="customerAddress" type="text" placeholder="배송받으실 주소를 입력해주세요">
 </div>
 
 <div class="field">
-<label for="deliveryMemo">배송 메모</label>
+<label>배송 메모</label>
 <textarea id="deliveryMemo" placeholder="배송 시 요청사항이 있다면 입력해주세요"></textarea>
 </div>
 
 <div class="summary">
-
 <div class="summary-line">
 <span>상품금액</span>
 <strong id="productTotal">0원</strong>
@@ -160,88 +145,35 @@ textarea{min-height:80px;resize:vertical}
 <div class="small-note">
 ※ 제주 및 도서산간 배송비는 7,000원이며 별도 확인이 필요합니다.
 </div>
-
 </div>
 
-<button id="submitBtn" class="primary" style="margin-top:18px" onclick="submitOrder()">
-주문하기
-</button>
+<button id="submitBtn" class="primary" style="margin-top:18px" onclick="submitOrder()">주문하기</button>
 
-<button type="button" class="primary back" onclick="showNoticePage()">
-← 안내로 돌아가기
-</button>
+<button type="button" class="primary back" onclick="showNoticePage()">← 안내로 돌아가기</button>
 
 </section>
-
 </div>
 
 
 <script>
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycby2uf1Y4viVuLhXFMgfFuB11jF4IW24SFAHsSENJDXAQWOnwDz_P4U0bVt0OyXy_BRU/exec";
+/* ⭐ 새 Apps Script 주소가 이미 들어가 있음 ⭐ */
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzI8cwwwH6kh8osWH3biNMguEKKwnJwXl78aJAb5XsKCBdvKxYC9iDOb9_YMM4WtkA/exec";
 
 
-const products = [
-
-{
-id:1,
-name:"에코퍼 가방",
-price:29000,
-colors:["블랙","아이보리","브라운","블루","에토프"]
-},
-
-{
-id:2,
-name:"세미 와이드 청바지",
-price:29000,
-sizes:["55","66"]
-},
-
-{
-id:5,
-name:"웰론 롱패딩",
-price:65000,
-sizes:["66","77"]
-},
-
-{
-id:6,
-name:"에코퍼 자켓 베이지",
-price:60000,
-colors:["블랙","딥그린","베이지"],
-sizes:["55","66","77","88"]
-},
-
-{
-id:7,
-name:"리얼양모 블루종 자켓",
-price:70000,
-colors:["네이비","아이보리","핑크","브라운"]
-},
-
-{
-id:9,
-name:"니트 카라 패딩",
-price:99000,
-colors:["블랙","아이보리"],
-sizes:["55","66"]
-},
-
-{
-id:12,
-name:"후드 니트 패딩",
-price:129000,
-colors:["그레이","브라운"],
-sizes:["66","77"]
-}
-
+const products=[
+{id:1,name:"에코퍼 가방",price:29000,colors:["블랙","아이보리","브라운","블루","에토프"]},
+{id:2,name:"세미 와이드 청바지",price:29000,sizes:["55","66"]},
+{id:5,name:"웰론 롱패딩",price:65000,sizes:["66","77"]},
+{id:6,name:"에코퍼 자켓 베이지",price:60000,colors:["블랙","딥그린","베이지"],sizes:["55","66","77","88"]},
+{id:7,name:"리얼양모 블루종 자켓",price:70000,colors:["네이비","아이보리","핑크","브라운"]},
+{id:9,name:"니트 카라 패딩",price:99000,colors:["블랙","아이보리"],sizes:["55","66"]},
+{id:12,name:"후드 니트 패딩",price:129000,colors:["그레이","브라운"],sizes:["66","77"]}
 ];
 
 
-const quantities = {};
-
-products.forEach(p => quantities[p.id] = 0);
+const quantities={};
+products.forEach(p=>quantities[p.id]=0);
 
 
 function won(n){
@@ -252,128 +184,51 @@ return n.toLocaleString("ko-KR")+"원";
 function renderProducts(){
 
 const c=document.getElementById("products");
-
 c.innerHTML="";
 
 products.forEach(p=>{
 
-let h=`
-<div class="product">
+let h='<div class="product">';
+h+='<div class="product-title">'+p.id+'번 '+p.name+'</div>';
+h+='<div class="price">'+won(p.price)+'</div>';
+h+='<div class="option-row">';
 
-<div class="product-title">
-${p.id}번 ${p.name}
-</div>
+if(p.colors)
+h+='<div class="option-box"><label class="option-label">색상</label><select id="color-'+p.id+'"><option value="">선택해주세요</option>'+p.colors.map(x=>'<option value="'+x+'">'+x+'</option>').join('')+'</select></div>';
 
-<div class="price">
-${won(p.price)}
-</div>
+if(p.sizes)
+h+='<div class="option-box"><label class="option-label">사이즈</label><select id="size-'+p.id+'"><option value="">선택해주세요</option>'+p.sizes.map(x=>'<option value="'+x+'">'+x+'</option>').join('')+'</select></div>';
 
-<div class="option-row">
-`;
+h+='<div class="option-box">';
+h+='<label class="option-label">수량</label>';
+h+='<div class="quantity-box">';
+h+='<button type="button" class="quantity-btn" onclick="changeQuantity('+p.id+',-1)">−</button>';
+h+='<div class="quantity-number" id="qty-'+p.id+'">0</div>';
+h+='<button type="button" class="quantity-btn" onclick="changeQuantity('+p.id+',1)">+</button>';
+h+='</div></div>';
 
-if(p.colors){
-
-h+=`
-<div class="option-box">
-
-<label class="option-label">
-색상
-</label>
-
-<select id="color-${p.id}">
-
-<option value="">
-선택해주세요
-</option>
-
-${p.colors.map(x=>`
-<option value="${x}">
-${x}
-</option>
-`).join("")}
-
-</select>
-
-</div>
-`;
-
-}
-
-if(p.sizes){
-
-h+=`
-<div class="option-box">
-
-<label class="option-label">
-사이즈
-</label>
-
-<select id="size-${p.id}">
-
-<option value="">
-선택해주세요
-</option>
-
-${p.sizes.map(x=>`
-<option value="${x}">
-${x}
-</option>
-`).join("")}
-
-</select>
-
-</div>
-`;
-
-}
-
-h+=`
-<div class="option-box qty">
-
-<label class="option-label">
-수량
-</label>
-
-<input
-id="qty-${p.id}"
-type="number"
-min="0"
-max="99"
-value="0"
-onchange="setQuantity(${p.id},this.value)"
-oninput="setQuantity(${p.id},this.value)"
->
-
-</div>
-
-</div>
-
-</div>
-`;
+h+='</div></div>';
 
 c.insertAdjacentHTML("beforeend",h);
 
 });
 
 updateSummary();
-
 }
 
 
-function setQuantity(id,v){
+function changeQuantity(id,change){
 
-let q=parseInt(v,10);
+let q=quantities[id]+change;
 
-if(isNaN(q)||q<0)q=0;
-
+if(q<0)q=0;
 if(q>99)q=99;
 
 quantities[id]=q;
 
-document.getElementById("qty-"+id).value=q;
+document.getElementById("qty-"+id).textContent=q;
 
 updateSummary();
-
 }
 
 
@@ -383,40 +238,18 @@ for(const p of products){
 
 if(quantities[p.id]>0){
 
-if(p.colors){
+if(p.colors && !document.getElementById("color-"+p.id).value){
 
-const color=document.getElementById("color-"+p.id).value;
-
-if(!color){
-
-alert(
-p.id+"번 "+p.name+"의 색상을 선택해주세요."
-);
-
-document.getElementById("color-"+p.id).focus();
+alert(p.id+"번 "+p.name+"의 색상을 선택해주세요.");
 
 return false;
-
 }
 
-}
+if(p.sizes && !document.getElementById("size-"+p.id).value){
 
-if(p.sizes){
-
-const size=document.getElementById("size-"+p.id).value;
-
-if(!size){
-
-alert(
-p.id+"번 "+p.name+"의 사이즈를 선택해주세요."
-);
-
-document.getElementById("size-"+p.id).focus();
+alert(p.id+"번 "+p.name+"의 사이즈를 선택해주세요.");
 
 return false;
-
-}
-
 }
 
 }
@@ -424,7 +257,6 @@ return false;
 }
 
 return true;
-
 }
 
 
@@ -437,25 +269,19 @@ total+=p.price*quantities[p.id];
 });
 
 document.getElementById("productTotal").textContent=won(total);
-
 document.getElementById("shippingFee").textContent=won(4000);
-
 document.getElementById("grandTotal").textContent=won(total+4000);
-
 }
 
 
 function copyAccount(){
 
 const n="08400204246675";
-
 const m=document.getElementById("copyMessage");
 
-if(navigator.clipboard && navigator.clipboard.writeText){
+if(navigator.clipboard){
 
-navigator.clipboard.writeText(n)
-
-.then(()=>{
+navigator.clipboard.writeText(n).then(()=>{
 
 m.style.display="block";
 
@@ -463,11 +289,7 @@ setTimeout(()=>{
 m.style.display="none";
 },2000);
 
-})
-
-.catch(()=>{
-alert("계좌번호: "+n);
-});
+}).catch(()=>alert("계좌번호: "+n));
 
 }else{
 
@@ -480,7 +302,7 @@ alert("계좌번호: "+n);
 
 function toggleOrderButton(){
 
-document.getElementById("goOrderBtn").disabled =
+document.getElementById("goOrderBtn").disabled=
 !document.getElementById("agree").checked;
 
 }
@@ -488,11 +310,8 @@ document.getElementById("goOrderBtn").disabled =
 
 function showOrderPage(){
 
-document.getElementById("noticePage")
-.classList.add("hidden");
-
-document.getElementById("orderPage")
-.classList.remove("hidden");
+document.getElementById("noticePage").classList.add("hidden");
+document.getElementById("orderPage").classList.remove("hidden");
 
 window.scrollTo(0,0);
 
@@ -501,11 +320,8 @@ window.scrollTo(0,0);
 
 function showNoticePage(){
 
-document.getElementById("orderPage")
-.classList.add("hidden");
-
-document.getElementById("noticePage")
-.classList.remove("hidden");
+document.getElementById("orderPage").classList.add("hidden");
+document.getElementById("noticePage").classList.remove("hidden");
 
 window.scrollTo(0,0);
 
@@ -514,19 +330,13 @@ window.scrollTo(0,0);
 
 async function submitOrder(){
 
-if(!validateOptions()) return;
-
+if(!validateOptions())return;
 
 let has=false;
-
 let total=0;
-
 let ps=[];
-
 let os=[];
-
 let qs=[];
-
 
 products.forEach(p=>{
 
@@ -540,35 +350,14 @@ total+=p.price*q;
 
 let o=[];
 
+if(p.colors)
+o.push("색상: "+document.getElementById("color-"+p.id).value);
 
-if(p.colors){
+if(p.sizes)
+o.push("사이즈: "+document.getElementById("size-"+p.id).value);
 
-o.push(
-"색상: "+
-document.getElementById("color-"+p.id).value
-);
-
-}
-
-
-if(p.sizes){
-
-o.push(
-"사이즈: "+
-document.getElementById("size-"+p.id).value
-);
-
-}
-
-
-ps.push(
-p.id+"번 "+p.name
-);
-
-os.push(
-o.length ? o.join(", ") : "-"
-);
-
+ps.push(p.id+"번 "+p.name);
+os.push(o.length?o.join(", "):"-");
 qs.push(q);
 
 }
@@ -585,17 +374,10 @@ return;
 }
 
 
-const name =
-document.getElementById("customerName").value.trim();
-
-const phone =
-document.getElementById("customerPhone").value.trim();
-
-const address =
-document.getElementById("customerAddress").value.trim();
-
-const memo =
-document.getElementById("deliveryMemo").value.trim();
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const address=document.getElementById("customerAddress").value.trim();
+const memo=document.getElementById("deliveryMemo").value.trim();
 
 
 if(!name){
@@ -606,7 +388,6 @@ return;
 
 }
 
-
 if(!phone){
 
 alert("휴대폰 번호를 입력해주세요.");
@@ -614,7 +395,6 @@ alert("휴대폰 번호를 입력해주세요.");
 return;
 
 }
-
 
 if(!address){
 
@@ -628,30 +408,20 @@ return;
 const btn=document.getElementById("submitBtn");
 
 btn.disabled=true;
-
 btn.classList.add("sending");
-
 btn.textContent="주문 전송 중...";
 
 
 const data={
 
 name:name,
-
 phone:phone,
-
 address:address,
-
 memo:memo,
-
 product:ps.join(" / "),
-
 option:os.join(" / "),
-
 quantity:qs.join(" / "),
-
 productTotal:total,
-
 total:total+4000
 
 };
@@ -659,31 +429,20 @@ total:total+4000
 
 try{
 
-await fetch(
-
-SCRIPT_URL,
-
-{
+await fetch(SCRIPT_URL,{
 
 method:"POST",
-
 mode:"no-cors",
-
 headers:{
 "Content-Type":"text/plain;charset=utf-8"
 },
 
 body:JSON.stringify(data)
 
-}
-
-);
+});
 
 
-alert(
-"주문이 접수되었습니다. 💛\n\n"+
-"주문해주셔서 감사합니다."
-);
+alert("주문이 접수되었습니다. 💛\n\n주문해주셔서 감사합니다.");
 
 location.reload();
 
@@ -692,15 +451,10 @@ location.reload();
 
 console.error(e);
 
-alert(
-"주문 전송 중 문제가 발생했습니다.\n"+
-"잠시 후 다시 시도해주세요."
-);
+alert("주문 전송 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.");
 
 btn.disabled=false;
-
 btn.classList.remove("sending");
-
 btn.textContent="주문하기";
 
 }
