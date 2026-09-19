@@ -10,7 +10,6 @@ body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSy
 .page{max-width:680px;margin:auto;padding:28px 18px 50px}
 .card{background:#fff;border-radius:18px;padding:28px 22px;box-shadow:0 5px 22px rgba(0,0,0,.05)}
 .logo{text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:31px;letter-spacing:1.5px;margin:4px 0 28px;color:#222}
-.logo span{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;font-size:16px;letter-spacing:0;margin-left:7px}
 h1{font-size:20px;margin:0 0 22px;text-align:center}
 h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid #e8e2d9}
 .notice p{margin:7px 0;font-size:14px}
@@ -52,8 +51,9 @@ textarea{min-height:80px;resize:vertical}
 .back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
 .sending{opacity:.65;pointer-events:none}
 
-.nav-btn-box{display:flex;gap:8px;margin-bottom:15px}
-.sub-btn{flex:1;padding:10px;border:1px solid #2f2f2f;background:#fff;color:#2f2f2f;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
+/* 최하단 이동 메뉴 스타일 */
+.nav-btn-box-bottom{display:flex;gap:8px;margin-top:30px;padding-top:20px;border-top:1px solid #eee}
+.sub-btn{flex:1;padding:12px;border:1px solid #2f2f2f;background:#fff;color:#2f2f2f;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
 .order-item-card{background:#f8f6f2;border-radius:12px;padding:15px;margin-bottom:15px;border:1px solid #e7e1d9}
 .status-badge{display:inline-block;padding:3px 8px;border-radius:6px;background:#2f2f2f;color:#fff;font-size:12px;margin-bottom:8px}
 .track-btn{background:#8b7355;color:#fff;border:0;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;margin-top:8px}
@@ -62,12 +62,6 @@ textarea{min-height:80px;resize:vertical}
 
 <body>
 <div class="page">
-
-<!-- 상단 빠른 메뉴 -->
-<div class="nav-btn-box">
-  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
-  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
-</div>
 
 <!-- 1. 안내 페이지 -->
 <section id="noticePage" class="card">
@@ -112,13 +106,19 @@ textarea{min-height:80px;resize:vertical}
 </label>
 
 <button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">주문서 작성하기</button>
+
+<!-- 최하단 메뉴 -->
+<div class="nav-btn-box-bottom">
+  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
+  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
+</div>
 </section>
 
 
 <!-- 2. 주문 작성 페이지 -->
 <section id="orderPage" class="card hidden">
 
-<div class="logo">LESHÈ <span>주문서</span></div>
+<div class="logo">LESHÈ</div>
 
 <h2>상품 선택</h2>
 <div id="products"></div>
@@ -126,8 +126,13 @@ textarea{min-height:80px;resize:vertical}
 <h2>주문자 정보</h2>
 
 <div class="field">
-<label>이름 및 유튜브 닉네임 (둘 다 필수 작성)</label>
-<input id="customerName" type="text" placeholder="이름과 유튜브 닉네임을 함께 입력해 주세요 (예: 홍길동 / 르쉬)">
+<label>이름</label>
+<input id="customerName" type="text" placeholder="성함을 입력해주세요">
+</div>
+
+<div class="field">
+<label>유튜브 닉네임</label>
+<input id="customerNickname" type="text" placeholder="유튜브 닉네임을 입력해주세요">
 </div>
 
 <div class="field">
@@ -170,6 +175,11 @@ textarea{min-height:80px;resize:vertical}
 
 <button type="button" class="primary back" onclick="showNoticePage()">← 안내로 돌아가기</button>
 
+<!-- 최하단 메뉴 -->
+<div class="nav-btn-box-bottom">
+  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
+  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
+</div>
 </section>
 
 
@@ -190,12 +200,18 @@ textarea{min-height:80px;resize:vertical}
   <button class="primary" onclick="showLookupPage()">내 주문 조회하기</button>
   <button class="primary back" style="margin-top:0;" onclick="resetAndNewOrder()">추가 주문하기</button>
 </div>
+
+<!-- 최하단 메뉴 -->
+<div class="nav-btn-box-bottom">
+  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
+  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
+</div>
 </section>
 
 
 <!-- 4. 내 주문 조회 페이지 -->
 <section id="lookupPage" class="card hidden">
-<div class="logo">LESHÈ <span>주문 조회</span></div>
+<div class="logo">LESHÈ</div>
 
 <div class="notice" style="margin-bottom:20px;">
 <h2>🚫 반품 / 교환 및 CS 안내</h2>
@@ -207,8 +223,8 @@ textarea{min-height:80px;resize:vertical}
 
 <h2>주문 정보 입력</h2>
 <div class="field">
-<label>이름 및 유튜브 닉네임 (둘 다 필수 작성)</label>
-<input id="searchName" type="text" placeholder="주문 시 입력했던 이름과 유튜브 닉네임을 입력하세요">
+<label>이름</label>
+<input id="searchName" type="text" placeholder="주문 시 입력했던 성함을 입력하세요">
 </div>
 <div class="field">
 <label>휴대폰 번호</label>
@@ -218,6 +234,12 @@ textarea{min-height:80px;resize:vertical}
 <button id="searchBtn" class="primary" style="margin-top:10px;" onclick="fetchMyOrders()">조회하기</button>
 
 <div id="lookupResult" style="margin-top:25px;"></div>
+
+<!-- 최하단 메뉴 -->
+<div class="nav-btn-box-bottom">
+  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
+  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
+</div>
 </section>
 
 </div>
@@ -453,11 +475,12 @@ async function submitOrder(){
   }
 
   const name = document.getElementById("customerName").value.trim();
+  const nickname = document.getElementById("customerNickname").value.trim();
   const phone = document.getElementById("customerPhone").value.trim();
   const address = document.getElementById("customerAddress").value.trim();
   const memo = document.getElementById("deliveryMemo").value.trim();
 
-  if(!name){ alert("이름과 유튜브 닉네임을 모두 입력해 주세요."); return; }
+  if(!name){ alert("이름을 입력해 주세요."); return; }
   if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
   if(!address){ alert("주소를 입력해주세요."); return; }
 
@@ -469,7 +492,8 @@ async function submitOrder(){
   const data = {
     action: "create",
     name: name,
-    phone: phone,
+    nickname: nickname,
+    phone: phone.replace(/[^0-9]/g, ''), // 숫자만 추출
     address: address,
     memo: memo,
     product: ps.join(" / "),
@@ -498,14 +522,15 @@ async function submitOrder(){
   }
 }
 
-// 5. 오류 수정한 내 주문 조회 기능 (JSONP 지원)
+// 이름과 전화번호 기반 내 주문 조회
 function fetchMyOrders(){
   const name = document.getElementById("searchName").value.trim();
-  const phone = document.getElementById("searchPhone").value.trim();
+  const rawPhone = document.getElementById("searchPhone").value.trim();
+  const phone = rawPhone.replace(/[^0-9]/g, ''); // 입력된 하이픈 제거 후 숫자만 추출
   const resultDiv = document.getElementById("lookupResult");
 
   if(!name || !phone){
-    alert("이름과 유튜브 닉네임, 그리고 휴대폰 번호를 모두 입력해주세요.");
+    alert("조회하실 이름과 휴대폰 번호를 모두 입력해주세요.");
     return;
   }
 
@@ -514,12 +539,13 @@ function fetchMyOrders(){
   btn.textContent = "조회 중...";
   resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>주문 내역을 검색하고 있습니다...</p>";
 
-  // 브라우저 CORS 오류 방지를 위한 전역 콜백 등록
   const callbackName = 'handleOrderLookup_' + Math.round(100000 * Math.random());
   
   window[callbackName] = function(res) {
     delete window[callbackName];
-    document.body.removeChild(script);
+    const scriptTag = document.getElementById(callbackName);
+    if(scriptTag && scriptTag.parentNode) scriptTag.parentNode.removeChild(scriptTag);
+    
     btn.disabled = false;
     btn.textContent = "조회하기";
 
@@ -553,10 +579,11 @@ function fetchMyOrders(){
   };
 
   const script = document.createElement('script');
+  script.id = callbackName;
   script.src = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&callback=" + callbackName;
   script.onerror = function() {
     delete window[callbackName];
-    document.body.removeChild(script);
+    if(script.parentNode) script.parentNode.removeChild(script);
     btn.disabled = false;
     btn.textContent = "조회하기";
     resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
