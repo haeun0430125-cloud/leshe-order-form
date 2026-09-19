@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LESHÈ 르쉬 주문서</title>
+<title>LESHÈ  주문서</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.6}
@@ -65,7 +65,7 @@ textarea{min-height:80px;resize:vertical}
 
 <div class="notice">
 <h2>🚫 반품 / 교환 및 CS 안내</h2>
-<p>도매 중개 거래 특성상 아래 규정이 적용되오니 신중한 구매 바랍니다.</p>
+<p>도매 중개 거래 특성상 아래 규정이 적용되오니 신중하게 구매해 주세요.</p>
 <ul>
 <li>교환 / 반품 불가 — 단순변심, 사이즈, 미세불량</li>
 <li>취소는 방송 중 댓글로만 가능합니다.</li>
@@ -134,7 +134,7 @@ textarea{min-height:80px;resize:vertical}
 </div>
 
 <div class="field">
-<label>배송 메모</label>
+<label>배송 요청사항 및 메모</label>
 <textarea id="deliveryMemo" placeholder="배송 시 요청사항이 있다면 입력해주세요"></textarea>
 </div>
 
@@ -174,7 +174,7 @@ const products=[
 {id:1,name:"에코퍼 가방",price:29000,colors:["블랙","아이보리","브라운","블루","에토프"]},
 {id:2,name:"세미 와이드 청바지",price:29000,sizes:["55","66"]},
 {id:5,name:"웰론 롱패딩",price:65000,sizes:["66","77"]},
-{id:6,name:"에코퍼 자켓 베이지",price:60000,colors:["블랙","딥그린","베이지"],sizes:["55","66","77","88"]},
+{id:6,name:"에코퍼 자켓",price:60000,colors:["블랙","딥그린","베이지"],sizes:["55","66","77","88"]},
 {id:7,name:"리얼양모 블루종 자켓",price:70000,colors:["네이비","아이보리","핑크","브라운"]},
 {id:9,name:"니트 카라 패딩",price:99000,colors:["블랙","아이보리"],sizes:["55","66"]},
 {id:12,name:"후드 니트 패딩",price:129000,colors:["그레이","브라운"],sizes:["66","77"]}
@@ -403,7 +403,7 @@ async function submitOrder(){
       body: JSON.stringify(data)
     });
 
-    alert("주문이 접수되었습니다. 💛\n\n주문해주셔서 감사합니다.");
+    alert("주문이 접수되었습니다. \n\n주문해 주셔서 감사합니다🤍");
     location.reload();
   } catch(e) {
     console.error(e);
