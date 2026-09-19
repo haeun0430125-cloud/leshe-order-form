@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LESHÈ 주문서</title>
-<!-- 깔끔하고 고급스러운 브랜드 로고 전용 폰트 불러오기 -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@ body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSy
 .page{max-width:680px;margin:auto;padding:28px 18px 50px}
 .card{background:#fff;border-radius:18px;padding:28px 22px;box-shadow:0 5px 22px rgba(0,0,0,.05)}
 
-/* 로고 스타일 개선 */
 .logo{text-align:center;font-family:'Cormorant Garamond', Georgia, serif;font-size:34px;font-weight:600;letter-spacing:3px;margin:4px 0 28px;color:#111;text-transform:uppercase}
 
 h1{font-size:20px;margin:0 0 22px;text-align:center}
@@ -176,7 +175,7 @@ textarea{min-height:80px;resize:vertical}
 </section>
 
 
-<!-- 3. 주문 완료 페이지 (추가 주문 가능) -->
+<!-- 3. 주문 완료 페이지 -->
 <section id="completePage" class="card hidden">
 <div class="logo">LESHÈ</div>
 <h1 style="color:#8b7355;">🤍 주문이 정상 접수되었습니다!</h1>
@@ -209,10 +208,12 @@ textarea{min-height:80px;resize:vertical}
 </div>
 
 <h2>내 주문 조회</h2>
+
 <div class="field">
 <label>이름</label>
 <input id="searchName" type="text" placeholder="성함을 입력하세요">
 </div>
+
 <div class="field">
 <label>휴대폰 번호 (- 없이 숫자만)</label>
 <input id="searchPhone" type="tel" placeholder="01000000000" maxlength="11">
@@ -229,6 +230,7 @@ textarea{min-height:80px;resize:vertical}
 
 
 <script>
+
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzZWKkurvrt25QENd9zzl3qtOcmhzsUi0BiBbTEw6uwfoDsCYHaDTPIWt0lwePTi61n/exec";
 
 const products=[
@@ -242,30 +244,37 @@ const products=[
 ];
 
 const productSelections = {};
+
 products.forEach(p => {
   productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
 });
 
+
 function won(n){
   return (n || 0).toLocaleString("ko-KR")+"원";
 }
+
 
 function renderProducts(){
   const container = document.getElementById("products");
   container.innerHTML = "";
 
   products.forEach(p => {
+
     let h = '<div class="product">';
     h += '<div class="product-title">' + p.id + '번 ' + p.name + '</div>';
     h += '<div class="price">' + won(p.price) + '</div>';
-    
+
     h += '<div id="option-list-' + p.id + '">';
+
     productSelections[p.id].forEach((item, index) => {
       h += renderOptionRow(p, index);
     });
+
     h += '</div>';
 
     h += '<button type="button" class="add-opt-btn" onclick="addOptionRow(' + p.id + ')">+ 색상/사이즈 옵션 추가하기</button>';
+
     h += '</div>';
 
     container.insertAdjacentHTML("beforeend", h);
@@ -274,93 +283,163 @@ function renderProducts(){
   updateSummary();
 }
 
-function renderOptionRow(p, index) {
+
+function renderOptionRow(p, index){
+
   const item = productSelections[p.id][index];
+
   let h = '<div class="option-item-group" id="opt-group-' + p.id + '-' + index + '">';
   h += '<div class="option-row">';
 
-  if(p.colors) {
-    h += '<div class="option-box"><label class="option-label">색상</label><select onchange="updateOptionValue(' + p.id + ',' + index + ',\'color\',this.value)"><option value="">선택</option>';
+  if(p.colors){
+
+    h += '<div class="option-box">';
+    h += '<label class="option-label">색상</label>';
+    h += '<select onchange="updateOptionValue(' + p.id + ',' + index + ',\'color\',this.value)">';
+    h += '<option value="">선택</option>';
+
     p.colors.forEach(x => {
+
       const sel = item.color === x ? 'selected' : '';
+
       h += '<option value="' + x + '" ' + sel + '>' + x + '</option>';
+
     });
+
     h += '</select></div>';
   }
 
-  if(p.sizes) {
-    h += '<div class="option-box"><label class="option-label">사이즈</label><select onchange="updateOptionValue(' + p.id + ',' + index + ',\'size\',this.value)"><option value="">선택</option>';
+
+  if(p.sizes){
+
+    h += '<div class="option-box">';
+    h += '<label class="option-label">사이즈</label>';
+    h += '<select onchange="updateOptionValue(' + p.id + ',' + index + ',\'size\',this.value)">';
+    h += '<option value="">선택</option>';
+
     p.sizes.forEach(x => {
+
       const sel = item.size === x ? 'selected' : '';
+
       h += '<option value="' + x + '" ' + sel + '>' + x + '</option>';
+
     });
+
     h += '</select></div>';
   }
 
-  h += '<div class="option-box"><label class="option-label">수량</label>';
+
+  h += '<div class="option-box">';
+  h += '<label class="option-label">수량</label>';
+
   h += '<div class="quantity-box">';
   h += '<button type="button" class="quantity-btn" onclick="changeQty(' + p.id + ',' + index + ',-1)">−</button>';
   h += '<div class="quantity-number">' + item.qty + '</div>';
   h += '<button type="button" class="quantity-btn" onclick="changeQty(' + p.id + ',' + index + ',1)">+</button>';
   h += '</div></div>';
 
-  if (index > 0) {
+
+  if(index > 0){
+
     h += '<button type="button" class="remove-opt-btn" onclick="removeOptionRow(' + p.id + ',' + index + ')">삭제</button>';
+
   }
 
   h += '</div></div>';
+
   return h;
 }
 
-function addOptionRow(productId) {
-  productSelections[productId].push({ color: "", size: "", qty: 1 });
+
+function addOptionRow(productId){
+
+  productSelections[productId].push({
+    color: "",
+    size: "",
+    qty: 1
+  });
+
   renderProducts();
 }
 
-function removeOptionRow(productId, index) {
+
+function removeOptionRow(productId, index){
+
   productSelections[productId].splice(index, 1);
+
   renderProducts();
 }
 
-function updateOptionValue(productId, index, field, value) {
+
+function updateOptionValue(productId, index, field, value){
+
   productSelections[productId][index][field] = value;
+
 }
 
-function changeQty(productId, index, change) {
+
+function changeQty(productId, index, change){
+
   let item = productSelections[productId][index];
+
   let newQty = item.qty + change;
-  if (newQty < 0) newQty = 0;
-  if (newQty > 99) newQty = 99;
+
+  if(newQty < 0) newQty = 0;
+  if(newQty > 99) newQty = 99;
+
   item.qty = newQty;
+
   renderProducts();
 }
+
 
 function validateOptions(){
+
   for(const p of products){
+
     const items = productSelections[p.id];
+
     for(let i = 0; i < items.length; i++){
+
       const item = items[i];
+
       if(item.qty > 0){
+
         if(p.colors && !item.color){
+
           alert(p.id + "번 " + p.name + "의 색상을 선택해주세요.");
           return false;
+
         }
+
         if(p.sizes && !item.size){
+
           alert(p.id + "번 " + p.name + "의 사이즈를 선택해주세요.");
           return false;
+
         }
+
       }
+
     }
   }
+
   return true;
 }
 
+
 function updateSummary(){
+
   let total = 0;
+
   products.forEach(p => {
+
     productSelections[p.id].forEach(item => {
+
       total += p.price * item.qty;
+
     });
+
   });
 
   document.getElementById("productTotal").textContent = won(total);
@@ -368,308 +447,436 @@ function updateSummary(){
   document.getElementById("grandTotal").textContent = won(total + 4000);
 }
 
+
 function copyAccount(targetId){
+
   const n = "08400204246675";
   const m = document.getElementById(targetId || "copyMessageNotice");
+
   if(navigator.clipboard){
+
     navigator.clipboard.writeText(n).then(()=>{
+
       if(m){
+
         m.style.display = "block";
-        setTimeout(()=>{ m.style.display = "none"; }, 2000);
+
+        setTimeout(()=>{
+          m.style.display = "none";
+        },2000);
+
       }
+
     }).catch(() => alert("계좌번호: " + n));
-  } else {
+
+  }else{
+
     alert("계좌번호: " + n);
+
   }
 }
 
+
 function toggleOrderButton(){
-  document.getElementById("goOrderBtn").disabled = !document.getElementById("agree").checked;
+
+  document.getElementById("goOrderBtn").disabled =
+    !document.getElementById("agree").checked;
+
 }
 
+
 function hideAllSections(){
+
   document.getElementById("noticePage").classList.add("hidden");
   document.getElementById("orderPage").classList.add("hidden");
   document.getElementById("completePage").classList.add("hidden");
   document.getElementById("lookupPage").classList.add("hidden");
+
 }
+
 
 function showNoticePage(){
+
   hideAllSections();
+
   document.getElementById("noticePage").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
+
 
 function showOrderPage(){
+
   hideAllSections();
+
   document.getElementById("orderPage").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
+
 
 function showCompletePage(){
+
   hideAllSections();
+
   document.getElementById("completePage").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
 
+
 function showLookupPage(){
+
   hideAllSections();
+
   document.getElementById("lookupPage").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
+
 
 // 추가 주문을 위해 상품 수량 및 옵션 초기화 후 작성 페이지로 이동
 function resetAndNewOrder(){
+
   products.forEach(p => {
-    productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
+
+    productSelections[p.id] = [{
+      color: "",
+      size: "",
+      qty: 0
+    }];
+
   });
+
   renderProducts();
+
   showOrderPage();
+
 }
+
 
 // 주문 전송
 async function submitOrder(){
+
   if(!validateOptions()) return;
 
   let has = false;
   let total = 0;
+
   let ps = [];
   let os = [];
   let qs = [];
 
+
   products.forEach(p => {
+
     productSelections[p.id].forEach(item => {
+
       if(item.qty > 0){
+
         has = true;
+
         total += p.price * item.qty;
 
         let optDetails = [];
+
         if(p.colors) optDetails.push("색상: " + item.color);
         if(p.sizes) optDetails.push("사이즈: " + item.size);
 
         ps.push(p.id + "번 " + p.name);
-        os.push("[" + p.id + "번 " + p.name + "] " + (optDetails.length ? optDetails.join(", ") : "-"));
+
+        os.push(
+          "[" + p.id + "번 " + p.name + "] " +
+          (optDetails.length ? optDetails.join(", ") : "-")
+        );
+
         qs.push(item.qty);
+
       }
+
     });
+
   });
 
+
   if(!has){
+
     alert("상품을 하나 이상 선택해주세요.");
     return;
+
   }
 
-  const name = document.getElementById("customerName").value.trim();
-  const nickname = document.getElementById("customerNickname").value.trim();
-  const rawPhone = document.getElementById("customerPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, '');
-  const address = document.getElementById("customerAddress").value.trim();
-  const memo = document.getElementById("deliveryMemo").value.trim();
 
-  if(!name){ alert("성함을 입력해 주세요."); return; }
-  if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
-  if(!address){ alert("주소를 입력해주세요."); return; }
+  const name =
+    document.getElementById("customerName").value.trim();
 
-  const btn = document.getElementById("submitBtn");
+  const nickname =
+    document.getElementById("customerNickname").value.trim();
+
+  const rawPhone =
+    document.getElementById("customerPhone").value.trim();
+
+  const phone =
+    rawPhone.replace(/[^0-9]/g, '');
+
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+  const memo =
+    document.getElementById("deliveryMemo").value.trim();
+
+
+  if(!name){
+
+    alert("성함을 입력해 주세요.");
+    return;
+
+  }
+
+  if(!phone){
+
+    alert("휴대폰 번호를 입력해주세요.");
+    return;
+
+  }
+
+  if(!address){
+
+    alert("주소를 입력해주세요.");
+    return;
+
+  }
+
+
+  const btn =
+    document.getElementById("submitBtn");
+
   btn.disabled = true;
   btn.classList.add("sending");
   btn.textContent = "주문 전송 중...";
 
+
   const data = {
+
     action: "create",
+
     name: name,
+
     nickname: nickname,
+
     phone: phone,
+
     address: address,
+
     memo: memo,
+
     product: ps.join(" / "),
+
     option: os.join(" / "),
+
     quantity: qs.join(" / "),
+
     productTotal: total,
+
     total: total + 4000
+
   };
 
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(data)
+
+  try{
+
+    await fetch(SCRIPT_URL,{
+
+      method:"POST",
+
+      mode:"no-cors",
+
+      headers:{
+        "Content-Type":"text/plain;charset=utf-8"
+      },
+
+      body:JSON.stringify(data)
+
     });
 
-    // 주문 전송 완료 시 완료 화면으로 전환
+
     showCompletePage();
-  } catch(e) {
+
+
+  }catch(e){
+
     console.error(e);
-    alert("주문 전송 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.");
-  } finally {
+
+    alert(
+      "주문 전송 중 문제가 발생했습니다.\n"+
+      "잠시 후 다시 시도해주세요."
+    );
+
+  }finally{
+
     btn.disabled = false;
     btn.classList.remove("sending");
     btn.textContent = "주문하기";
+
   }
+
 }
+
+
+// HTML에 입력된 값을 안전하게 표시
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+// 배송조회 버튼에 안전하게 사용할 값으로 처리
+function escapeJs(value){
+
+  return String(value ?? "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/\r/g,"")
+    .replace(/\n/g,"");
+
+}
+
 
 // 내 주문 조회
 function fetchMyOrders(){
-  const name = document.getElementById("searchName").value.trim();
-  const rawPhone = document.getElementById("searchPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, '');
-  const resultDiv = document.getElementById("lookupResult");
 
-  if(!name || !phone){
-    alert("조회하실 이름과 휴대폰 번호를 모두 입력해주세요.");
-    return;
-  }
+  const name =
+    document.getElementById("searchName").value.trim();
 
-  const btn = document.getElementById("searchBtn");
-  btn.disabled = true;
-  btn.textContent = "조회 중...";
-  resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>주문 내역을 검색하고 있습니다...</p>";
+  const rawPhone =
+    document.getElementById("searchPhone").value.trim();
 
-  const callbackName = 'handleOrderLookup_' + Math.round(100000 * Math.random());
-  
-  window[callbackName] = function(res) {
-    delete window[callbackName];
-    const scriptTag = document.getElementById(callbackName);
-    if(scriptTag && scriptTag.parentNode) scriptTag.parentNode.removeChild(scriptTag);
-    
-    btn.disabled = false;
-    btn.textContent = "조회하기";
+  const phone =
+    rawPhone.replace(/[^0-9]/g,'');
 
-    if(res && res.status === "success" && res.data && res.data.length > 0){
-      let html = "";
-      res.data.forEach(item => {
-        const payStatus = item.payStatus || "입금대기";
-        const shipStatus = item.shipStatus || "상품준비중";
-        const courier = item.courier || "";
-        const trackingNo = item.trackingNo || "";
+  const resultDiv =
+    document.getElementById("lookupResult");
 
-        html += '<div class="order-item-card">';
-        html += '<div><span class="status-badge">입금상태: ' + payStatus + '</span> <span class="status-badge" style="background:#8b7355;">배송상태: ' + shipStatus + '</span></div>';
-        html += '<div style="font-size:12px; color:#888; margin-bottom:8px;">주문일시: ' + item.date + '</div>';
-        html += '<div style="font-weight:600; font-size:14px; margin-bottom:4px;">옵션: ' + item.option + '</div>';
-        html += '<div style="font-size:13px; color:#555;">수량: ' + item.quantity + '개</div>';
-        html += '<div style="font-size:14px; font-weight:700; margin-top:6px; color:#2f2f2f;">결제금액: ' + won(Number(item.total)) + '</div>';
+  const btn =
+    document.getElementById("searchBtn");
 
-        if(courier && trackingNo){
-          html += '<div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ddd; font-size:13px;">';
-          html += '<strong>송장정보:</strong> ' + courier + ' ' + trackingNo + '<br>';
-          html += '<button type="button" class="track-btn" onclick="trackPackage(\'' + courier + '\', \'' + trackingNo + '\')">택배 배송 추적</button>';
-          html += '</div>';
-        }
-        html += '</div>';
-      });
-      resultDiv.innerHTML = html;
-    } else {
-      resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>일치하는 주문 내역이 없습니다.</p>";
-    }
-  };
-
-  const script = document.createElement('script');
-  script.id = callbackName;
-  script.src = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&callback=" + callbackName;
-  script.onerror = function() {
-    delete window[callbackName];
-    if(script.parentNode) script.parentNode.removeChild(script);
-    btn.disabled = false;
-    btn.textContent = "조회하기";
-    resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
-  };
-  document.body.appendChild(script);
-}
-
-function trackPackage(courier, trackingNo){
-  let url = "";
-  if(courier.includes("CJ") || courier.includes("대한통운")){
-    url = "https://www.cjlogistics.com/ko/tool/parcel/tracking?gnbInvcNo=" + trackingNo;
-  } else if(courier.includes("한진")){
-    url = "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=" + trackingNo;
-  } else if(courier.includes("롯데")){
-    url = "https://www.lotteglogis.com/home/reservation/tracking/linkQuery?InvNo=" + trackingNo;
-  } else if(courier.includes("우체국")){
-    url = "https://service.epost.go.kr/trace.RetrieveDomRレース.comm?sid1=" + trackingNo;
-  } else if(courier.includes("로젠")){
-    url = "https://www.ilogen.com/web/personal/trace/" + trackingNo;
-  } else {
-    url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(courier + " " + trackingNo);
-  }
-  window.open(url, '_blank');
-}
-
-renderProducts();
-</script>
-
-</body>
-</html>
-function fetchMyOrders(){
-  const name = document.getElementById("searchName").value.trim();
-  const rawPhone = document.getElementById("searchPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, '');
-  const resultDiv = document.getElementById("lookupResult");
-  const btn = document.getElementById("searchBtn");
 
   if(!name){
+
     alert("조회하실 이름을 입력해주세요.");
     return;
+
   }
+
 
   if(!phone){
+
     alert("조회하실 휴대폰 번호를 입력해주세요.");
     return;
+
   }
 
+
   if(phone.length < 10){
+
     alert("휴대폰 번호를 정확하게 입력해주세요.");
     return;
+
   }
+
 
   btn.disabled = true;
   btn.textContent = "조회 중...";
+
+
   resultDiv.innerHTML =
-    "<p style='text-align:center;color:#888;'>주문 내역을 확인하고 있습니다...</p>";
+    "<p style='text-align:center;color:#888;'>"+
+    "주문 내역을 확인하고 있습니다..."+
+    "</p>";
+
 
   const callbackName =
-    "handleOrderLookup_" + Date.now() + "_" +
+    "handleOrderLookup_" +
+    Date.now() +
+    "_" +
     Math.floor(Math.random() * 10000);
+
 
   let finished = false;
 
+
   function finish(){
+
     if(finished) return;
+
     finished = true;
 
     btn.disabled = false;
     btn.textContent = "조회하기";
 
-    const oldScript = document.getElementById(callbackName);
+
+    const oldScript =
+      document.getElementById(callbackName);
+
     if(oldScript){
       oldScript.remove();
     }
 
+
     try{
+
       delete window[callbackName];
-    }catch(e){}
+
+    }catch(e){
+
+      window[callbackName] = undefined;
+
+    }
+
   }
 
-  // 성공적으로 Google Apps Script에서 응답이 왔을 때
+
   window[callbackName] = function(res){
+
+    if(finished) return;
 
     finish();
 
-    console.log("주문조회 응답:", res);
+
+    console.log("주문조회 응답:",res);
+
 
     if(!res){
+
       resultDiv.innerHTML =
         "<p style='text-align:center;color:#ff4d4d;'>"+
-        "조회 결과를 받아오지 못했습니다.<br>잠시 후 다시 시도해주세요.</p>";
+        "조회 결과를 받아오지 못했습니다.<br>"+
+        "잠시 후 다시 시도해주세요."+
+        "</p>";
+
       return;
+
     }
 
-    if(res.status === "success" &&
-       Array.isArray(res.data) &&
-       res.data.length > 0){
+
+    if(
+      res.status === "success" &&
+      Array.isArray(res.data) &&
+      res.data.length > 0
+    ){
 
       let html = "";
+
 
       res.data.forEach(item => {
 
@@ -700,58 +907,80 @@ function fetchMyOrders(){
         const total =
           Number(item.total || 0);
 
+
         html += `
           <div class="order-item-card">
 
             <div style="margin-bottom:8px;">
+
               <span class="status-badge">
                 입금상태: ${escapeHtml(payStatus)}
               </span>
 
-              <span class="status-badge"
-                    style="background:#8b7355;">
+              <span
+                class="status-badge"
+                style="background:#8b7355;">
                 배송상태: ${escapeHtml(shipStatus)}
               </span>
+
             </div>
+
 
             <div style="
               font-size:12px;
               color:#888;
               margin-bottom:10px;">
-              주문일시: ${escapeHtml(date)}
+
+              주문일시:
+              ${escapeHtml(date)}
+
             </div>
+
 
             <div style="
               font-weight:600;
               font-size:14px;
               margin-bottom:6px;">
+
               ${escapeHtml(product)}
+
             </div>
+
 
             <div style="
               font-size:13px;
               color:#555;
               line-height:1.7;">
+
               ${escapeHtml(option)}
+
             </div>
+
 
             <div style="
               font-size:13px;
               color:#555;
               margin-top:4px;">
-              수량: ${escapeHtml(quantity)}개
+
+              수량:
+              ${escapeHtml(quantity)}개
+
             </div>
+
 
             <div style="
               font-size:15px;
               font-weight:700;
               margin-top:8px;
               color:#2f2f2f;">
-              결제금액: ${won(total)}
+
+              결제금액:
+              ${won(total)}
+
             </div>
         `;
 
-        // 송장정보가 있을 경우
+
         if(courier && trackingNo){
 
           html += `
@@ -762,6 +991,7 @@ function fetchMyOrders(){
               font-size:13px;">
 
               <strong>송장정보</strong><br>
+
               ${escapeHtml(courier)}
               ${escapeHtml(trackingNo)}
 
@@ -774,17 +1004,23 @@ function fetchMyOrders(){
                   '${escapeJs(courier)}',
                   '${escapeJs(trackingNo)}'
                 )">
+
                 택배 배송 추적
+
               </button>
 
             </div>
           `;
+
         }
 
-        html += `</div>`;
+
+        html += "</div>";
+
       });
 
-      // 주문 조회 결과 아래 추가 옵션
+
+      // 조회 결과 아래 두 가지 옵션
       html += `
         <div style="
           margin-top:20px;
@@ -794,7 +1030,7 @@ function fetchMyOrders(){
 
           <button
             type="button"
-            onclick="showOrderPage()"
+            onclick="resetAndNewOrder()"
             style="
               width:100%;
               padding:14px 10px;
@@ -805,8 +1041,11 @@ function fetchMyOrders(){
               font-size:14px;
               font-weight:600;
               cursor:pointer;">
+
             추가 주문하기
+
           </button>
+
 
           <button
             type="button"
@@ -821,17 +1060,21 @@ function fetchMyOrders(){
               font-size:14px;
               font-weight:600;
               cursor:pointer;">
+
             내 주문 조회하기
+
           </button>
 
         </div>
       `;
 
+
       resultDiv.innerHTML = html;
+
 
     }else{
 
-      // 주문 내역이 없을 때도 두 가지 선택 가능
+
       resultDiv.innerHTML = `
         <div style="
           text-align:center;
@@ -844,15 +1087,22 @@ function fetchMyOrders(){
             font-size:15px;
             font-weight:600;
             margin-bottom:6px;">
+
             주문 내역을 찾을 수 없습니다.
+
           </div>
+
 
           <div style="
             font-size:12px;
             line-height:1.6;
             margin-bottom:18px;">
-            입력하신 이름과 휴대폰 번호를 다시 확인해주세요.
+
+            입력하신 이름과 휴대폰 번호를
+            다시 확인해주세요.
+
           </div>
+
 
           <div style="
             display:flex;
@@ -872,12 +1122,15 @@ function fetchMyOrders(){
                 font-size:14px;
                 font-weight:600;
                 cursor:pointer;">
+
               내 주문 조회하기
+
             </button>
+
 
             <button
               type="button"
-              onclick="showOrderPage()"
+              onclick="resetAndNewOrder()"
               style="
                 width:100%;
                 padding:13px 10px;
@@ -888,58 +1141,74 @@ function fetchMyOrders(){
                 font-size:14px;
                 font-weight:600;
                 cursor:pointer;">
+
               추가 주문하기
+
             </button>
 
           </div>
 
         </div>
       `;
+
     }
+
   };
 
-  // 오류가 일정 시간 이상 지속되는 경우
-  const timeout = setTimeout(function(){
 
-    if(finished) return;
+  const timeout =
+    setTimeout(function(){
 
-    finish();
+      if(finished) return;
 
-    resultDiv.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:20px;
-        color:#ff4d4d;
-        background:#fff7f7;
-        border-radius:12px;">
-
-        주문 조회 서버와 연결되지 않았습니다.<br>
-        잠시 후 다시 시도해주세요.
-
-      </div>
-    `;
-
-  }, 10000);
+      finish();
 
 
-  const script = document.createElement("script");
+      resultDiv.innerHTML = `
+        <div style="
+          text-align:center;
+          padding:20px;
+          color:#ff4d4d;
+          background:#fff7f7;
+          border-radius:12px;">
 
-  script.id = callbackName;
+          주문 조회 서버와 연결되지 않았습니다.<br>
+          잠시 후 다시 시도해주세요.
+
+        </div>
+      `;
+
+    },10000);
+
+
+  const script =
+    document.createElement("script");
+
+
+  script.id =
+    callbackName;
+
 
   script.src =
     SCRIPT_URL +
     "?action=lookup" +
-    "&name=" + encodeURIComponent(name) +
-    "&phone=" + encodeURIComponent(phone) +
-    "&callback=" + encodeURIComponent(callbackName);
+    "&name=" +
+    encodeURIComponent(name) +
+    "&phone=" +
+    encodeURIComponent(phone) +
+    "&callback=" +
+    encodeURIComponent(callbackName);
+
 
   script.onerror = function(){
 
     clearTimeout(timeout);
 
+
     if(finished) return;
 
     finish();
+
 
     resultDiv.innerHTML = `
       <div style="
@@ -954,66 +1223,86 @@ function fetchMyOrders(){
 
       </div>
     `;
+
   };
 
+
   document.body.appendChild(script);
+
 }
 
 
-// 내 주문 조회하기
-function showLookupPage(){
+// 배송조회
+function trackPackage(courier,trackingNo){
 
-  // 기존 페이지 전환 함수가 있는 경우 사용
-  if(typeof showPage === "function"){
-    showPage("lookupPage");
-    return;
+  let url = "";
+
+
+  if(
+    courier.includes("CJ") ||
+    courier.includes("대한통운")
+  ){
+
+    url =
+      "https://www.cjlogistics.com/ko/tool/parcel/tracking?gnbInvcNo=" +
+      encodeURIComponent(trackingNo);
+
   }
 
-  // 기존 페이지 전환 함수가 없는 경우 직접 전환
-  const pages = [
-    "noticePage",
-    "orderPage",
-    "completePage",
-    "lookupPage"
-  ];
 
-  pages.forEach(function(id){
-    const page = document.getElementById(id);
+  else if(courier.includes("한진")){
 
-    if(page){
-      page.style.display = "none";
-    }
-  });
+    url =
+      "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=" +
+      encodeURIComponent(trackingNo);
 
-  const lookupPage = document.getElementById("lookupPage");
-
-  if(lookupPage){
-    lookupPage.style.display = "block";
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
   }
+
+
+  else if(courier.includes("롯데")){
+
+    url =
+      "https://www.lotteglogis.com/home/reservation/tracking/linkQuery?InvNo=" +
+      encodeURIComponent(trackingNo);
+
+  }
+
+
+  else if(courier.includes("우체국")){
+
+    url =
+      "https://service.epost.go.kr/trace.RetrieveEmsTraceListList.comm?sid1=" +
+      encodeURIComponent(trackingNo);
+
+  }
+
+
+  else if(courier.includes("로젠")){
+
+    url =
+      "https://www.ilogen.com/web/personal/trace/" +
+      encodeURIComponent(trackingNo);
+
+  }
+
+
+  else{
+
+    url =
+      "https://search.naver.com/search.naver?query=" +
+      encodeURIComponent(courier + " " + trackingNo);
+
+  }
+
+
+  window.open(url,"_blank");
+
 }
 
 
-// HTML에 입력된 값을 안전하게 표시
-function escapeHtml(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
+renderProducts();
 
+</script>
 
-// 배송조회 URL에 안전하게 사용하기 위한 처리
-function escapeJs(value){
-  return String(value ?? "")
-    .replace(/\\/g,"\\\\")
-    .replace(/'/g,"\\'")
-    .replace(/\r/g,"")
-    .replace(/\n/g,"");
-}
+</body>
+</html>
