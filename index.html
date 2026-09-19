@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LESHÈ 주문서</title>
+<title>LESHÈ 르쉬 주문서</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.6}
 .page{max-width:680px;margin:auto;padding:28px 18px 50px}
 .card{background:#fff;border-radius:18px;padding:28px 22px;box-shadow:0 5px 22px rgba(0,0,0,.05)}
 .logo{text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:31px;letter-spacing:1.5px;margin:4px 0 28px;color:#222}
+.logo span{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;font-size:16px;letter-spacing:0;margin-left:7px}
 h1{font-size:20px;margin:0 0 22px;text-align:center}
 h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid #e8e2d9}
 .notice p{margin:7px 0;font-size:14px}
@@ -18,7 +19,7 @@ h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid 
 .account{background:#f8f6f2;border-radius:12px;padding:13px;margin:8px 0;text-align:center}
 .account strong{font-size:15px}
 .copy-btn{border:0;background:#333;color:#fff;border-radius:7px;padding:6px 10px;margin-left:7px;font-size:12px;cursor:pointer}
-.copy-message{display:none;color:#8b7355;font-size:12px;margin-top:5px}
+#copyMessage{display:none;color:#8b7355;font-size:12px;margin-top:5px}
 .check-row{display:flex;gap:8px;align-items:center;margin:24px 0 12px;font-size:14px}
 .check-row input{width:18px;height:18px}
 button.primary{width:100%;border:0;border-radius:10px;padding:14px;background:#2f2f2f;color:#fff;font-size:15px;cursor:pointer}
@@ -28,6 +29,7 @@ button.primary:disabled{background:#cfcac2;cursor:not-allowed}
 .product-title{font-weight:600;font-size:15px;margin-bottom:3px}
 .price{color:#8b7355;font-size:14px;margin-bottom:12px}
 
+/* 다중 옵션 스타일 추가 */
 .option-item-group{border-top:1px dashed #eee;padding-top:10px;margin-top:10px}
 .option-item-group:first-child{border-top:none;padding-top:0;margin-top:0}
 .option-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
@@ -50,22 +52,14 @@ textarea{min-height:80px;resize:vertical}
 .small-note{color:#888;font-size:12px;margin-top:10px}
 .back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
 .sending{opacity:.65;pointer-events:none}
-
-/* 최하단 이동 메뉴 전용 스타일 */
-.nav-btn-box-bottom{display:flex;gap:8px;margin-top:30px;padding-top:20px;border-top:1px solid #eee}
-.sub-btn{flex:1;padding:12px;border:1px solid #2f2f2f;background:#fff;color:#2f2f2f;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
-.order-item-card{background:#f8f6f2;border-radius:12px;padding:15px;margin-bottom:15px;border:1px solid #e7e1d9}
-.status-badge{display:inline-block;padding:3px 8px;border-radius:6px;background:#2f2f2f;color:#fff;font-size:12px;margin-bottom:8px}
-.track-btn{background:#8b7355;color:#fff;border:0;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;margin-top:8px}
 </style>
 </head>
 
 <body>
 <div class="page">
 
-<!-- 1. 안내 페이지 -->
 <section id="noticePage" class="card">
-<div class="logo">LESHÈ</div>
+<div class="logo">LESHÈ <span>르쉬</span></div>
 
 <h1>주문 전 필독 안내</h1>
 
@@ -92,9 +86,11 @@ textarea{min-height:80px;resize:vertical}
 <div class="account">
 국민은행 · 임현정<br>
 <strong>08400204246675</strong>
-<button type="button" class="copy-btn" onclick="copyAccount('copyMessageNotice')">계좌번호 복사</button>
-<div id="copyMessageNotice" class="copy-message">계좌번호가 복사되었습니다.</div>
+<button type="button" class="copy-btn" onclick="copyAccount()">계좌번호 복사</button>
+<div id="copyMessage">계좌번호가 복사되었습니다.</div>
 </div>
+
+
 
 <p><strong>카드결제</strong></p>
 <p>카드 결제를 원하시면 메시지 남겨주세요!<br>부가세 10% 포함가로 결제됩니다.</p>
@@ -106,19 +102,12 @@ textarea{min-height:80px;resize:vertical}
 </label>
 
 <button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">주문서 작성하기</button>
-
-<!-- 최하단 메뉴 -->
-<div class="nav-btn-box-bottom">
-  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
-  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
-</div>
 </section>
 
 
-<!-- 2. 주문 작성 페이지 -->
 <section id="orderPage" class="card hidden">
 
-<div class="logo">LESHÈ</div>
+<div class="logo">LESHÈ <span>주문서</span></div>
 
 <h2>상품 선택</h2>
 <div id="products"></div>
@@ -126,18 +115,17 @@ textarea{min-height:80px;resize:vertical}
 <h2>주문자 정보</h2>
 
 <div class="field">
-<label>이름 (성함)</label>
-<input id="customerName" type="text" placeholder="성함을 입력해주세요">
+<label>이름</label>
+<input id="customerName" type="text" placeholder="이름을 입력해주세요">
 </div>
 
 <div class="field">
 <label>유튜브 닉네임</label>
-<input id="customerNickname" type="text" placeholder="유튜브 닉네임을 입력해주세요">
+<input id="customerName" type="text" placeholder="이름을 입력해주세요">
 </div>
-
 <div class="field">
-<label>휴대폰 번호 (- 없이 숫자만)</label>
-<input id="customerPhone" type="tel" placeholder="01000000000" maxlength="11">
+<label>휴대폰 번호</label>
+<input id="customerPhone" type="tel" placeholder="010-0000-0000">
 </div>
 
 <div class="field">
@@ -175,73 +163,7 @@ textarea{min-height:80px;resize:vertical}
 
 <button type="button" class="primary back" onclick="showNoticePage()">← 안내로 돌아가기</button>
 
-<!-- 최하단 메뉴 -->
-<div class="nav-btn-box-bottom">
-  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
-  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
-</div>
 </section>
-
-
-<!-- 3. 주문 완료 페이지 -->
-<section id="completePage" class="card hidden">
-<div class="logo">LESHÈ</div>
-<h1 style="color:#8b7355;">💛 주문이 접수되었습니다!</h1>
-<p style="text-align:center; font-size:14px; margin-bottom:20px;">주문해주셔서 감사합니다. 아래 계좌로 입금해 주시면 입금 확인 후 출고가 진행됩니다.</p>
-
-<div class="account">
-국민은행 · 임현정<br>
-<strong>08400204246675</strong>
-<button type="button" class="copy-btn" onclick="copyAccount('copyMessageComplete')">계좌번호 복사</button>
-<div id="copyMessageComplete" class="copy-message">계좌번호가 복사되었습니다.</div>
-</div>
-
-<div style="margin-top:25px; display:flex; gap:10px;">
-  <button class="primary" onclick="showLookupPage()">내 주문 조회하기</button>
-  <button class="primary back" style="margin-top:0;" onclick="resetAndNewOrder()">추가 주문하기</button>
-</div>
-
-<!-- 최하단 메뉴 -->
-<div class="nav-btn-box-bottom">
-  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
-  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
-</div>
-</section>
-
-
-<!-- 4. 내 주문 조회 페이지 -->
-<section id="lookupPage" class="card hidden">
-<div class="logo">LESHÈ</div>
-
-<div class="notice" style="margin-bottom:20px;">
-<h2>🚫 반품 / 교환 및 CS 안내</h2>
-<ul>
-<li>교환 / 반품 불가 — 단순변심, 사이즈, 미세불량</li>
-<li>취소는 방송 중 댓글로만 가능하며, 방송 종료 후 변경·취소는 불가합니다.</li>
-</ul>
-</div>
-
-<h2>내 주문 조회</h2>
-<div class="field">
-<label>이름</label>
-<input id="searchName" type="text" placeholder="성함을 입력하세요">
-</div>
-<div class="field">
-<label>휴대폰 번호 (- 없이 숫자만)</label>
-<input id="searchPhone" type="tel" placeholder="01000000000" maxlength="11">
-</div>
-
-<button id="searchBtn" class="primary" style="margin-top:10px;" onclick="fetchMyOrders()">조회하기</button>
-
-<div id="lookupResult" style="margin-top:25px;"></div>
-
-<!-- 최하단 메뉴 -->
-<div class="nav-btn-box-bottom">
-  <button type="button" class="sub-btn" onclick="showNoticePage()">주문서 작성</button>
-  <button type="button" class="sub-btn" onclick="showLookupPage()">내 주문 조회</button>
-</div>
-</section>
-
 </div>
 
 
@@ -258,13 +180,14 @@ const products=[
 {id:12,name:"후드 니트 패딩",price:129000,colors:["그레이","브라운"],sizes:["66","77"]}
 ];
 
+// 상품별 선택된 옵션 항목을 저장하는 객체
 const productSelections = {};
 products.forEach(p => {
   productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
 });
 
 function won(n){
-  return (n || 0).toLocaleString("ko-KR")+"원";
+  return n.toLocaleString("ko-KR")+"원";
 }
 
 function renderProducts(){
@@ -385,15 +308,13 @@ function updateSummary(){
   document.getElementById("grandTotal").textContent = won(total + 4000);
 }
 
-function copyAccount(targetId){
+function copyAccount(){
   const n = "08400204246675";
-  const m = document.getElementById(targetId || "copyMessageNotice");
+  const m = document.getElementById("copyMessage");
   if(navigator.clipboard){
     navigator.clipboard.writeText(n).then(()=>{
-      if(m){
-        m.style.display = "block";
-        setTimeout(()=>{ m.style.display = "none"; }, 2000);
-      }
+      m.style.display = "block";
+      setTimeout(()=>{ m.style.display = "none"; }, 2000);
     }).catch(() => alert("계좌번호: " + n));
   } else {
     alert("계좌번호: " + n);
@@ -404,46 +325,18 @@ function toggleOrderButton(){
   document.getElementById("goOrderBtn").disabled = !document.getElementById("agree").checked;
 }
 
-function hideAllSections(){
-  document.getElementById("noticePage").classList.add("hidden");
-  document.getElementById("orderPage").classList.add("hidden");
-  document.getElementById("completePage").classList.add("hidden");
-  document.getElementById("lookupPage").classList.add("hidden");
-}
-
-function showNoticePage(){
-  hideAllSections();
-  document.getElementById("noticePage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
 function showOrderPage(){
-  hideAllSections();
+  document.getElementById("noticePage").classList.add("hidden");
   document.getElementById("orderPage").classList.remove("hidden");
   window.scrollTo(0,0);
 }
 
-function showCompletePage(){
-  hideAllSections();
-  document.getElementById("completePage").classList.remove("hidden");
+function showNoticePage(){
+  document.getElementById("orderPage").classList.add("hidden");
+  document.getElementById("noticePage").classList.remove("hidden");
   window.scrollTo(0,0);
 }
 
-function showLookupPage(){
-  hideAllSections();
-  document.getElementById("lookupPage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
-function resetAndNewOrder(){
-  products.forEach(p => {
-    productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
-  });
-  renderProducts();
-  showOrderPage();
-}
-
-// 주문 전송
 async function submitOrder(){
   if(!validateOptions()) return;
 
@@ -463,6 +356,7 @@ async function submitOrder(){
         if(p.colors) optDetails.push("색상: " + item.color);
         if(p.sizes) optDetails.push("사이즈: " + item.size);
 
+        // 💡 핵심 개선: 옵션란에 [상품명]과 옵션 상세가 함께 들어가도록 정리
         ps.push(p.id + "번 " + p.name);
         os.push("[" + p.id + "번 " + p.name + "] " + (optDetails.length ? optDetails.join(", ") : "-"));
         qs.push(item.qty);
@@ -476,13 +370,11 @@ async function submitOrder(){
   }
 
   const name = document.getElementById("customerName").value.trim();
-  const nickname = document.getElementById("customerNickname").value.trim();
-  const rawPhone = document.getElementById("customerPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, ''); // 하이픈 완벽 제거 및 숫자만 추출
+  const phone = document.getElementById("customerPhone").value.trim();
   const address = document.getElementById("customerAddress").value.trim();
   const memo = document.getElementById("deliveryMemo").value.trim();
 
-  if(!name){ alert("성함을 입력해 주세요."); return; }
+  if(!name){ alert("이름을 입력해주세요."); return; }
   if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
   if(!address){ alert("주소를 입력해주세요."); return; }
 
@@ -492,14 +384,12 @@ async function submitOrder(){
   btn.textContent = "주문 전송 중...";
 
   const data = {
-    action: "create",
     name: name,
-    nickname: nickname,
     phone: phone,
     address: address,
     memo: memo,
     product: ps.join(" / "),
-    option: os.join(" / "),
+    option: os.join(" / "), // 구글 시트 '옵션' 열에 "[1번 에코퍼 가방] 색상: 블랙" 형태로 명확하게 들어갑니다.
     quantity: qs.join(" / "),
     productTotal: total,
     total: total + 4000
@@ -513,102 +403,15 @@ async function submitOrder(){
       body: JSON.stringify(data)
     });
 
-    showCompletePage();
+    alert("주문이 접수되었습니다. 💛\n\n주문해주셔서 감사합니다.");
+    location.reload();
   } catch(e) {
     console.error(e);
     alert("주문 전송 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.");
-  } finally {
     btn.disabled = false;
     btn.classList.remove("sending");
     btn.textContent = "주문하기";
   }
-}
-
-// 내 주문 조회 (이름 + 전화번호 숫자만 비교)
-function fetchMyOrders(){
-  const name = document.getElementById("searchName").value.trim();
-  const rawPhone = document.getElementById("searchPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, ''); // 01012345678 형태로 숫자만 추출
-  const resultDiv = document.getElementById("lookupResult");
-
-  if(!name || !phone){
-    alert("조회하실 이름과 휴대폰 번호를 모두 입력해주세요.");
-    return;
-  }
-
-  const btn = document.getElementById("searchBtn");
-  btn.disabled = true;
-  btn.textContent = "조회 중...";
-  resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>주문 내역을 검색하고 있습니다...</p>";
-
-  const callbackName = 'handleOrderLookup_' + Math.round(100000 * Math.random());
-  
-  window[callbackName] = function(res) {
-    delete window[callbackName];
-    const scriptTag = document.getElementById(callbackName);
-    if(scriptTag && scriptTag.parentNode) scriptTag.parentNode.removeChild(scriptTag);
-    
-    btn.disabled = false;
-    btn.textContent = "조회하기";
-
-    if(res && res.status === "success" && res.data && res.data.length > 0){
-      let html = "";
-      res.data.forEach(item => {
-        const payStatus = item.payStatus || "입금대기";
-        const shipStatus = item.shipStatus || "상품준비중";
-        const courier = item.courier || "";
-        const trackingNo = item.trackingNo || "";
-
-        html += '<div class="order-item-card">';
-        html += '<div><span class="status-badge">입금상태: ' + payStatus + '</span> <span class="status-badge" style="background:#8b7355;">배송상태: ' + shipStatus + '</span></div>';
-        html += '<div style="font-size:12px; color:#888; margin-bottom:8px;">주문일시: ' + item.date + '</div>';
-        html += '<div style="font-weight:600; font-size:14px; margin-bottom:4px;">옵션: ' + item.option + '</div>';
-        html += '<div style="font-size:13px; color:#555;">수량: ' + item.quantity + '개</div>';
-        html += '<div style="font-size:14px; font-weight:700; margin-top:6px; color:#2f2f2f;">결제금액: ' + won(Number(item.total)) + '</div>';
-
-        if(courier && trackingNo){
-          html += '<div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ddd; font-size:13px;">';
-          html += '<strong>송장정보:</strong> ' + courier + ' ' + trackingNo + '<br>';
-          html += '<button type="button" class="track-btn" onclick="trackPackage(\'' + courier + '\', \'' + trackingNo + '\')">택배 배송 추적</button>';
-          html += '</div>';
-        }
-        html += '</div>';
-      });
-      resultDiv.innerHTML = html;
-    } else {
-      resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>일치하는 주문 내역이 없습니다.</p>";
-    }
-  };
-
-  const script = document.createElement('script');
-  script.id = callbackName;
-  script.src = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&callback=" + callbackName;
-  script.onerror = function() {
-    delete window[callbackName];
-    if(script.parentNode) script.parentNode.removeChild(script);
-    btn.disabled = false;
-    btn.textContent = "조회하기";
-    resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
-  };
-  document.body.appendChild(script);
-}
-
-function trackPackage(courier, trackingNo){
-  let url = "";
-  if(courier.includes("CJ") || courier.includes("대한통운")){
-    url = "https://www.cjlogistics.com/ko/tool/parcel/tracking?gnbInvcNo=" + trackingNo;
-  } else if(courier.includes("한진")){
-    url = "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=" + trackingNo;
-  } else if(courier.includes("롯데")){
-    url = "https://www.lotteglogis.com/home/reservation/tracking/linkQuery?InvNo=" + trackingNo;
-  } else if(courier.includes("우체국")){
-    url = "https://service.epost.go.kr/trace.RetrieveDomRレース.comm?sid1=" + trackingNo;
-  } else if(courier.includes("로젠")){
-    url = "https://www.ilogen.com/web/personal/trace/" + trackingNo;
-  } else {
-    url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(courier + " " + trackingNo);
-  }
-  window.open(url, '_blank');
 }
 
 renderProducts();
