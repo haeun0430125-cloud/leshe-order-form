@@ -9,6 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 
+<!-- 주소 검색 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <style>
 *{box-sizing:border-box}
 
@@ -348,6 +351,40 @@ textarea{
   font-size:12px;
   margin-bottom:8px
 }
+
+/* =========================
+   주소 검색 추가 스타일
+========================= */
+
+.address-search-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px
+}
+
+.address-search-row input{
+  flex:1
+}
+
+.address-search-btn{
+  flex-shrink:0;
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  background:#8b7355;
+  color:#fff;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap
+}
+
+.address-postcode{
+  background:#f8f6f2!important;
+}
+
+.address-detail{
+  margin-top:8px
+}
 </style>
 </head>
 
@@ -461,11 +498,37 @@ textarea{
        maxlength="11">
 </div>
 
+<!-- 주소 검색 -->
 <div class="field">
+
 <label>주소</label>
+
+<div class="address-search-row">
+
+<input id="customerPostcode"
+       type="text"
+       class="address-postcode"
+       placeholder="우편번호"
+       readonly>
+
+<button type="button"
+        class="address-search-btn"
+        onclick="searchAddress()">
+주소 검색
+</button>
+
+</div>
+
 <input id="customerAddress"
        type="text"
-       placeholder="배송받으실 주소를 입력해주세요">
+       placeholder="주소 검색 후 자동으로 입력됩니다"
+       readonly>
+
+<input id="customerAddressDetail"
+       type="text"
+       class="address-detail"
+       placeholder="상세주소를 입력해주세요">
+
 </div>
 
 <div class="field">
@@ -709,6 +772,8 @@ name:"",
 nickname:"",
 phone:"",
 address:"",
+postcode:"",
+addressDetail:"",
 memo:""
 };
 
@@ -720,6 +785,78 @@ memo:""
 function won(n){
 
 return (n || 0).toLocaleString("ko-KR")+"원";
+
+}
+
+
+/* =========================
+   주소 검색
+========================= */
+
+function searchAddress(){
+
+new daum.Postcode({
+
+oncomplete:function(data){
+
+let address = "";
+
+if(data.userSelectedType === "R"){
+
+address = data.roadAddress;
+
+}else{
+
+address = data.jibunAddress;
+
+}
+
+document.getElementById(
+"customerPostcode"
+).value =
+data.zonecode || "";
+
+document.getElementById(
+"customerAddress"
+).value =
+address || "";
+
+document.getElementById(
+"customerAddressDetail"
+).focus();
+
+}
+
+}).open();
+
+}
+
+
+/* =========================
+   전체 주소 만들기
+========================= */
+
+function getFullAddress(){
+
+const address =
+document.getElementById(
+"customerAddress"
+).value.trim();
+
+const detail =
+document.getElementById(
+"customerAddressDetail"
+).value.trim();
+
+if(!address){
+
+return "";
+
+}
+
+return detail
+? address + " " + detail
+: address;
 
 }
 
@@ -1239,6 +1376,8 @@ name:"",
 nickname:"",
 phone:"",
 address:"",
+postcode:"",
+addressDetail:"",
 memo:""
 };
 
@@ -1293,7 +1432,15 @@ document.getElementById(
 ).value = "";
 
 document.getElementById(
+"customerPostcode"
+).value = "";
+
+document.getElementById(
 "customerAddress"
+).value = "";
+
+document.getElementById(
+"customerAddressDetail"
 ).value = "";
 
 document.getElementById(
@@ -1346,6 +1493,24 @@ document.getElementById(
 "customerAddress"
 ).value =
 existingCustomer.address;
+
+}
+
+if(existingCustomer.postcode){
+
+document.getElementById(
+"customerPostcode"
+).value =
+existingCustomer.postcode;
+
+}
+
+if(existingCustomer.addressDetail){
+
+document.getElementById(
+"customerAddressDetail"
+).value =
+existingCustomer.addressDetail;
 
 }
 
@@ -1440,9 +1605,19 @@ document.getElementById(
 existingCustomer.address;
 
 document.getElementById(
+"customerAddressDetail"
+).value =
+"";
+
+document.getElementById(
 "deliveryMemo"
 ).value =
 existingCustomer.memo;
+
+document.getElementById(
+"customerPostcode"
+).value =
+"";
 
 showOrderPage();
 
@@ -1565,9 +1740,7 @@ rawPhone.replace(
 );
 
 const address =
-document.getElementById(
-"customerAddress"
-).value.trim();
+getFullAddress();
 
 const memo =
 document.getElementById(
@@ -1598,7 +1771,7 @@ return;
 if(!address){
 
 alert(
-"주소를 입력해주세요."
+"주소 검색을 먼저 해주세요."
 );
 
 return;
@@ -1620,11 +1793,6 @@ btn.classList.add(
 btn.textContent =
 "주문 전송 중...";
 
-
-/*
-  일반 주문인지 추가 주문인지 구분해서
-  Apps Script로 전달
-*/
 
 const data = {
 
@@ -1682,10 +1850,6 @@ body:JSON.stringify(data)
 );
 
 
-/*
-  다음 주문을 위해 현재 고객정보 보관
-*/
-
 existingCustomer = {
 
 name:name,
@@ -1694,7 +1858,17 @@ nickname:nickname,
 
 phone:phone,
 
-address:address,
+address:document.getElementById(
+"customerAddress"
+).value.trim(),
+
+postcode:document.getElementById(
+"customerPostcode"
+).value.trim(),
+
+addressDetail:document.getElementById(
+"customerAddressDetail"
+).value.trim(),
 
 memo:memo
 
@@ -1914,11 +2088,6 @@ cleanup();
 }
 
 
-/*
-  Google Apps Script에서
-  JSONP 응답이 왔을 때
-*/
-
 window[callbackName] =
 function(res){
 
@@ -1954,11 +2123,6 @@ res.status === "success" &&
 Array.isArray(res.data) &&
 res.data.length > 0
 ){
-
-/*
-  추가 주문에 사용할
-  고객 정보 확보
-*/
 
 const firstItem =
 res.data[0];
@@ -1998,20 +2162,30 @@ const payStatus =
 item.payStatus ||
 "입금대기";
 
+/*
+  Apps Script의 실제 필드명과 맞춤
+  status = K열 배송상태
+*/
+
 const shipStatus =
-item.shipStatus ||
+item.status ||
 "상품준비중";
 
 const courier =
 item.courier ||
 "";
 
+/*
+  Apps Script의 실제 필드명과 맞춤
+  tracking = M열 운송장번호
+*/
+
 const trackingNo =
-item.trackingNo ||
+item.tracking ||
 "";
 
 const date =
-item.date ||
+item.orderDate ||
 "";
 
 const product =
@@ -2121,10 +2295,6 @@ html +=
 );
 
 
-/*
-  조회 결과 아래 버튼
-*/
-
 html +=
 
 '<div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">' +
@@ -2151,11 +2321,6 @@ html;
 
 
 else{
-
-/*
-  주문이 없을 때도
-  고객이 선택할 수 있도록 버튼 표시
-*/
 
 resultDiv.innerHTML =
 
@@ -2192,10 +2357,6 @@ resultDiv.innerHTML =
 };
 
 
-/*
-  10초 이상 응답이 없으면 오류
-*/
-
 timeout =
 setTimeout(
 function(){
@@ -2222,10 +2383,6 @@ resultDiv.innerHTML =
 10000
 );
 
-
-/*
-  JSONP 요청
-*/
 
 const script =
 document.createElement(
