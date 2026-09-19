@@ -29,7 +29,6 @@ button.primary:disabled{background:#cfcac2;cursor:not-allowed}
 .product-title{font-weight:600;font-size:15px;margin-bottom:3px}
 .price{color:#8b7355;font-size:14px;margin-bottom:12px}
 
-/* 다중 옵션 스타일 추가 */
 .option-item-group{border-top:1px dashed #eee;padding-top:10px;margin-top:10px}
 .option-item-group:first-child{border-top:none;padding-top:0;margin-top:0}
 .option-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
@@ -53,7 +52,6 @@ textarea{min-height:80px;resize:vertical}
 .back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
 .sending{opacity:.65;pointer-events:none}
 
-/* 추가 기능 UI 스타일 */
 .nav-btn-box{display:flex;gap:8px;margin-bottom:15px}
 .sub-btn{flex:1;padding:10px;border:1px solid #2f2f2f;background:#fff;color:#2f2f2f;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
 .order-item-card{background:#f8f6f2;border-radius:12px;padding:15px;margin-bottom:15px;border:1px solid #e7e1d9}
@@ -128,8 +126,8 @@ textarea{min-height:80px;resize:vertical}
 <h2>주문자 정보</h2>
 
 <div class="field">
-<label>이름 (유튜브 닉네임도 함께 작성)</label>
-<input id="customerName" type="text" placeholder="이름 및 유튜브 닉네임을 입력해주세요">
+<label>이름 및 유튜브 닉네임 (둘 다 필수 작성)</label>
+<input id="customerName" type="text" placeholder="이름과 유튜브 닉네임을 함께 입력해 주세요 (예: 홍길동 / 르쉬)">
 </div>
 
 <div class="field">
@@ -209,8 +207,8 @@ textarea{min-height:80px;resize:vertical}
 
 <h2>주문 정보 입력</h2>
 <div class="field">
-<label>주문자 이름 (유튜브 닉네임)</label>
-<input id="searchName" type="text" placeholder="주문 시 입력한 이름을 입력하세요">
+<label>이름 및 유튜브 닉네임 (둘 다 필수 작성)</label>
+<input id="searchName" type="text" placeholder="주문 시 입력했던 이름과 유튜브 닉네임을 입력하세요">
 </div>
 <div class="field">
 <label>휴대폰 번호</label>
@@ -238,7 +236,6 @@ const products=[
 {id:12,name:"후드 니트 패딩",price:129000,colors:["그레이","브라운"],sizes:["66","77"]}
 ];
 
-// 상품별 선택된 옵션 항목을 저장하는 객체
 const productSelections = {};
 products.forEach(p => {
   productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
@@ -460,7 +457,7 @@ async function submitOrder(){
   const address = document.getElementById("customerAddress").value.trim();
   const memo = document.getElementById("deliveryMemo").value.trim();
 
-  if(!name){ alert("이름 및 유튜브 닉네임을 입력해주세요."); return; }
+  if(!name){ alert("이름과 유튜브 닉네임을 모두 입력해 주세요."); return; }
   if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
   if(!address){ alert("주소를 입력해주세요."); return; }
 
@@ -501,14 +498,14 @@ async function submitOrder(){
   }
 }
 
-// 5. 고객 주문 내역 조회 함수
-async function fetchMyOrders(){
+// 5. 오류 수정한 내 주문 조회 기능 (JSONP 지원)
+function fetchMyOrders(){
   const name = document.getElementById("searchName").value.trim();
   const phone = document.getElementById("searchPhone").value.trim();
   const resultDiv = document.getElementById("lookupResult");
 
   if(!name || !phone){
-    alert("이름과 휴대폰 번호를 모두 입력해주세요.");
+    alert("이름과 유튜브 닉네임, 그리고 휴대폰 번호를 모두 입력해주세요.");
     return;
   }
 
@@ -517,12 +514,16 @@ async function fetchMyOrders(){
   btn.textContent = "조회 중...";
   resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>주문 내역을 검색하고 있습니다...</p>";
 
-  try {
-    const url = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone);
-    const response = await fetch(url);
-    const res = await response.json();
+  // 브라우저 CORS 오류 방지를 위한 전역 콜백 등록
+  const callbackName = 'handleOrderLookup_' + Math.round(100000 * Math.random());
+  
+  window[callbackName] = function(res) {
+    delete window[callbackName];
+    document.body.removeChild(script);
+    btn.disabled = false;
+    btn.textContent = "조회하기";
 
-    if(res.status === "success" && res.data.length > 0){
+    if(res && res.status === "success" && res.data && res.data.length > 0){
       let html = "";
       res.data.forEach(item => {
         const payStatus = item.payStatus || "입금대기";
@@ -549,16 +550,20 @@ async function fetchMyOrders(){
     } else {
       resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>일치하는 주문 내역이 없습니다.</p>";
     }
-  } catch(e) {
-    console.error(e);
-    resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
-  } finally {
+  };
+
+  const script = document.createElement('script');
+  script.src = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&callback=" + callbackName;
+  script.onerror = function() {
+    delete window[callbackName];
+    document.body.removeChild(script);
     btn.disabled = false;
     btn.textContent = "조회하기";
-  }
+    resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
+  };
+  document.body.appendChild(script);
 }
 
-// 6. 택배 배송 추적 링크 연결 함수
 function trackPackage(courier, trackingNo){
   let url = "";
   if(courier.includes("CJ") || courier.includes("대한통운")){
