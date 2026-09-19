@@ -51,7 +51,7 @@ textarea{min-height:80px;resize:vertical}
 .back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
 .sending{opacity:.65;pointer-events:none}
 
-/* 최하단 이동 메뉴 스타일 */
+/* 최하단 이동 메뉴 전용 스타일 */
 .nav-btn-box-bottom{display:flex;gap:8px;margin-top:30px;padding-top:20px;border-top:1px solid #eee}
 .sub-btn{flex:1;padding:12px;border:1px solid #2f2f2f;background:#fff;color:#2f2f2f;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
 .order-item-card{background:#f8f6f2;border-radius:12px;padding:15px;margin-bottom:15px;border:1px solid #e7e1d9}
@@ -126,7 +126,7 @@ textarea{min-height:80px;resize:vertical}
 <h2>주문자 정보</h2>
 
 <div class="field">
-<label>이름</label>
+<label>이름 (성함)</label>
 <input id="customerName" type="text" placeholder="성함을 입력해주세요">
 </div>
 
@@ -136,8 +136,8 @@ textarea{min-height:80px;resize:vertical}
 </div>
 
 <div class="field">
-<label>휴대폰 번호</label>
-<input id="customerPhone" type="tel" placeholder="010-0000-0000">
+<label>휴대폰 번호 (- 없이 숫자만)</label>
+<input id="customerPhone" type="tel" placeholder="01000000000" maxlength="11">
 </div>
 
 <div class="field">
@@ -221,14 +221,14 @@ textarea{min-height:80px;resize:vertical}
 </ul>
 </div>
 
-<h2>주문 정보 입력</h2>
+<h2>내 주문 조회</h2>
 <div class="field">
 <label>이름</label>
-<input id="searchName" type="text" placeholder="주문 시 입력했던 성함을 입력하세요">
+<input id="searchName" type="text" placeholder="성함을 입력하세요">
 </div>
 <div class="field">
-<label>휴대폰 번호</label>
-<input id="searchPhone" type="tel" placeholder="010-0000-0000">
+<label>휴대폰 번호 (- 없이 숫자만)</label>
+<input id="searchPhone" type="tel" placeholder="01000000000" maxlength="11">
 </div>
 
 <button id="searchBtn" class="primary" style="margin-top:10px;" onclick="fetchMyOrders()">조회하기</button>
@@ -443,6 +443,7 @@ function resetAndNewOrder(){
   showOrderPage();
 }
 
+// 주문 전송
 async function submitOrder(){
   if(!validateOptions()) return;
 
@@ -476,11 +477,12 @@ async function submitOrder(){
 
   const name = document.getElementById("customerName").value.trim();
   const nickname = document.getElementById("customerNickname").value.trim();
-  const phone = document.getElementById("customerPhone").value.trim();
+  const rawPhone = document.getElementById("customerPhone").value.trim();
+  const phone = rawPhone.replace(/[^0-9]/g, ''); // 하이픈 완벽 제거 및 숫자만 추출
   const address = document.getElementById("customerAddress").value.trim();
   const memo = document.getElementById("deliveryMemo").value.trim();
 
-  if(!name){ alert("이름을 입력해 주세요."); return; }
+  if(!name){ alert("성함을 입력해 주세요."); return; }
   if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
   if(!address){ alert("주소를 입력해주세요."); return; }
 
@@ -493,7 +495,7 @@ async function submitOrder(){
     action: "create",
     name: name,
     nickname: nickname,
-    phone: phone.replace(/[^0-9]/g, ''), // 숫자만 추출
+    phone: phone,
     address: address,
     memo: memo,
     product: ps.join(" / "),
@@ -522,11 +524,11 @@ async function submitOrder(){
   }
 }
 
-// 이름과 전화번호 기반 내 주문 조회
+// 내 주문 조회 (이름 + 전화번호 숫자만 비교)
 function fetchMyOrders(){
   const name = document.getElementById("searchName").value.trim();
   const rawPhone = document.getElementById("searchPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, ''); // 입력된 하이픈 제거 후 숫자만 추출
+  const phone = rawPhone.replace(/[^0-9]/g, ''); // 01012345678 형태로 숫자만 추출
   const resultDiv = document.getElementById("lookupResult");
 
   if(!name || !phone){
