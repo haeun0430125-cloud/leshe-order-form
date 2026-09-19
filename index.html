@@ -4,600 +4,3061 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LESHÈ 주문서</title>
-<!-- 깔끔하고 고급스러운 브랜드 로고 전용 폰트 불러오기 -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f7f4ef;color:#333;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.6}
-.page{max-width:680px;margin:auto;padding:28px 18px 50px}
-.card{background:#fff;border-radius:18px;padding:28px 22px;box-shadow:0 5px 22px rgba(0,0,0,.05)}
 
-/* 로고 스타일 개선 */
-.logo{text-align:center;font-family:'Cormorant Garamond', Georgia, serif;font-size:34px;font-weight:600;letter-spacing:3px;margin:4px 0 28px;color:#111;text-transform:uppercase}
+* {
+  box-sizing: border-box;
+}
 
-h1{font-size:20px;margin:0 0 22px;text-align:center}
-h2{font-size:16px;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid #e8e2d9}
-.notice p{margin:7px 0;font-size:14px}
-.notice ul{margin:7px 0 14px;padding-left:20px}
-.notice li{font-size:14px;margin:4px 0}
-.account{background:#f8f6f2;border-radius:12px;padding:13px;margin:8px 0;text-align:center}
-.account strong{font-size:15px}
-.copy-btn{border:0;background:#333;color:#fff;border-radius:7px;padding:6px 10px;margin-left:7px;font-size:12px;cursor:pointer}
-.copy-message{display:none;color:#8b7355;font-size:12px;margin-top:5px}
-.check-row{display:flex;gap:8px;align-items:center;margin:24px 0 12px;font-size:14px}
-.check-row input{width:18px;height:18px}
-button.primary{width:100%;border:0;border-radius:10px;padding:14px;background:#2f2f2f;color:#fff;font-size:15px;cursor:pointer}
-button.primary:disabled{background:#cfcac2;cursor:not-allowed}
-.hidden{display:none!important}
-.product{border:1px solid #e7e1d9;border-radius:14px;padding:16px;margin:12px 0;background:#fff}
-.product-title{font-weight:600;font-size:15px;margin-bottom:3px}
-.price{color:#8b7355;font-size:14px;margin-bottom:12px}
+body {
+  margin: 0;
+  padding: 0;
+  background: #f8f6f2;
+  color: #3f3a35;
+  font-family: "Noto Sans KR", sans-serif;
+}
 
-.option-item-group{border-top:1px dashed #eee;padding-top:10px;margin-top:10px}
-.option-item-group:first-child{border-top:none;padding-top:0;margin-top:0}
-.option-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
-.option-box{flex:1;min-width:110px}
-.option-label{display:block;font-size:12px;color:#777;margin-bottom:4px}
-select,input[type=text],input[type=tel],textarea{width:100%;border:1px solid #ddd6cc;border-radius:8px;padding:10px 11px;background:#fff;font-size:14px}
-.field{margin:12px 0}
-.field label{display:block;font-size:13px;margin-bottom:5px;font-weight:600}
-textarea{min-height:80px;resize:vertical}
-.quantity-box{display:flex;align-items:center;height:42px}
-.quantity-btn{width:36px;height:36px;border:1px solid #ddd6cc;background:#fff;color:#333;font-size:18px;border-radius:8px;cursor:pointer}
-.quantity-number{flex:1;text-align:center;font-size:14px;font-weight:600}
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
 
-.add-opt-btn{width:100%;margin-top:10px;background:#f0ebe1;border:1px solid #dcd4c7;color:#555;padding:8px;border-radius:8px;font-size:13px;cursor:pointer}
-.remove-opt-btn{background:#ff4d4d;color:#fff;border:0;border-radius:6px;padding:8px 10px;font-size:12px;cursor:pointer;height:36px}
+button {
+  cursor: pointer;
+}
 
-.summary{background:#f8f6f2;border-radius:13px;padding:15px;margin-top:20px}
-.summary-line{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
-.summary-total{border-top:1px solid #ded7ce;margin-top:10px;padding-top:11px;font-size:17px;font-weight:700}
-.small-note{color:#888;font-size:12px;margin-top:10px}
-.back{margin-top:12px;background:transparent!important;color:#555!important;border:1px solid #ddd6cc!important}
-.sending{opacity:.65;pointer-events:none}
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 25px 16px 50px;
+}
 
-.order-item-card{background:#f8f6f2;border-radius:12px;padding:15px;margin-bottom:15px;border:1px solid #e7e1d9}
-.status-badge{display:inline-block;padding:3px 8px;border-radius:6px;background:#2f2f2f;color:#fff;font-size:12px;margin-bottom:8px}
-.track-btn{background:#8b7355;color:#fff;border:0;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;margin-top:8px}
+.page.active {
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.brand {
+  text-align: center;
+  padding: 15px 0 30px;
+}
+
+.brand-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: #332e29;
+}
+
+.brand-sub {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #9d958d;
+}
+
+.section-title {
+  margin: 28px 0 14px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #39342f;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e8e2da;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.notice-box {
+  margin-bottom: 12px;
+}
+
+.notice-title {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d3833;
+}
+
+.notice-text {
+  font-size: 13px;
+  line-height: 1.85;
+  color: #716960;
+  word-break: keep-all;
+}
+
+.notice-text strong {
+  color: #49423b;
+}
+
+.account-box {
+  margin-top: 14px;
+  padding: 17px;
+  background: #f2eee8;
+  border-radius: 11px;
+  line-height: 1.7;
+  text-align: center;
+  color: #645d55;
+  font-size: 13px;
+}
+
+.account-number {
+  display: block;
+  margin-top: 2px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: #37322d;
+}
+
+.btn {
+  width: 100%;
+  min-height: 51px;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: #4a443e;
+  color: #fff;
+}
+
+.btn-secondary {
+  margin-top: 9px;
+  background: #eae5de;
+  color: #514a43;
+}
+
+.btn-light {
+  margin-top: 9px;
+  background: #fff;
+  border: 1px solid #ddd6cd;
+  color: #5d554d;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #e6e0d8;
+  border-radius: 13px;
+  padding: 17px;
+  margin-bottom: 11px;
+}
+
+.product-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3b3631;
+}
+
+.product-price {
+  white-space: nowrap;
+  font-size: 13px;
+  color: #756d65;
+}
+
+.option-area {
+  margin-top: 13px;
+}
+
+.option-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #847b72;
+}
+
+.option-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid #ddd7cf;
+  border-radius: 8px;
+  background: #fff;
+  color: #4d4640;
+  font-size: 13px;
+  outline: none;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.quantity-label {
+  font-size: 11px;
+  color: #847b72;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd7cf;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quantity-control button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: #faf9f7;
+  color: #625a52;
+  font-size: 17px;
+}
+
+.quantity-value {
+  width: 34px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: #6f675f;
+}
+
+.required {
+  margin-left: 2px;
+  color: #a27c6d;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #ddd7cf;
+  border-radius: 9px;
+  background: #fff;
+  color: #403a35;
+  font-size: 13px;
+  outline: none;
+}
+
+.input {
+  height: 44px;
+  padding: 0 12px;
+}
+
+.textarea {
+  min-height: 90px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus,
+.option-select:focus {
+  border-color: #a99e92;
+}
+
+.summary {
+  background: #f3efe9;
+  border-radius: 12px;
+  padding: 17px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #716960;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid #ddd6ce;
+  font-size: 16px;
+  font-weight: 600;
+  color: #38332e;
+}
+
+.complete-box {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.complete-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 17px;
+  border-radius: 50%;
+  background: #eee9e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #625a52;
+  font-size: 22px;
+}
+
+.complete-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  color: #39342f;
+}
+
+.complete-text {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #817970;
+}
+
+.lookup-result {
+  margin-top: 15px;
+}
+
+.order-result {
+  padding: 17px;
+  margin-bottom: 11px;
+  background: #fff;
+  border: 1px solid #e5dfd7;
+  border-radius: 12px;
+}
+
+.order-result-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 11px;
+  margin-bottom: 11px;
+  border-bottom: 1px solid #eee9e3;
+}
+
+.order-date {
+  font-size: 11px;
+  color: #968d84;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #eee9e2;
+  color: #6d645c;
+  font-size: 10px;
+}
+
+.result-product {
+  margin-bottom: 10px;
+}
+
+.result-product-name {
+  font-size: 13px;
+  color: #403a35;
+}
+
+.result-product-detail {
+  margin-top: 3px;
+  font-size: 11px;
+  color: #928980;
+}
+
+.result-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid #eee9e3;
+  font-size: 12px;
+  color: #746b63;
+}
+
+.result-total strong {
+  color: #39332e;
+  font-size: 15px;
+}
+
+.empty-result {
+  padding: 25px 10px;
+  text-align: center;
+  color: #8b8279;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.loading {
+  display: none;
+  padding: 25px 10px;
+  text-align: center;
+  color: #817970;
+  font-size: 13px;
+}
+
+.loading.active {
+  display: block;
+}
+
+.message {
+  display: none;
+  margin-top: 12px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.message.active {
+  display: block;
+}
+
+.message.error {
+  background: #f7eeee;
+  color: #906f6f;
+}
+
+.footer {
+  padding: 25px 0 5px;
+  text-align: center;
+  color: #aaa198;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 480px) {
+
+  .page {
+    padding: 20px 13px 40px;
+  }
+
+  .brand-name {
+    font-size: 36px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+}
+
 </style>
 </head>
 
+
 <body>
-<div class="page">
 
-<!-- 1. 필독 안내 페이지 -->
-<section id="noticePage" class="card">
-<div class="logo">LESHÈ</div>
+<!-- ======================================================
+     주문 안내 페이지
+====================================================== -->
 
-<h1>주문 전 필독 안내</h1>
+<section id="noticePage" class="page active">
 
-<div class="notice">
-<h2>🚫 반품 / 교환 및 CS 안내</h2>
-<p>도매 중개 거래 특성상 아래 규정이 적용되오니 신중하게 구매해 주세요.</p>
-<ul>
-<li>교환 / 반품 불가 — 단순변심, 사이즈, 미세불량</li>
-<li>취소는 방송 중 댓글로 가능하세요.</li>
-<li>방송 종료 후 변경·취소는 불가해요.</li>
-<li>예민하신 분은 오프라인 구매를 권장해요.</li>
-</ul>
+  <div class="container">
 
-<h2>🚚 배송 안내</h2>
-<ul>
-<li>기본 배송비: 4,000원</li>
-<li>제주 및 도서산간: 7,000원</li>
-<li>주문 후 1~2주 정도 여유 있게 기다려주시면 최대한 빠르게 출고해 드릴게요</li>
-</ul>
+    <div class="brand">
+      <div class="brand-name">LESHÈ</div>
+      <div class="brand-sub">ORDER</div>
+    </div>
 
-<h2>💳 결제 방법</h2>
-<p><strong>계좌이체</strong></p>
 
-<div class="account">
-국민은행 · 임현정<br>
-<strong>08400204246675</strong>
-<button type="button" class="copy-btn" onclick="copyAccount('copyMessageNotice')">계좌번호 복사</button>
-<div id="copyMessageNotice" class="copy-message">계좌번호가 복사되었습니다.</div>
-</div>
+    <div class="card">
 
-<p><strong>카드결제</strong></p>
-<p>카드 결제를 원하시면 메시지 남겨주세요!<br>부가세 10% 포함가로 결제됩니다.</p>
-</div>
+      <div class="notice-box">
 
-<label class="check-row">
-<input type="checkbox" id="agree" onchange="toggleOrderButton()">
-<span>위 내용을 모두 확인했습니다.</span>
-</label>
+        <div class="notice-title">
+          주문 전 꼭 확인해주세요
+        </div>
 
-<button id="goOrderBtn" class="primary" disabled onclick="showOrderPage()">주문서 작성하기</button>
+        <div class="notice-text">
+
+          <strong>1. 주문 및 입금</strong><br>
+          주문서 작성 후 아래 계좌로 입금해주시면 주문이 접수됩니다.
+          주문자명과 입금자명이 다른 경우 배송 요청사항에 남겨주세요.
+          <br><br>
+
+          <strong>2. 배송</strong><br>
+          기본 배송비는 4,000원입니다.
+          제주 및 도서산간 지역은 추가 배송비가 발생할 수 있습니다.
+          <br><br>
+
+          <strong>3. 교환 및 반품</strong><br>
+          상품 수령 후 문제가 있는 경우 가능한 빠르게 문의해주세요.
+          상품의 상태가 훼손된 경우 교환 및 반품이 어려울 수 있습니다.
+          <br><br>
+
+          <strong>4. 주문 취소</strong><br>
+          상품 준비가 시작된 이후에는 주문 취소가 어려울 수 있습니다.
+          신중하게 주문해주세요.
+
+        </div>
+
+      </div>
+
+
+      <div class="account-box">
+
+        국민은행 · 임현정
+
+        <span class="account-number">
+          08400204246675
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="showOrderPage()"
+    >
+      주문서 작성하기
+    </button>
+
+
+    <button
+      type="button"
+      class="btn btn-light"
+      onclick="showLookupPage()"
+    >
+      내 주문 확인하기
+    </button>
+
+
+    <div class="footer">
+      LESHÈ · 르쉬
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- 2. 주문서 작성 페이지 -->
-<section id="orderPage" class="card hidden">
 
-<div class="logo">LESHÈ</div>
+<!-- ======================================================
+     주문서 페이지
+====================================================== -->
 
-<h2>상품 선택</h2>
-<div id="products"></div>
+<section id="orderPage" class="page">
 
-<h2>주문자 정보</h2>
+  <div class="container">
 
-<div class="field">
-<label>이름 (성함)</label>
-<input id="customerName" type="text" placeholder="성함을 입력해주세요">
-</div>
+    <div class="brand">
+      <div class="brand-name">LESHÈ</div>
+      <div class="brand-sub">ORDER FORM</div>
+    </div>
 
-<div class="field">
-<label>유튜브 닉네임</label>
-<input id="customerNickname" type="text" placeholder="유튜브 닉네임을 입력해주세요">
-</div>
 
-<div class="field">
-<label>휴대폰 번호 (- 없이 숫자만)</label>
-<input id="customerPhone" type="tel" placeholder="01000000000" maxlength="11">
-</div>
+    <div class="card">
 
-<div class="field">
-<label>주소</label>
-<input id="customerAddress" type="text" placeholder="배송받으실 주소를 입력해주세요">
-</div>
+      <div class="section-title">
+        상품 선택
+      </div>
 
-<div class="field">
-<label>배송 요청사항 및 메모</label>
-<textarea id="deliveryMemo" placeholder="배송 시 요청사항이 있다면 입력해주세요"></textarea>
-</div>
 
-<div class="summary">
-<div class="summary-line">
-<span>상품금액</span>
-<strong id="productTotal">0원</strong>
-</div>
+      <!-- 1번 -->
+      <div class="product-card">
 
-<div class="summary-line">
-<span>기본 배송비</span>
-<strong id="shippingFee">4,000원</strong>
-</div>
+        <div class="product-head">
 
-<div class="summary-line summary-total">
-<span>총 결제금액</span>
-<strong id="grandTotal">4,000원</strong>
-</div>
+          <div class="product-name">
+            1. 에코퍼 가방
+          </div>
 
-<div class="small-note">
-※ 제주 및 도서산간 배송비는 7,000원이며 별도 확인이 필요합니다.
-</div>
-</div>
+          <div class="product-price">
+            29,000원
+          </div>
 
-<button id="submitBtn" class="primary" style="margin-top:18px" onclick="submitOrder()">주문하기</button>
+        </div>
 
-<button type="button" class="primary back" onclick="showNoticePage()">← 안내로 돌아가기</button>
+
+        <div class="option-area">
+
+          <label class="option-label">
+            색상
+          </label>
+
+          <select
+            id="product1Color"
+            class="option-select"
+          >
+            <option value="">
+              색상 선택
+            </option>
+            <option value="블랙">블랙</option>
+            <option value="아이보리">아이보리</option>
+            <option value="브라운">브라운</option>
+            <option value="블루">블루</option>
+            <option value="에토프">에토프</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(1, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty1"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(1, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 2번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            2. 세미 와이드 청바지
+          </div>
+
+          <div class="product-price">
+            29,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            사이즈
+          </label>
+
+          <select
+            id="product2Size"
+            class="option-select"
+          >
+            <option value="">
+              사이즈 선택
+            </option>
+            <option value="55">55</option>
+            <option value="66">66</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(2, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty2"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(2, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 5번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            5. 웰론 롱패딩
+          </div>
+
+          <div class="product-price">
+            65,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            사이즈
+          </label>
+
+          <select
+            id="product5Size"
+            class="option-select"
+          >
+            <option value="">
+              사이즈 선택
+            </option>
+            <option value="66">66</option>
+            <option value="77">77</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(5, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty5"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(5, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 6번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            6. 에코퍼 자켓
+          </div>
+
+          <div class="product-price">
+            60,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            색상
+          </label>
+
+          <select
+            id="product6Color"
+            class="option-select"
+          >
+            <option value="">
+              색상 선택
+            </option>
+            <option value="블랙">블랙</option>
+            <option value="딥그린">딥그린</option>
+            <option value="베이지">베이지</option>
+          </select>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            사이즈
+          </label>
+
+          <select
+            id="product6Size"
+            class="option-select"
+          >
+            <option value="">
+              사이즈 선택
+            </option>
+            <option value="55">55</option>
+            <option value="66">66</option>
+            <option value="77">77</option>
+            <option value="88">88</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(6, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty6"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(6, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 7번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            7. 리얼양모 블루종 자켓
+          </div>
+
+          <div class="product-price">
+            70,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            색상
+          </label>
+
+          <select
+            id="product7Color"
+            class="option-select"
+          >
+            <option value="">
+              색상 선택
+            </option>
+            <option value="네이비">네이비</option>
+            <option value="아이보리">아이보리</option>
+            <option value="핑크">핑크</option>
+            <option value="브라운">브라운</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(7, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty7"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(7, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 9번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            9. 니트 카라 패딩
+          </div>
+
+          <div class="product-price">
+            99,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            색상
+          </label>
+
+          <select
+            id="product9Color"
+            class="option-select"
+          >
+            <option value="">
+              색상 선택
+            </option>
+            <option value="블랙">블랙</option>
+            <option value="아이보리">아이보리</option>
+          </select>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            사이즈
+          </label>
+
+          <select
+            id="product9Size"
+            class="option-select"
+          >
+            <option value="">
+              사이즈 선택
+            </option>
+            <option value="55">55</option>
+            <option value="66">66</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(9, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty9"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(9, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- 12번 -->
+      <div class="product-card">
+
+        <div class="product-head">
+
+          <div class="product-name">
+            12. 후드 니트 패딩
+          </div>
+
+          <div class="product-price">
+            129,000원
+          </div>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            색상
+          </label>
+
+          <select
+            id="product12Color"
+            class="option-select"
+          >
+            <option value="">
+              색상 선택
+            </option>
+            <option value="그레이">그레이</option>
+            <option value="브라운">브라운</option>
+          </select>
+
+        </div>
+
+
+        <div class="option-area">
+
+          <label class="option-label">
+            사이즈
+          </label>
+
+          <select
+            id="product12Size"
+            class="option-select"
+          >
+            <option value="">
+              사이즈 선택
+            </option>
+            <option value="66">66</option>
+            <option value="77">77</option>
+          </select>
+
+        </div>
+
+
+        <div class="quantity-row">
+
+          <span class="quantity-label">
+            수량
+          </span>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              onclick="changeQuantity(12, -1)"
+            >
+              −
+            </button>
+
+            <span
+              id="qty12"
+              class="quantity-value"
+            >
+              0
+            </span>
+
+            <button
+              type="button"
+              onclick="changeQuantity(12, 1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        주문자 정보
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          이름 <span class="required">*</span>
+        </label>
+
+        <input
+          id="customerName"
+          class="input"
+          type="text"
+          placeholder="이름을 입력해주세요"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          유튜브 닉네임
+        </label>
+
+        <input
+          id="customerNickname"
+          class="input"
+          type="text"
+          placeholder="유튜브 닉네임을 입력해주세요"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          휴대폰 번호 <span class="required">*</span>
+        </label>
+
+        <input
+          id="customerPhone"
+          class="input"
+          type="tel"
+          inputmode="numeric"
+          maxlength="13"
+          placeholder="010-0000-0000"
+          oninput="formatPhone(this)"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          배송 주소 <span class="required">*</span>
+        </label>
+
+        <input
+          id="customerAddress"
+          class="input"
+          type="text"
+          placeholder="배송받으실 주소를 입력해주세요"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          배송 요청사항
+        </label>
+
+        <textarea
+          id="customerMemo"
+          class="textarea"
+          placeholder="배송 관련 요청사항을 입력해주세요"
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        주문 금액
+      </div>
+
+      <div class="summary">
+
+        <div class="summary-row">
+          <span>상품 금액</span>
+          <span id="productTotal">0원</span>
+        </div>
+
+        <div class="summary-row">
+          <span>배송비</span>
+          <span id="shippingFee">0원</span>
+        </div>
+
+        <div class="summary-total">
+          <span>총 결제금액</span>
+          <span id="grandTotal">0원</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="account-box">
+
+        국민은행 · 임현정
+
+        <span class="account-number">
+          08400204246675
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="submitButton"
+        class="btn btn-primary"
+        onclick="submitOrder()"
+      >
+        주문 접수하기
+      </button>
+
+
+      <button
+        type="button"
+        class="btn btn-light"
+        onclick="showNoticePage()"
+      >
+        처음으로
+      </button>
+
+
+      <div
+        id="submitMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+
+    <div class="footer">
+      LESHÈ · 르쉬
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+     주문 완료 페이지
+====================================================== -->
+
+<section id="completePage" class="page">
+
+  <div class="container">
+
+    <div class="brand">
+      <div class="brand-name">LESHÈ</div>
+      <div class="brand-sub">ORDER COMPLETE</div>
+    </div>
+
+
+    <div class="card">
+
+      <div class="complete-box">
+
+        <div class="complete-icon">
+          ✓
+        </div>
+
+        <div class="complete-title">
+          주문이 접수되었습니다
+        </div>
+
+        <div class="complete-text">
+          주문해주셔서 감사합니다.<br>
+          아래 계좌로 상품 금액과 배송비를 입금해주세요.
+        </div>
+
+      </div>
+
+
+      <div class="account-box">
+
+        국민은행 · 임현정
+
+        <span class="account-number">
+          08400204246675
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="notice-title">
+        주문 확인이 필요하신가요?
+      </div>
+
+      <div class="notice-text">
+        주문하실 때 입력하신 이름과 휴대폰 번호로
+        주문 내역을 확인하실 수 있습니다.
+      </div>
+
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="showLookupPage()"
+      >
+        내 주문 조회하기
+      </button>
+
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        onclick="startAdditionalOrder()"
+      >
+        추가 주문하기
+      </button>
+
+    </div>
+
+
+    <div class="footer">
+      LESHÈ · 르쉬
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- 3. 주문 완료 페이지 (추가 주문 가능) -->
-<section id="completePage" class="card hidden">
-<div class="logo">LESHÈ</div>
-<h1 style="color:#8b7355;">🤍 주문이 정상 접수되었습니다!</h1>
-<p style="text-align:center; font-size:14px; margin-bottom:20px;">주문해 주셔서 감사합니다. 아래 계좌로 입금해 주시면 입금 확인 후 빠른 출고 도와드리겠습니다.</p>
 
-<div class="account">
-국민은행 · 임현정<br>
-<strong>08400204246675</strong>
-<button type="button" class="copy-btn" onclick="copyAccount('copyMessageComplete')">계좌번호 복사</button>
-<div id="copyMessageComplete" class="copy-message">계좌번호가 복사되었습니다.</div>
-</div>
+<!-- ======================================================
+     주문 조회 페이지
+====================================================== -->
 
-<div style="margin-top:25px; display:flex; flex-direction:column; gap:10px;">
-  <button class="primary" onclick="resetAndNewOrder()">+ 추가 주문하기</button>
-  <button class="primary back" style="margin-top:0;" onclick="showLookupPage()">내 주문 조회하기</button>
-</div>
+<section id="lookupPage" class="page">
+
+  <div class="container">
+
+    <div class="brand">
+      <div class="brand-name">LESHÈ</div>
+      <div class="brand-sub">ORDER LOOKUP</div>
+    </div>
+
+
+    <div class="card">
+
+      <div class="section-title">
+        내 주문 확인하기
+      </div>
+
+
+      <div class="notice-text" style="margin-bottom:18px;">
+        주문서에 입력하신 이름과 휴대폰 번호를
+        입력해주세요.
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          이름 <span class="required">*</span>
+        </label>
+
+        <input
+          id="lookupName"
+          class="input"
+          type="text"
+          placeholder="주문자 이름"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label class="field-label">
+          휴대폰 번호 <span class="required">*</span>
+        </label>
+
+        <input
+          id="lookupPhone"
+          class="input"
+          type="tel"
+          inputmode="numeric"
+          maxlength="13"
+          placeholder="010-0000-0000"
+          oninput="formatPhone(this)"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        id="lookupButton"
+        class="btn btn-primary"
+        onclick="lookupOrder()"
+      >
+        주문 조회하기
+      </button>
+
+
+      <button
+        type="button"
+        class="btn btn-light"
+        onclick="showNoticePage()"
+      >
+        처음으로
+      </button>
+
+
+      <div
+        id="lookupMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+
+    <div
+      id="lookupLoading"
+      class="loading"
+    >
+      주문 내역을 확인하고 있습니다...
+    </div>
+
+
+    <div
+      id="lookupResult"
+      class="lookup-result"
+    ></div>
+
+
+    <div class="footer">
+      LESHÈ · 르쉬
+    </div>
+
+  </div>
+
 </section>
-
-
-<!-- 4. 내 주문 조회 페이지 -->
-<section id="lookupPage" class="card hidden">
-<div class="logo">LESHÈ</div>
-
-<div class="notice" style="margin-bottom:20px;">
-<h2>🚫 반품 / 교환 및 CS 안내</h2>
-<ul>
-<li>교환 / 반품 불가 — 단순변심, 사이즈, 미세불량</li>
-<li>취소는 방송 중 댓글로만 가능하며, 방송 종료 후 변경·취소는 불가합니다.</li>
-</ul>
-</div>
-
-<h2>내 주문 조회</h2>
-<div class="field">
-<label>이름</label>
-<input id="searchName" type="text" placeholder="성함을 입력하세요">
-</div>
-<div class="field">
-<label>휴대폰 번호 (- 없이 숫자만)</label>
-<input id="searchPhone" type="tel" placeholder="01000000000" maxlength="11">
-</div>
-
-<button id="searchBtn" class="primary" style="margin-top:10px;" onclick="fetchMyOrders()">조회하기</button>
-
-<div id="lookupResult" style="margin-top:25px;"></div>
-
-<button type="button" class="primary back" onclick="showNoticePage()">← 첫 화면으로 돌아가기</button>
-</section>
-
-</div>
-
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzZWKkurvrt25QENd9zzl3qtOcmhzsUi0BiBbTEw6uwfoDsCYHaDTPIWt0lwePTi61n/exec";
 
-const products=[
-{id:1,name:"에코퍼 가방",price:29000,colors:["블랙","아이보리","브라운","블루","에토프"]},
-{id:2,name:"세미 와이드 청바지",price:29000,sizes:["55","66"]},
-{id:5,name:"웰론 롱패딩",price:65000,sizes:["66","77"]},
-{id:6,name:"에코퍼 자켓",price:60000,colors:["블랙","딥그린","베이지"],sizes:["55","66","77","88"]},
-{id:7,name:"리얼양모 블루종 자켓",price:70000,colors:["네이비","아이보리","핑크","브라운"]},
-{id:9,name:"니트 카라 패딩",price:99000,colors:["블랙","아이보리"],sizes:["55","66"]},
-{id:12,name:"후드 니트 패딩",price:129000,colors:["그레이","브라운"],sizes:["66","77"]}
-];
+/* ======================================================
+   기본 설정
+====================================================== */
 
-const productSelections = {};
-products.forEach(p => {
-  productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
-});
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzZWKkurvrt25QENd9zzl3qtOcmhzsUi0BiBbTEw6uwfoDsCYHaDTPIWt0lwePTi61n/exec";
 
-function won(n){
-  return (n || 0).toLocaleString("ko-KR")+"원";
+const SHIPPING_FEE = 4000;
+
+const products = {
+  1: {
+    name: "에코퍼 가방",
+    price: 29000,
+    color: ["블랙", "아이보리", "브라운", "블루", "에토프"]
+  },
+
+  2: {
+    name: "세미 와이드 청바지",
+    price: 29000,
+    size: ["55", "66"]
+  },
+
+  5: {
+    name: "웰론 롱패딩",
+    price: 65000,
+    size: ["66", "77"]
+  },
+
+  6: {
+    name: "에코퍼 자켓",
+    price: 60000,
+    color: ["블랙", "딥그린", "베이지"],
+    size: ["55", "66", "77", "88"]
+  },
+
+  7: {
+    name: "리얼양모 블루종 자켓",
+    price: 70000,
+    color: ["네이비", "아이보리", "핑크", "브라운"]
+  },
+
+  9: {
+    name: "니트 카라 패딩",
+    price: 99000,
+    color: ["블랙", "아이보리"],
+    size: ["55", "66"]
+  },
+
+  12: {
+    name: "후드 니트 패딩",
+    price: 129000,
+    color: ["그레이", "브라운"],
+    size: ["66", "77"]
+  }
+};
+
+
+/* ======================================================
+   주문 수량
+====================================================== */
+
+const quantities = {
+  1: 0,
+  2: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  9: 0,
+  12: 0
+};
+
+
+/* ======================================================
+   숫자 → 금액 표시
+====================================================== */
+
+function formatMoney(number) {
+
+  return Number(number || 0).toLocaleString("ko-KR") + "원";
+
 }
 
-function renderProducts(){
-  const container = document.getElementById("products");
-  container.innerHTML = "";
 
-  products.forEach(p => {
-    let h = '<div class="product">';
-    h += '<div class="product-title">' + p.id + '번 ' + p.name + '</div>';
-    h += '<div class="price">' + won(p.price) + '</div>';
-    
-    h += '<div id="option-list-' + p.id + '">';
-    productSelections[p.id].forEach((item, index) => {
-      h += renderOptionRow(p, index);
-    });
-    h += '</div>';
+/* ======================================================
+   페이지 이동
+====================================================== */
 
-    h += '<button type="button" class="add-opt-btn" onclick="addOptionRow(' + p.id + ')">+ 색상/사이즈 옵션 추가하기</button>';
-    h += '</div>';
+function hideAllPages() {
 
-    container.insertAdjacentHTML("beforeend", h);
+  document.querySelectorAll(".page").forEach(function(page) {
+
+    page.classList.remove("active");
+
   });
+
+}
+
+
+function showNoticePage() {
+
+  hideAllPages();
+
+  document.getElementById("noticePage").classList.add("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function showOrderPage() {
+
+  hideAllPages();
+
+  document.getElementById("orderPage").classList.add("active");
 
   updateSummary();
-}
 
-function renderOptionRow(p, index) {
-  const item = productSelections[p.id][index];
-  let h = '<div class="option-item-group" id="opt-group-' + p.id + '-' + index + '">';
-  h += '<div class="option-row">';
-
-  if(p.colors) {
-    h += '<div class="option-box"><label class="option-label">색상</label><select onchange="updateOptionValue(' + p.id + ',' + index + ',\'color\',this.value)"><option value="">선택</option>';
-    p.colors.forEach(x => {
-      const sel = item.color === x ? 'selected' : '';
-      h += '<option value="' + x + '" ' + sel + '>' + x + '</option>';
-    });
-    h += '</select></div>';
-  }
-
-  if(p.sizes) {
-    h += '<div class="option-box"><label class="option-label">사이즈</label><select onchange="updateOptionValue(' + p.id + ',' + index + ',\'size\',this.value)"><option value="">선택</option>';
-    p.sizes.forEach(x => {
-      const sel = item.size === x ? 'selected' : '';
-      h += '<option value="' + x + '" ' + sel + '>' + x + '</option>';
-    });
-    h += '</select></div>';
-  }
-
-  h += '<div class="option-box"><label class="option-label">수량</label>';
-  h += '<div class="quantity-box">';
-  h += '<button type="button" class="quantity-btn" onclick="changeQty(' + p.id + ',' + index + ',-1)">−</button>';
-  h += '<div class="quantity-number">' + item.qty + '</div>';
-  h += '<button type="button" class="quantity-btn" onclick="changeQty(' + p.id + ',' + index + ',1)">+</button>';
-  h += '</div></div>';
-
-  if (index > 0) {
-    h += '<button type="button" class="remove-opt-btn" onclick="removeOptionRow(' + p.id + ',' + index + ')">삭제</button>';
-  }
-
-  h += '</div></div>';
-  return h;
-}
-
-function addOptionRow(productId) {
-  productSelections[productId].push({ color: "", size: "", qty: 1 });
-  renderProducts();
-}
-
-function removeOptionRow(productId, index) {
-  productSelections[productId].splice(index, 1);
-  renderProducts();
-}
-
-function updateOptionValue(productId, index, field, value) {
-  productSelections[productId][index][field] = value;
-}
-
-function changeQty(productId, index, change) {
-  let item = productSelections[productId][index];
-  let newQty = item.qty + change;
-  if (newQty < 0) newQty = 0;
-  if (newQty > 99) newQty = 99;
-  item.qty = newQty;
-  renderProducts();
-}
-
-function validateOptions(){
-  for(const p of products){
-    const items = productSelections[p.id];
-    for(let i = 0; i < items.length; i++){
-      const item = items[i];
-      if(item.qty > 0){
-        if(p.colors && !item.color){
-          alert(p.id + "번 " + p.name + "의 색상을 선택해주세요.");
-          return false;
-        }
-        if(p.sizes && !item.size){
-          alert(p.id + "번 " + p.name + "의 사이즈를 선택해주세요.");
-          return false;
-        }
-      }
-    }
-  }
-  return true;
-}
-
-function updateSummary(){
-  let total = 0;
-  products.forEach(p => {
-    productSelections[p.id].forEach(item => {
-      total += p.price * item.qty;
-    });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
 
-  document.getElementById("productTotal").textContent = won(total);
-  document.getElementById("shippingFee").textContent = won(4000);
-  document.getElementById("grandTotal").textContent = won(total + 4000);
 }
 
-function copyAccount(targetId){
-  const n = "08400204246675";
-  const m = document.getElementById(targetId || "copyMessageNotice");
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(n).then(()=>{
-      if(m){
-        m.style.display = "block";
-        setTimeout(()=>{ m.style.display = "none"; }, 2000);
-      }
-    }).catch(() => alert("계좌번호: " + n));
-  } else {
-    alert("계좌번호: " + n);
-  }
-}
 
-function toggleOrderButton(){
-  document.getElementById("goOrderBtn").disabled = !document.getElementById("agree").checked;
-}
+function showCompletePage() {
 
-function hideAllSections(){
-  document.getElementById("noticePage").classList.add("hidden");
-  document.getElementById("orderPage").classList.add("hidden");
-  document.getElementById("completePage").classList.add("hidden");
-  document.getElementById("lookupPage").classList.add("hidden");
-}
+  hideAllPages();
 
-function showNoticePage(){
-  hideAllSections();
-  document.getElementById("noticePage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
+  document.getElementById("completePage").classList.add("active");
 
-function showOrderPage(){
-  hideAllSections();
-  document.getElementById("orderPage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
-function showCompletePage(){
-  hideAllSections();
-  document.getElementById("completePage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
-function showLookupPage(){
-  hideAllSections();
-  document.getElementById("lookupPage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
-// 추가 주문을 위해 상품 수량 및 옵션 초기화 후 작성 페이지로 이동
-function resetAndNewOrder(){
-  products.forEach(p => {
-    productSelections[p.id] = [{ color: "", size: "", qty: 0 }];
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
-  renderProducts();
+
+}
+
+
+function showLookupPage() {
+
+  hideAllPages();
+
+  document.getElementById("lookupPage").classList.add("active");
+
+  clearLookupResult();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ======================================================
+   추가 주문
+====================================================== */
+
+function startAdditionalOrder() {
+
+  resetProducts();
+
   showOrderPage();
+
 }
 
-// 주문 전송
-async function submitOrder(){
-  if(!validateOptions()) return;
 
-  let has = false;
-  let total = 0;
-  let ps = [];
-  let os = [];
-  let qs = [];
+/* ======================================================
+   상품 수량 변경
+====================================================== */
 
-  products.forEach(p => {
-    productSelections[p.id].forEach(item => {
-      if(item.qty > 0){
-        has = true;
-        total += p.price * item.qty;
+function changeQuantity(productId, amount) {
 
-        let optDetails = [];
-        if(p.colors) optDetails.push("색상: " + item.color);
-        if(p.sizes) optDetails.push("사이즈: " + item.size);
+  let current = quantities[productId] || 0;
 
-        ps.push(p.id + "번 " + p.name);
-        os.push("[" + p.id + "번 " + p.name + "] " + (optDetails.length ? optDetails.join(", ") : "-"));
-        qs.push(item.qty);
-      }
+  current += amount;
+
+  if (current < 0) {
+    current = 0;
+  }
+
+  if (current > 99) {
+    current = 99;
+  }
+
+  quantities[productId] = current;
+
+  const quantityElement =
+    document.getElementById("qty" + productId);
+
+  if (quantityElement) {
+
+    quantityElement.textContent = current;
+
+  }
+
+  updateSummary();
+
+}
+
+
+/* ======================================================
+   상품 옵션 읽기
+====================================================== */
+
+function getProductOption(productId) {
+
+  const product = products[productId];
+
+  const options = [];
+
+
+  if (product.color) {
+
+    const colorElement =
+      document.getElementById("product" + productId + "Color");
+
+    if (colorElement && colorElement.value) {
+
+      options.push("색상: " + colorElement.value);
+
+    }
+
+  }
+
+
+  if (product.size) {
+
+    const sizeElement =
+      document.getElementById("product" + productId + "Size");
+
+    if (sizeElement && sizeElement.value) {
+
+      options.push("사이즈: " + sizeElement.value);
+
+    }
+
+  }
+
+
+  return options.join(" / ");
+
+}
+
+
+/* ======================================================
+   선택된 상품 확인
+====================================================== */
+
+function getSelectedProducts() {
+
+  const selectedProducts = [];
+
+  Object.keys(products).forEach(function(id) {
+
+    const quantity = quantities[id] || 0;
+
+    if (quantity <= 0) {
+      return;
+    }
+
+
+    const product = products[id];
+
+    const option = getProductOption(id);
+
+
+    selectedProducts.push({
+
+      id: Number(id),
+
+      name: product.name,
+
+      price: product.price,
+
+      quantity: quantity,
+
+      option: option
+
     });
+
   });
 
-  if(!has){
-    alert("상품을 하나 이상 선택해주세요.");
+
+  return selectedProducts;
+
+}
+
+
+/* ======================================================
+   주문 금액 계산
+====================================================== */
+
+function calculateProductTotal() {
+
+  const selectedProducts = getSelectedProducts();
+
+  let total = 0;
+
+
+  selectedProducts.forEach(function(product) {
+
+    total += product.price * product.quantity;
+
+  });
+
+
+  return total;
+
+}
+
+
+/* ======================================================
+   주문 금액 표시
+====================================================== */
+
+function updateSummary() {
+
+  const productTotal =
+    calculateProductTotal();
+
+
+  const shippingFee =
+    productTotal > 0 ? SHIPPING_FEE : 0;
+
+
+  const grandTotal =
+    productTotal + shippingFee;
+
+
+  document.getElementById("productTotal").textContent =
+    formatMoney(productTotal);
+
+
+  document.getElementById("shippingFee").textContent =
+    formatMoney(shippingFee);
+
+
+  document.getElementById("grandTotal").textContent =
+    formatMoney(grandTotal);
+
+}
+
+
+/* ======================================================
+   전화번호 숫자만 남기기
+====================================================== */
+
+function onlyNumbers(value) {
+
+  return String(value || "")
+    .replace(/\D/g, "");
+
+}
+
+
+/* ======================================================
+   전화번호 자동 포맷
+====================================================== */
+
+function formatPhone(input) {
+
+  let value =
+    onlyNumbers(input.value);
+
+
+  if (value.length > 11) {
+
+    value =
+      value.substring(0, 11);
+
+  }
+
+
+  if (value.length < 4) {
+
+    input.value = value;
+
+  }
+
+  else if (value.length < 8) {
+
+    input.value =
+      value.substring(0, 3) +
+      "-" +
+      value.substring(3);
+
+  }
+
+  else {
+
+    input.value =
+      value.substring(0, 3) +
+      "-" +
+      value.substring(3, 7) +
+      "-" +
+      value.substring(7);
+
+  }
+
+}
+
+
+/* ======================================================
+   전화번호 정규화
+====================================================== */
+
+function normalizePhone(phone) {
+
+  return onlyNumbers(phone);
+
+}
+
+
+/* ======================================================
+   전화번호 검사
+====================================================== */
+
+function isValidPhone(phone) {
+
+  const number =
+    normalizePhone(phone);
+
+  return /^01[0-9]\d{7,8}$/.test(number);
+
+}
+
+
+/* ======================================================
+   HTML 보안 처리
+====================================================== */
+
+function escapeHtml(value) {
+
+  return String(value == null ? "" : value)
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* ======================================================
+   메시지 표시
+====================================================== */
+
+function showMessage(elementId, message) {
+
+  const element =
+    document.getElementById(elementId);
+
+  if (!element) {
     return;
   }
 
-  const name = document.getElementById("customerName").value.trim();
-  const nickname = document.getElementById("customerNickname").value.trim();
-  const rawPhone = document.getElementById("customerPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, '');
-  const address = document.getElementById("customerAddress").value.trim();
-  const memo = document.getElementById("deliveryMemo").value.trim();
+  element.textContent = message;
 
-  if(!name){ alert("성함을 입력해 주세요."); return; }
-  if(!phone){ alert("휴대폰 번호를 입력해주세요."); return; }
-  if(!address){ alert("주소를 입력해주세요."); return; }
+  element.classList.add("active");
 
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
-  btn.classList.add("sending");
-  btn.textContent = "주문 전송 중...";
+  element.classList.add("error");
+
+}
+
+
+function hideMessage(elementId) {
+
+  const element =
+    document.getElementById(elementId);
+
+  if (!element) {
+    return;
+  }
+
+  element.textContent = "";
+
+  element.classList.remove("active");
+
+  element.classList.remove("error");
+
+}
+
+
+/* ======================================================
+   주문 상품 유효성 검사
+====================================================== */
+
+function validateProducts() {
+
+  const selectedProducts =
+    getSelectedProducts();
+
+
+  if (selectedProducts.length === 0) {
+
+    alert("주문하실 상품을 하나 이상 선택해주세요.");
+
+    return false;
+
+  }
+
+
+  for (const product of selectedProducts) {
+
+    const original =
+      products[product.id];
+
+
+    if (original.color && !product.option.includes("색상:")) {
+
+      alert(
+        product.name +
+        "의 색상을 선택해주세요."
+      );
+
+      return false;
+
+    }
+
+
+    if (original.size && !product.option.includes("사이즈:")) {
+
+      alert(
+        product.name +
+        "의 사이즈를 선택해주세요."
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  return true;
+
+}
+
+
+/* ======================================================
+   주문서 유효성 검사
+====================================================== */
+
+function validateOrderForm() {
+
+  if (!validateProducts()) {
+    return false;
+  }
+
+
+  const name =
+    document.getElementById("customerName").value.trim();
+
+
+  const nickname =
+    document.getElementById("customerNickname").value.trim();
+
+
+  const phone =
+    document.getElementById("customerPhone").value.trim();
+
+
+  const address =
+    document.getElementById("customerAddress").value.trim();
+
+
+  const memo =
+    document.getElementById("customerMemo").value.trim();
+
+
+  if (!name) {
+
+    alert("이름을 입력해주세요.");
+
+    document.getElementById("customerName").focus();
+
+    return false;
+
+  }
+
+
+  if (!phone) {
+
+    alert("휴대폰 번호를 입력해주세요.");
+
+    document.getElementById("customerPhone").focus();
+
+    return false;
+
+  }
+
+
+  if (!isValidPhone(phone)) {
+
+    alert("휴대폰 번호를 정확하게 입력해주세요.");
+
+    document.getElementById("customerPhone").focus();
+
+    return false;
+
+  }
+
+
+  if (!address) {
+
+    alert("배송 주소를 입력해주세요.");
+
+    document.getElementById("customerAddress").focus();
+
+    return false;
+
+  }
+
+
+  return {
+
+    name: name,
+
+    nickname: nickname,
+
+    phone: normalizePhone(phone),
+
+    address: address,
+
+    memo: memo
+
+  };
+
+}
+
+
+/* ======================================================
+   주문 제출
+====================================================== */
+
+async function submitOrder() {
+
+  const submitButton =
+    document.getElementById("submitButton");
+
+
+  if (submitButton.disabled) {
+    return;
+  }
+
+
+  const customer =
+    validateOrderForm();
+
+
+  if (!customer) {
+    return;
+  }
+
+
+  const selectedProducts =
+    getSelectedProducts();
+
+
+  const productTotal =
+    calculateProductTotal();
+
+
+  const shippingFee =
+    productTotal > 0 ? SHIPPING_FEE : 0;
+
+
+  const total =
+    productTotal + shippingFee;
+
 
   const data = {
+
     action: "create",
-    name: name,
-    nickname: nickname,
-    phone: phone,
-    address: address,
-    memo: memo,
-    product: ps.join(" / "),
-    option: os.join(" / "),
-    quantity: qs.join(" / "),
-    productTotal: total,
-    total: total + 4000
+
+    orderDate:
+      new Date().toISOString(),
+
+    name:
+      customer.name,
+
+    nickname:
+      customer.nickname,
+
+    phone:
+      customer.phone,
+
+    address:
+      customer.address,
+
+    memo:
+      customer.memo,
+
+    products:
+      selectedProducts,
+
+    productTotal:
+      productTotal,
+
+    shippingFee:
+      shippingFee,
+
+    total:
+      total
+
   };
 
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(data)
-    });
 
-    // 주문 전송 완료 시 완료 화면으로 전환
+  submitButton.disabled = true;
+
+  submitButton.textContent =
+    "주문 접수 중...";
+
+
+  hideMessage("submitMessage");
+
+
+  try {
+
+    await fetch(
+
+      SCRIPT_URL,
+
+      {
+
+        method: "POST",
+
+        mode: "no-cors",
+
+        headers: {
+
+          "Content-Type":
+            "text/plain;charset=utf-8"
+
+        },
+
+        body:
+          JSON.stringify(data)
+
+      }
+
+    );
+
+
+    /*
+      Apps Script의 no-cors 요청은
+      브라우저에서 실제 응답 내용을 읽을 수 없습니다.
+
+      따라서 여기서는 요청 자체가 전송된 후
+      완료 화면으로 이동합니다.
+    */
+
     showCompletePage();
-  } catch(e) {
-    console.error(e);
-    alert("주문 전송 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.");
-  } finally {
-    btn.disabled = false;
-    btn.classList.remove("sending");
-    btn.textContent = "주문하기";
+
+
   }
+
+  catch (error) {
+
+    console.error(
+      "주문 전송 오류:",
+      error
+    );
+
+
+    showMessage(
+      "submitMessage",
+      "주문 전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
+
+  }
+
+
+  finally {
+
+    submitButton.disabled = false;
+
+    submitButton.textContent =
+      "주문 접수하기";
+
+  }
+
 }
 
-// 내 주문 조회
-function fetchMyOrders(){
-  const name = document.getElementById("searchName").value.trim();
-  const rawPhone = document.getElementById("searchPhone").value.trim();
-  const phone = rawPhone.replace(/[^0-9]/g, '');
-  const resultDiv = document.getElementById("lookupResult");
 
-  if(!name || !phone){
-    alert("조회하실 이름과 휴대폰 번호를 모두 입력해주세요.");
+/* ======================================================
+   주문 조회 결과 초기화
+====================================================== */
+
+function clearLookupResult() {
+
+  const result =
+    document.getElementById("lookupResult");
+
+  const loading =
+    document.getElementById("lookupLoading");
+
+  const message =
+    document.getElementById("lookupMessage");
+
+
+  if (result) {
+    result.innerHTML = "";
+  }
+
+
+  if (loading) {
+    loading.classList.remove("active");
+  }
+
+
+  if (message) {
+
+    message.textContent = "";
+
+    message.classList.remove("active");
+
+    message.classList.remove("error");
+
+  }
+
+}
+
+
+/* ======================================================
+   주문 조회
+====================================================== */
+
+async function lookupOrder() {
+
+  const button =
+    document.getElementById("lookupButton");
+
+
+  if (button.disabled) {
     return;
   }
 
-  const btn = document.getElementById("searchBtn");
-  btn.disabled = true;
-  btn.textContent = "조회 중...";
-  resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>주문 내역을 검색하고 있습니다...</p>";
 
-  const callbackName = 'handleOrderLookup_' + Math.round(100000 * Math.random());
-  
-  window[callbackName] = function(res) {
-    delete window[callbackName];
-    const scriptTag = document.getElementById(callbackName);
-    if(scriptTag && scriptTag.parentNode) scriptTag.parentNode.removeChild(scriptTag);
-    
-    btn.disabled = false;
-    btn.textContent = "조회하기";
+  const name =
+    document.getElementById("lookupName")
+      .value
+      .trim();
 
-    if(res && res.status === "success" && res.data && res.data.length > 0){
-      let html = "";
-      res.data.forEach(item => {
-        const payStatus = item.payStatus || "입금대기";
-        const shipStatus = item.shipStatus || "상품준비중";
-        const courier = item.courier || "";
-        const trackingNo = item.trackingNo || "";
 
-        html += '<div class="order-item-card">';
-        html += '<div><span class="status-badge">입금상태: ' + payStatus + '</span> <span class="status-badge" style="background:#8b7355;">배송상태: ' + shipStatus + '</span></div>';
-        html += '<div style="font-size:12px; color:#888; margin-bottom:8px;">주문일시: ' + item.date + '</div>';
-        html += '<div style="font-weight:600; font-size:14px; margin-bottom:4px;">옵션: ' + item.option + '</div>';
-        html += '<div style="font-size:13px; color:#555;">수량: ' + item.quantity + '개</div>';
-        html += '<div style="font-size:14px; font-weight:700; margin-top:6px; color:#2f2f2f;">결제금액: ' + won(Number(item.total)) + '</div>';
+  const phone =
+    document.getElementById("lookupPhone")
+      .value
+      .trim();
 
-        if(courier && trackingNo){
-          html += '<div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ddd; font-size:13px;">';
-          html += '<strong>송장정보:</strong> ' + courier + ' ' + trackingNo + '<br>';
-          html += '<button type="button" class="track-btn" onclick="trackPackage(\'' + courier + '\', \'' + trackingNo + '\')">택배 배송 추적</button>';
-          html += '</div>';
-        }
-        html += '</div>';
-      });
-      resultDiv.innerHTML = html;
-    } else {
-      resultDiv.innerHTML = "<p style='text-align:center; color:#888;'>일치하는 주문 내역이 없습니다.</p>";
-    }
-  };
 
-  const script = document.createElement('script');
-  script.id = callbackName;
-  script.src = SCRIPT_URL + "?action=lookup&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&callback=" + callbackName;
-  script.onerror = function() {
-    delete window[callbackName];
-    if(script.parentNode) script.parentNode.removeChild(script);
-    btn.disabled = false;
-    btn.textContent = "조회하기";
-    resultDiv.innerHTML = "<p style='text-align:center; color:#ff4d4d;'>조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>";
-  };
-  document.body.appendChild(script);
-}
+  hideMessage("lookupMessage");
 
-function trackPackage(courier, trackingNo){
-  let url = "";
-  if(courier.includes("CJ") || courier.includes("대한통운")){
-    url = "https://www.cjlogistics.com/ko/tool/parcel/tracking?gnbInvcNo=" + trackingNo;
-  } else if(courier.includes("한진")){
-    url = "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=" + trackingNo;
-  } else if(courier.includes("롯데")){
-    url = "https://www.lotteglogis.com/home/reservation/tracking/linkQuery?InvNo=" + trackingNo;
-  } else if(courier.includes("우체국")){
-    url = "https://service.epost.go.kr/trace.RetrieveDomRレース.comm?sid1=" + trackingNo;
-  } else if(courier.includes("로젠")){
-    url = "https://www.ilogen.com/web/personal/trace/" + trackingNo;
-  } else {
-    url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(courier + " " + trackingNo);
+
+  if (!name) {
+
+    showMessage(
+      "lookupMessage",
+      "이름을 입력해주세요."
+    );
+
+    document.getElementById("lookupName").focus();
+
+    return;
+
   }
-  window.open(url, '_blank');
+
+
+  if (!phone) {
+
+    showMessage(
+      "lookupMessage",
+      "휴대폰 번호를 입력해주세요."
+    );
+
+    document.getElementById("lookupPhone").focus();
+
+    return;
+
+  }
+
+
+  if (!isValidPhone(phone)) {
+
+    showMessage(
+      "lookupMessage",
+      "휴대폰 번호를 정확하게 입력해주세요."
+    );
+
+    document.getElementById("lookupPhone").focus();
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "조회 중...";
+
+
+  const loading =
+    document.getElementById("lookupLoading");
+
+
+  const result =
+    document.getElementById("lookupResult");
+
+
+  loading.classList.add("active");
+
+  result.innerHTML = "";
+
+
+  try {
+
+    await lookupWithJsonp(
+
+      name,
+
+      normalizePhone(phone)
+
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "주문 조회 오류:",
+      error
+    );
+
+
+    loading.classList.remove("active");
+
+
+    showMessage(
+      "lookupMessage",
+      "주문 조회에 실패했습니다. 잠시 후 다시 시도해주세요."
+    );
+
+  }
+
+  finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "주문 조회하기";
+
+  }
+
 }
 
-renderProducts();
+
+/* ======================================================
+   JSONP 방식 주문 조회
+
+   Google Apps Script의 doGet에서
+   callback 파라미터를 처리하도록 연결합니다.
+====================================================== */
+
+function lookupWithJsonp(name, phone) {
+
+  return new Promise(function(resolve, reject) {
+
+    const callbackName =
+      "handleOrderLookup_" +
+      Date.now() +
+      "_" +
+      Math.floor(Math.random() * 100000);
+
+
+    let finished = false;
+
+
+    const script =
+      document.createElement("script");
+
+
+    const timeout =
+      setTimeout(function() {
+
+        if (finished) {
+          return;
+        }
+
+        finished = true;
+
+        cleanup();
+
+        reject(
+          new Error("조회 시간이 초과되었습니다.")
+        );
+
+      }, 10000);
+
+
+    function cleanup() {
+
+      clearTimeout(timeout);
+
+      if (script.parentNode) {
+
+        script.parentNode.removeChild(script);
+
+      }
+
+      try {
+
+        delete window[callbackName];
+
+      }
+
+      catch (error) {
+
+        window[callbackName] =
+          undefined;
+
+      }
+
+    }
+
+
+    window[callbackName] =
+      function(response) {
+
+        if (finished) {
+          return;
+        }
+
+        finished = true;
+
+        cleanup();
+
+        try {
+
+          renderLookupResults(response);
+
+          resolve(response);
+
+        }
+
+        catch (error) {
+
+          reject(error);
+
+        }
+
+      };
+
+
+    script.onerror =
+      function() {
+
+        if (finished) {
+          return;
+        }
+
+        finished = true;
+
+        cleanup();
+
+        reject(
+          new Error("조회 서버에 연결할 수 없습니다.")
+        );
+
+      };
+
+
+    const query =
+      "?action=lookup" +
+      "&name=" +
+      encodeURIComponent(name) +
+      "&phone=" +
+      encodeURIComponent(phone) +
+      "&callback=" +
+      encodeURIComponent(callbackName);
+
+
+    script.src =
+      SCRIPT_URL + query;
+
+
+    document.body.appendChild(script);
+
+  });
+
+}
+
+
+/* ======================================================
+   주문 조회 결과 표시
+====================================================== */
+
+function renderLookupResults(response) {
+
+  const loading =
+    document.getElementById("lookupLoading");
+
+
+  const result =
+    document.getElementById("lookupResult");
+
+
+  loading.classList.remove("active");
+
+
+  if (!response) {
+
+    result.innerHTML =
+      '<div class="card">' +
+      '<div class="empty-result">' +
+      '조회 결과가 없습니다.' +
+      '</div>' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  if (response.success === false) {
+
+    result.innerHTML =
+      '<div class="card">' +
+      '<div class="empty-result">' +
+      escapeHtml(
+        response.message ||
+        "주문 내역을 찾을 수 없습니다."
+      ) +
+      '</div>' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const orders =
+    Array.isArray(response.orders)
+      ? response.orders
+      : [];
+
+
+  if (orders.length === 0) {
+
+    result.innerHTML =
+      '<div class="card">' +
+      '<div class="empty-result">' +
+      '입력하신 정보와 일치하는 주문이 없습니다.<br>' +
+      '이름과 휴대폰 번호를 다시 확인해주세요.' +
+      '</div>' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  let html = "";
+
+
+  orders.forEach(function(order) {
+
+    const orderDate =
+      formatOrderDate(
+        order.orderDate ||
+        order.date ||
+        ""
+      );
+
+
+    const status =
+      order.status ||
+      "주문 접수";
+
+
+    let productsHtml = "";
+
+
+    const orderProducts =
+      Array.isArray(order.products)
+        ? order.products
+        : [];
+
+
+    if (orderProducts.length > 0) {
+
+      orderProducts.forEach(function(product) {
+
+        const productName =
+          escapeHtml(
+            product.name || ""
+          );
+
+
+        const option =
+          escapeHtml(
+            product.option || ""
+          );
+
+
+        const quantity =
+          Number(
+            product.quantity || 0
+          );
+
+
+        productsHtml +=
+
+          '<div class="result-product">' +
+
+            '<div class="result-product-name">' +
+
+              productName +
+
+              ' × ' +
+
+              quantity +
+
+            '</div>' +
+
+            (
+
+              option
+
+                ? '<div class="result-product-detail">' +
+                    option +
+                  '</div>'
+
+                : ""
+
+            ) +
+
+          '</div>';
+
+      });
+
+    }
+
+    else {
+
+      /*
+        Apps Script에서 products를
+        문자열로 저장하는 경우를 위한 fallback
+      */
+
+      productsHtml =
+
+        '<div class="result-product">' +
+
+          '<div class="result-product-name">' +
+
+            escapeHtml(
+              order.product ||
+              order.products ||
+              "주문 상품"
+            ) +
+
+          '</div>' +
+
+        '</div>';
+
+    }
+
+
+    const total =
+      Number(
+        order.total ||
+        order.grandTotal ||
+        0
+      );
+
+
+    html +=
+
+      '<div class="order-result">' +
+
+        '<div class="order-result-header">' +
+
+          '<div class="order-date">' +
+
+            escapeHtml(orderDate) +
+
+          '</div>' +
+
+          '<div class="status">' +
+
+            escapeHtml(status) +
+
+          '</div>' +
+
+        '</div>' +
+
+        productsHtml +
+
+        '<div class="result-total">' +
+
+          '<span>총 주문금액</span>' +
+
+          '<strong>' +
+
+            formatMoney(total) +
+
+          '</strong>' +
+
+        '</div>' +
+
+      '</div>';
+
+  });
+
+
+  result.innerHTML = html;
+
+}
+
+
+/* ======================================================
+   주문 날짜 표시
+====================================================== */
+
+function formatOrderDate(value) {
+
+  if (!value) {
+    return "";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (Number.isNaN(date.getTime())) {
+
+    return String(value);
+
+  }
+
+
+  return (
+
+    date.getFullYear() +
+
+    "." +
+
+    String(
+      date.getMonth() + 1
+    ).padStart(2, "0") +
+
+    "." +
+
+    String(
+      date.getDate()
+    ).padStart(2, "0")
+
+  );
+
+}
+
+
+/* ======================================================
+   상품 초기화
+====================================================== */
+
+function resetProducts() {
+
+  Object.keys(quantities).forEach(function(id) {
+
+    quantities[id] = 0;
+
+
+    const element =
+      document.getElementById("qty" + id);
+
+
+    if (element) {
+
+      element.textContent = "0";
+
+    }
+
+  });
+
+
+  document
+    .querySelectorAll("#orderPage select")
+    .forEach(function(select) {
+
+      select.selectedIndex = 0;
+
+    });
+
+
+  updateSummary();
+
+}
+
+
+/* ======================================================
+   주문 완료 후에도 고객 정보 유지
+
+   추가 주문 시에는 이름 / 전화번호 / 주소를
+   다시 입력하지 않아도 되도록 유지합니다.
+====================================================== */
+
+
+/* ======================================================
+   배송조회
+====================================================== */
+
+function trackPackage(trackingNumber) {
+
+  const number =
+    onlyNumbers(trackingNumber);
+
+
+  if (!number) {
+
+    alert("송장번호가 없습니다.");
+
+    return;
+
+  }
+
+
+  const url =
+    "https://service.epost.go.kr/trace.RetrieveEmsTraceListList.comm?sid1=" +
+    encodeURIComponent(number);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* ======================================================
+   Enter 키 처리
+====================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key !== "Enter") {
+      return;
+    }
+
+
+    const target =
+      event.target;
+
+
+    if (
+      target &&
+      target.tagName === "TEXTAREA"
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      target &&
+      target.id === "lookupName"
+    ) {
+
+      event.preventDefault();
+
+      lookupOrder();
+
+    }
+
+
+    if (
+      target &&
+      target.id === "lookupPhone"
+    ) {
+
+      event.preventDefault();
+
+      lookupOrder();
+
+    }
+
+  }
+);
+
+
+/* ======================================================
+   주문서 초기화
+====================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    updateSummary();
+
+  }
+);
+
 </script>
+
 
 </body>
 </html>
+
