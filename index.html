@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>르미에 LUMIE</title>
+    <title>LESHÈ 르쉬</title>
     <style>
         :root {
             --bg-color: #F8F3ED;
@@ -34,7 +34,8 @@
             text-align: center;
             letter-spacing: 4px;
             color: var(--main-color);
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: bold;
             margin-bottom: 20px;
         }
 
@@ -97,7 +98,7 @@
 <body>
 
 <div class="container">
-    <div class="header-title">르 미 에</div>
+    <div class="header-title">LESHÈ</div>
 
     <!-- 1. 주문서 작성 페이지 -->
     <div id="page-order">
@@ -133,7 +134,7 @@
                             </select>
                         </div>
                         <div class="item-row">
-                            <input type="number" class="qty-input" value="1" min="1" required>
+                            <input type="number" class="qty-input" value="1" min="1" required placeholder="수량">
                             <input type="number" class="price-input" placeholder="단가 (예: 29000)" required>
                         </div>
                     </div>
@@ -150,7 +151,7 @@
         <div class="card" style="text-align: center;">
             <div class="complete-icon">✓</div>
             <h2 style="margin:0; font-size:18px;">주문이 완료되었습니다</h2>
-            <p style="font-size:12px; color:#777; margin-top:5px;">르미에 주문이 정상적으로 접수되었습니다.</p>
+            <p style="font-size:12px; color:#777; margin-top:5px;">LESHÈ 주문이 정상적으로 접수되었습니다.</p>
 
             <div class="price-box">
                 <div style="font-size:12px; color:#666;">이번 주문 입금 금액</div>
@@ -173,12 +174,13 @@
     <!-- 3. 내 주문 조회 입력 페이지 -->
     <div id="page-lookup" class="hidden">
         <div class="card">
-            <h3 style="margin-top:0; text-align:center;">내 주문 조회</h3>
+            <h3 style="margin-top:0; text-align:center;">LESHÈ 내 주문 조회</h3>
 
             <!-- 교환/반품 안내 상자 -->
             <div class="notice-box">
                 <div class="notice-title">🚫 교환 · 반품 안내 (주문 시 동의하신 내용)</div>
-                라이브방송 상품은 수령 후 <b>교환 및 반품이 불가합니다.</b><br><br>
+                모든 주문은 주문서 첫 화면에서 아래 규정을 확인하고 "위 내용을 모두 확인했습니다"에 체크(동의)해야만 작성하실 수 있습니다.<br><br>
+                <b>라이브방송 상품은 수령 후 교환 및 반품이 불가합니다.</b><br><br>
                 · <b>의류·잡화</b> — 단순 변심, 사이즈, 착용감, 미세 하자(실밥·초크 자국·합피냄새·원단 특성 등)<br>
                 · <b>식품</b> — 단순 변심, 취향 차이, 유통기한 임박<br>
                 <b>위 사유는 교환·반품 사유가 되지 않습니다.</b><br><br>
@@ -208,7 +210,7 @@
 </div>
 
 <script>
-    // ⚠️ 본인의 구글 앱스 스크립트 웹 앱 URL로 변경하세요.
+    // ⚠️ 구글 앱스 스크립트 웹 앱 URL을 넣어주세요.
     const GAS_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
     function showPage(pageId) {
@@ -289,10 +291,8 @@
                 return;
             }
 
-            // 택배 조회 버튼 HTML 생성
             let trackingBtnHtml = '';
             if (data.trackingNum && data.courier) {
-                // CJ대한통운, 우체국, 롯데택배 등 자동 연결 링크
                 trackingBtnHtml = `<a href="https://search.naver.com/search.naver?query=${encodeURIComponent(data.courier + ' ' + data.trackingNum)}" target="_blank" class="btn btn-main" style="display:inline-block; margin-top:10px; text-decoration:none; text-align:center;">📦 택배 위치 추적하기</a>`;
             } else {
                 trackingBtnHtml = `<span style="font-size:12px; color:#888;">송장번호 입력 준비 중입니다.</span>`;
@@ -320,6 +320,10 @@
                     <div style="font-size:12px; color:#555; margin-bottom:5px;">🏠 <b>배송지:</b> ${data.address}</div>
                     <div style="font-size:12px; color:#555;">🚚 <b>운송장:</b> ${data.courier || ''} ${data.trackingNum || '미발급'}</div>
                     <div style="margin-top:10px; text-align:center;">${trackingBtnHtml}</div>
+                </div>
+                <div style="font-size:11px; color:#999; margin-top:15px; text-align:center;">
+                    ✓ 교환·반품 불가 규정 동의 후 접수된 주문입니다.<br>
+                    📦 배송까지 약 10일 정도 소요됩니다.
                 </div>
             `;
 
