@@ -138,7 +138,6 @@ button.primary:disabled{
   display:none!important
 }
 
-
 /* =========================
    상품 카드
 ========================= */
@@ -146,8 +145,7 @@ button.primary:disabled{
 .product{
   border:1px solid #e7e1d9;
   border-radius:14px;
-  padding:0;
-  margin:14px 0;
+  margin:12px 0;
   background:#fff;
   overflow:hidden
 }
@@ -370,7 +368,6 @@ textarea{
   margin-bottom:8px
 }
 
-
 /* =========================
    주소 검색
 ========================= */
@@ -405,9 +402,8 @@ textarea{
   margin-top:8px
 }
 
-
 /* =========================
-   모바일 상품 사진
+   모바일
 ========================= */
 
 @media(max-width:480px){
@@ -417,7 +413,7 @@ textarea{
   }
 
   .card{
-    padding:22px 16px
+    padding:24px 16px
   }
 
   .product-image{
@@ -429,6 +425,7 @@ textarea{
   }
 
 }
+
 </style>
 </head>
 
@@ -471,9 +468,11 @@ textarea{
 <div class="account">
 국민은행 · 임현정<br>
 <strong>08400204246675</strong>
+
 <button type="button" class="copy-btn" onclick="copyAccount('copyMessageNotice')">
 계좌번호 복사
 </button>
+
 <div id="copyMessageNotice" class="copy-message">
 계좌번호가 복사되었습니다.
 </div>
@@ -542,7 +541,6 @@ textarea{
        maxlength="11">
 </div>
 
-
 <!-- 주소 검색 -->
 <div class="field">
 
@@ -576,13 +574,11 @@ textarea{
 
 </div>
 
-
 <div class="field">
 <label>배송 요청사항 및 메모</label>
 <textarea id="deliveryMemo"
           placeholder="배송 시 요청사항이 있다면 입력해주세요"></textarea>
 </div>
-
 
 <div class="summary">
 
@@ -606,7 +602,6 @@ textarea{
 </div>
 
 </div>
-
 
 <button id="submitBtn"
         class="primary"
@@ -735,8 +730,7 @@ const SCRIPT_URL =
 
 /* =========================
    상품 목록
-   사진 파일은 GitHub의
-   images 폴더 안에 넣어주세요.
+   사진 파일명까지 연결
 ========================= */
 
 const products = [
@@ -745,7 +739,7 @@ const products = [
 id:1,
 name:"에코퍼 가방",
 price:29000,
-image:"images/product-1.jpg",
+image:"images/IMG_4145.jpeg",
 colors:["블랙","아이보리","브라운","블루","에토프"]
 },
 
@@ -753,7 +747,7 @@ colors:["블랙","아이보리","브라운","블루","에토프"]
 id:2,
 name:"세미 와이드 청바지",
 price:29000,
-image:"images/product-2.jpg",
+image:"images/IMG_4142.jpeg",
 sizes:["55","66"]
 },
 
@@ -761,7 +755,7 @@ sizes:["55","66"]
 id:5,
 name:"웰론 롱패딩",
 price:65000,
-image:"images/product-5.jpg",
+image:"images/IMG_4144.jpeg",
 sizes:["66","77"]
 },
 
@@ -769,7 +763,7 @@ sizes:["66","77"]
 id:6,
 name:"에코퍼 자켓",
 price:60000,
-image:"images/product-6.jpg",
+image:"images/IMG_4117.jpeg",
 colors:["블랙","딥그린","베이지"],
 sizes:["55","66","77","88"]
 },
@@ -778,7 +772,7 @@ sizes:["55","66","77","88"]
 id:7,
 name:"리얼양모 블루종 자켓",
 price:70000,
-image:"images/product-7.jpg",
+image:"images/IMG_3767.jpeg",
 colors:["네이비","아이보리","핑크","브라운"]
 },
 
@@ -786,7 +780,7 @@ colors:["네이비","아이보리","핑크","브라운"]
 id:9,
 name:"니트 카라 패딩",
 price:99000,
-image:"images/product-9.jpg",
+image:"images/IMG_4120.jpeg",
 colors:["블랙","아이보리"],
 sizes:["55","66"]
 },
@@ -795,7 +789,7 @@ sizes:["55","66"]
 id:12,
 name:"후드 니트 패딩",
 price:129000,
-image:"images/product-12.jpg",
+image:"images/IMG_3785.jpeg",
 colors:["그레이","브라운"],
 sizes:["66","77"]
 }
@@ -2235,7 +2229,6 @@ const payStatus =
 item.payStatus ||
 "입금대기";
 
-
 const shipStatus =
 item.status ||
 "상품준비중";
@@ -2243,7 +2236,6 @@ item.status ||
 const courier =
 item.courier ||
 "";
-
 
 const trackingNo =
 item.tracking ||
